@@ -4,8 +4,6 @@ import java.awt.*;
 public class TDWindow {
     private static TDWindow instance;
     private static final int width = 1000;
-    private static final int quarterWidth = width / 4;
-    private static final int threeQuarterWidth = quarterWidth * 3;
 
     private TDWindow() {
         // Main window
@@ -15,7 +13,7 @@ public class TDWindow {
         frame.setLocationRelativeTo(null);
 
         // Upper menu
-        frame.add(createUpperMenu());
+        frame.add(createUpperMenu(), BorderLayout.NORTH);
 
         // Left menu
         JPanel shop = createShopMenu();
@@ -47,7 +45,6 @@ public class TDWindow {
     private JPanel createShopMenu() {
         JPanel shopPanel = new JPanel();
         shopPanel.setBackground(new Color(230, 230, 250));
-        shopPanel.setPreferredSize(new Dimension(quarterWidth, 0));
 
         JLabel shopLabel = new JLabel("Empty for now");
         shopPanel.add(shopLabel);
@@ -72,6 +69,7 @@ public class TDWindow {
                 canvasPanel,
                 shop
         );
+        int threeQuarterWidth = width * 3 / 4;
         splitPane.setDividerLocation(threeQuarterWidth);
         splitPane.setEnabled(false);
         splitPane.setDividerSize(0);
