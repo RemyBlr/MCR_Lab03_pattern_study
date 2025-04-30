@@ -1,9 +1,11 @@
+package window;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class TDWindow {
     private static TDWindow instance;
-    private static final int width = 1000;
+    private static final int width = 1500;
 
     private TDWindow() {
         // Main window
@@ -46,8 +48,14 @@ public class TDWindow {
         JPanel shopPanel = new JPanel();
         shopPanel.setBackground(new Color(230, 230, 250));
 
-        JLabel shopLabel = new JLabel("Empty for now");
+        JLabel shopLabel = new JLabel("Gold: 0.9£");
         shopPanel.add(shopLabel);
+
+        // Add coin image
+        JLabel gold_coin = new JLabel(new ImageIcon("./img/gold-coin.jpg"));
+        gold_coin.setPreferredSize(new Dimension(20, 20));
+        //gold_coin.setSize(new Dimension(20, 20));
+        shopPanel.add(gold_coin);
 
         return shopPanel;
     }
