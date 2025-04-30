@@ -2,6 +2,7 @@ package window;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Image;
 
 public class TDWindow {
     private static TDWindow instance;
@@ -52,10 +53,13 @@ public class TDWindow {
         shopPanel.add(shopLabel);
 
         // Add coin image
-        JLabel gold_coin = new JLabel(new ImageIcon("./img/gold-coin.jpg"));
-        gold_coin.setPreferredSize(new Dimension(20, 20));
-        //gold_coin.setSize(new Dimension(20, 20));
-        shopPanel.add(gold_coin);
+        ImageIcon goldCoinImg = new ImageIcon("./img/gold-coin.jpg");
+        java.awt.Image scaledImage = goldCoinImg.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+
+        JLabel goldCoin = new JLabel(resizedIcon);
+        goldCoin.setPreferredSize(new Dimension(20, 20));
+        shopPanel.add(goldCoin);
 
         return shopPanel;
     }
