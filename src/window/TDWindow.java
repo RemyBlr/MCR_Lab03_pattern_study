@@ -9,6 +9,7 @@ public class TDWindow {
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int width = (int) screenSize.getWidth();
     private final int height = (int) screenSize.getHeight();
+    private static final int COIN_SIZE = 40;
 
     private TDWindow() {
         // Main window
@@ -59,14 +60,17 @@ public class TDWindow {
         JPanel shopPanel = new JPanel();
         shopPanel.setBackground(new Color(230, 230, 250));
 
-        JLabel shopLabel = new JLabel("Gold: 0.9£");
+        JLabel shopLabel = new JLabel("Gold: 8");
         shopPanel.add(shopLabel);
 
         // Add coin image
-        JLabel gold_coin = new JLabel(new ImageIcon("./img/gold-coin.jpg"));
-        gold_coin.setPreferredSize(new Dimension(20, 20));
-        //gold_coin.setSize(new Dimension(20, 20));
-        shopPanel.add(gold_coin);
+        ImageIcon goldCoinImg = new ImageIcon("./img/gold-coin.png");
+        java.awt.Image scaledImage = goldCoinImg.getImage().getScaledInstance(COIN_SIZE, COIN_SIZE, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+
+        JLabel goldCoin = new JLabel(resizedIcon);
+        goldCoin.setPreferredSize(new Dimension(COIN_SIZE, COIN_SIZE));
+        shopPanel.add(goldCoin);
 
         return shopPanel;
     }
