@@ -7,9 +7,8 @@ import java.awt.*;
  * Custom component for displaying gold amount with coin icon
  * in Paint Tower Defense.
  */
-public class TDGoldDisplay extends JPanel {
+public class GoldCoinIcon extends Icon {
     private JLabel goldLabel;
-    private JLabel coinLabel;
     private int goldAmount;
     private static final int COIN_SIZE = 40;
 
@@ -18,7 +17,9 @@ public class TDGoldDisplay extends JPanel {
      *
      * @param initialAmount Initial gold amount
      */
-    public TDGoldDisplay(int initialAmount) {
+    public GoldCoinIcon(int initialAmount) {
+        super("./img/gold-coin.png");
+
         this.goldAmount = initialAmount;
 
         setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -29,13 +30,13 @@ public class TDGoldDisplay extends JPanel {
         add(goldLabel);
 
         // Add coin image
-        ImageIcon goldCoinImg = new ImageIcon("./img/gold-coin.png");
+        ImageIcon goldCoinImg = new ImageIcon(filename);
         java.awt.Image scaledImage = goldCoinImg.getImage().getScaledInstance(COIN_SIZE, COIN_SIZE, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
-        coinLabel = new JLabel(resizedIcon);
-        coinLabel.setPreferredSize(new Dimension(COIN_SIZE, COIN_SIZE));
-        add(coinLabel);
+        iconLabel = new JLabel(resizedIcon);
+        iconLabel.setPreferredSize(new Dimension(COIN_SIZE, COIN_SIZE));
+        add(iconLabel);
     }
 
     /**

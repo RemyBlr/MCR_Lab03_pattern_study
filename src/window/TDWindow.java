@@ -12,7 +12,11 @@ public class TDWindow {
     private final int height = (int) screenSize.getHeight();
     private static final int COIN_SIZE = 50;
 
-    private TDShopPanel shopPanel;
+    private UpperMenu upperMenu;
+    private ToolBar toolBar;
+    private DrawingCanvas drawingCanvas;
+    private StatusBar statusBar;
+    private ShopPanel shopPanel;
 
     private TDWindow() {
         // Main window
@@ -38,19 +42,20 @@ public class TDWindow {
      * @return JMenuBar
      */
     private JMenuBar createUpperMenu() {
-        JMenuBar menuBar = new JMenuBar();
+//        JMenuBar menuBar = new JMenuBar();
+//
+//        JMenu menuOption = new JMenu("Option");
+//        menuOption.add(new JMenuItem("Reset"));
+//        menuOption.add(new JMenuItem("Quit"));
+//
+//        JMenu menuHelp = new JMenu("Help");
+//        menuHelp.add(new JMenuItem("About us"));
+//
+//        menuBar.add(menuOption);
+//        menuBar.add(menuHelp);
 
-        JMenu menuOption = new JMenu("Option");
-        menuOption.add(new JMenuItem("Reset"));
-        menuOption.add(new JMenuItem("Quit"));
-
-        JMenu menuHelp = new JMenu("Help");
-        menuHelp.add(new JMenuItem("About us"));
-
-        menuBar.add(menuOption);
-        menuBar.add(menuHelp);
-
-        return menuBar;
+        upperMenu = new UpperMenu();
+        return upperMenu;
     }
 
     /**
@@ -60,8 +65,7 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createShopMenu() {
-        // Create the shop panel with initial gold amount of 15
-        shopPanel = new TDShopPanel(15);
+        shopPanel = new ShopPanel(15);
         return shopPanel;
     }
 
@@ -72,28 +76,29 @@ public class TDWindow {
      * @return JToolBar
      */
     private JToolBar createToolBar() {
-        JToolBar toolBar = new JToolBar();
-        toolBar.setFloatable(false); // can't move the toolbar
+//        JToolBar toolBar = new JToolBar();
+//        toolBar.setFloatable(false); // can't move the toolbar
+//
+//        JButton penButton = new ButtonIcon("./img/pen.png", "Stylo");
+//        JButton selectButton = new ButtonIcon("./img/select.png", "Sélection");
+//        JButton blackButton = new ButtonIcon("./img/black.png", "Noir");
+//        JButton blueButton = new ButtonIcon("./img/blue.png", "Bleu");
+//        JButton greenButton = new ButtonIcon("./img/green.png", "Vert");
+//        JButton redButton = new ButtonIcon("./img/red.png", "Rouge");
+//
+//        toolBar.add(penButton);
+//        toolBar.add(Box.createHorizontalStrut(10));
+//        toolBar.add(selectButton);
+//        toolBar.add(Box.createHorizontalStrut(10));
+//        toolBar.add(blackButton);
+//        toolBar.add(Box.createHorizontalStrut(10));
+//        toolBar.add(blueButton);
+//        toolBar.add(Box.createHorizontalStrut(10));
+//        toolBar.add(greenButton);
+//        toolBar.add(Box.createHorizontalStrut(10));
+//        toolBar.add(redButton);
 
-        JButton penButton = createIconButton("./img/pen.png", "Stylo");
-        JButton selectButton = createIconButton("./img/select.png", "Sélection");
-        JButton blackButton = createIconButton("./img/black.png", "Noir");
-        JButton blueButton = createIconButton("./img/blue.png", "Bleu");
-        JButton greenButton = createIconButton("./img/green.png", "Vert");
-        JButton redButton = createIconButton("./img/red.png", "Rouge");
-
-        toolBar.add(penButton);
-        toolBar.add(Box.createHorizontalStrut(10));
-        toolBar.add(selectButton);
-        toolBar.add(Box.createHorizontalStrut(10));
-        toolBar.add(blackButton);
-        toolBar.add(Box.createHorizontalStrut(10));
-        toolBar.add(blueButton);
-        toolBar.add(Box.createHorizontalStrut(10));
-        toolBar.add(greenButton);
-        toolBar.add(Box.createHorizontalStrut(10));
-        toolBar.add(redButton);
-
+        toolBar = new ToolBar();
         return toolBar;
     }
 
@@ -103,42 +108,8 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createCanvas() {
-        ImageIcon castleIcon = new ImageIcon("./img/castle.png");
-        Image castleImage = castleIcon.getImage();
-        int castleWidth = 100;
-        int castleHeight = 100;
-        Image scaledCastleImage = castleImage.getScaledInstance(castleWidth, castleHeight, Image.SCALE_SMOOTH);
-
-        JPanel canvasPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Center coordinates for circle
-                int width = getWidth();
-                int height = getHeight();
-                int centerX = width / 2;
-                int centerY = height / 2;
-
-                // Red drawing zone
-                int radius = 200;
-                Color transparentRed = new Color(255, 0, 0, 27);
-                g2d.setColor(transparentRed);
-                g2d.fillOval(centerX - radius, centerY - radius, radius * 2, radius * 2);
-
-                // Castle
-                int imgX = centerX - castleWidth / 2;
-                int imgY = centerY - castleHeight / 2;
-                g2d.drawImage(scaledCastleImage, imgX, imgY, this);
-
-                g2d.dispose();
-            }
-        };
-        canvasPanel.setBackground(Color.WHITE);
-
-        return canvasPanel;
+        drawingCanvas = new DrawingCanvas();
+        return drawingCanvas;
     }
 
     /**
@@ -147,22 +118,23 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createStatusBar() {
-        JPanel statusBar = new JPanel(new BorderLayout());
-        statusBar.setBackground(new Color(245, 245, 245));
-        statusBar.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5)); // marges fines
+//        JPanel statusBar = new JPanel(new BorderLayout());
+//        statusBar.setBackground(new Color(245, 245, 245));
+//        statusBar.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5)); // marges fines
+//
+//        JLabel inkLabel = new JLabel("Encre: 100");
+//        JLabel waveLabel = new JLabel("Vague: 1");
+//        JLabel timeLabel = new JLabel("Temps: 00:00");
+//
+//        JPanel centerPanel = new JPanel();
+//        centerPanel.setOpaque(false);
+//        centerPanel.add(waveLabel);
+//
+//        statusBar.add(inkLabel, BorderLayout.WEST);
+//        statusBar.add(centerPanel, BorderLayout.CENTER);
+//        statusBar.add(timeLabel, BorderLayout.EAST);
 
-        JLabel inkLabel = new JLabel("Encre: 100");
-        JLabel waveLabel = new JLabel("Vague: 1");
-        JLabel timeLabel = new JLabel("Temps: 00:00");
-
-        JPanel centerPanel = new JPanel();
-        centerPanel.setOpaque(false);
-        centerPanel.add(waveLabel);
-
-        statusBar.add(inkLabel, BorderLayout.WEST);
-        statusBar.add(centerPanel, BorderLayout.CENTER);
-        statusBar.add(timeLabel, BorderLayout.EAST);
-
+        statusBar = new StatusBar();
         return statusBar;
     }
 
@@ -198,28 +170,28 @@ public class TDWindow {
     }
 
 
-    /**
-     * Create a button with an icon and a tooltip.
-     *
-     * @param iconPath Path to the icon image
-     * @param tooltip  Tooltip text
-     * @return JButton
-     */
-    private JButton createIconButton(String iconPath, String tooltip) {
-        ImageIcon icon = new ImageIcon(iconPath);
-
-        Image scaledImage = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-        JButton button = new JButton(scaledIcon);
-        button.setToolTipText(tooltip);
-
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-
-        return button;
-    }
+//    /**
+//     * Create a button with an icon and a tooltip.
+//     *
+//     * @param iconPath Path to the icon image
+//     * @param tooltip  Tooltip text
+//     * @return JButton
+//     */
+//    private JButton createIconButton(String iconPath, String tooltip) {
+//        ImageIcon icon = new ImageIcon(iconPath);
+//
+//        Image scaledImage = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+//        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+//
+//        JButton button = new JButton(scaledIcon);
+//        button.setToolTipText(tooltip);
+//
+//        button.setBorderPainted(false);
+//        button.setFocusPainted(false);
+//        button.setContentAreaFilled(false);
+//
+//        return button;
+//    }
 
     /**
      * Get the singleton instance of TDWindow.

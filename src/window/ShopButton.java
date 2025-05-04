@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
  * Custom button component for the shop panel in Paint Tower Defense.
  * Includes button text and price display with gold coin icon.
  */
-public class TDShopButton extends JPanel {
+public class ShopButton extends JPanel {
     private JButton button;
     private JLabel priceLabel;
     private JLabel coinLabel;
@@ -21,7 +21,7 @@ public class TDShopButton extends JPanel {
      * @param price Item price
      * @param bgColor Background color
      */
-    public TDShopButton(String text, int price, Color bgColor) {
+    public ShopButton(String text, int price, Color bgColor) {
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
         setOpaque(false);
