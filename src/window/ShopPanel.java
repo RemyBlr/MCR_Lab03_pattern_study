@@ -1,15 +1,18 @@
 package window;
 
+import window.components.GoldCoinIcon;
+import window.components.ItemGrid;
+import window.components.ShopButton;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Custom panel for the shop in Paint Tower Defense.
  * Contains gold display, purchase buttons and item grid.
  */
 public class ShopPanel extends JPanel {
+    private GoldCoinIcon playerGold;
     private ShopButton refillInkButton;
     private ShopButton addInkButton;
     private ShopButton addPvButton;
@@ -34,9 +37,10 @@ public class ShopPanel extends JPanel {
         setBackground(new Color(230, 230, 250));
 
         // Add player sold
-        add(Box.createVerticalStrut(20));
-        add(new GoldCoinIcon(initialGold));
-        add(Box.createVerticalStrut(40));
+        playerGold = new GoldCoinIcon(initialGold);
+        playerGold.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playerGold.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        add(playerGold);
 
         // Container for buttons
         JPanel buttonsContainer = new JPanel();

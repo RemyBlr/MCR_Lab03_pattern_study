@@ -14,7 +14,7 @@ public class TDWindow {
 
     private UpperMenu upperMenu;
     private ToolBar toolBar;
-    private DrawingCanvas drawingCanvas;
+    private UpperMenu.DrawingCanvas drawingCanvas;
     private StatusBar statusBar;
     private ShopPanel shopPanel;
 
@@ -108,7 +108,7 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createCanvas() {
-        drawingCanvas = new DrawingCanvas();
+        drawingCanvas = new UpperMenu.DrawingCanvas();
         return drawingCanvas;
     }
 

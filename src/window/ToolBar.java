@@ -1,9 +1,9 @@
 package window;
 
+import window.components.ButtonIcon;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Classe représentant la barre d'outils de l'application Paint Tower Defense.
