@@ -5,11 +5,14 @@ import java.awt.*;
 
 public class TDWindow {
     private static TDWindow instance;
+
     // Get screen size
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int width = (int) screenSize.getWidth();
     private final int height = (int) screenSize.getHeight();
-    private static final int COIN_SIZE = 40;
+    private static final int COIN_SIZE = 50;
+
+    private TDShopPanel shopPanel;
 
     private TDWindow() {
         // Main window
@@ -52,127 +55,14 @@ public class TDWindow {
 
     /**
      * Create the shop menu containing the gold coins and the different
-     * buying options.
+     * buying options. Now uses modular components.
      *
      * @return JPanel
      */
     private JPanel createShopMenu() {
-        JPanel shopPanel = new JPanel();
-        shopPanel.setLayout(new BoxLayout(shopPanel, BoxLayout.Y_AXIS));
-        shopPanel.setBackground(new Color(230, 230, 250));
-
-        // Gold display panel
-        JPanel goldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        goldPanel.setOpaque(false);
-
-        JLabel shopLabel = new JLabel("Gold : 15");
-        shopLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        goldPanel.add(shopLabel);
-
-        // Add coin image
-        ImageIcon goldCoinImg = new ImageIcon("./img/gold-coin.png");
-        java.awt.Image scaledImage = goldCoinImg.getImage().getScaledInstance(COIN_SIZE, COIN_SIZE, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-
-        JLabel goldCoin = new JLabel(resizedIcon);
-        goldCoin.setPreferredSize(new Dimension(COIN_SIZE, COIN_SIZE));
-        goldPanel.add(goldCoin);
-
-        // Add gold display to main panel with some padding
-        shopPanel.add(Box.createVerticalStrut(20));
-        shopPanel.add(goldPanel);
-        shopPanel.add(Box.createVerticalStrut(40));
-
-        // Container for buttons with margins
-        JPanel buttonsContainer = new JPanel();
-        buttonsContainer.setLayout(new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS));
-        buttonsContainer.setOpaque(false);
-        buttonsContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonsContainer.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-
-        // Add shop buttons
-        buttonsContainer.add(createShopButton("refill ink", 100, new Color(216, 181, 207)));
-        buttonsContainer.add(Box.createVerticalStrut(20));
-        buttonsContainer.add(createShopButton("+ ink", 8, new Color(211, 84, 50)));
-        buttonsContainer.add(Box.createVerticalStrut(20));
-        buttonsContainer.add(createShopButton("+ pv", 20, new Color(162, 208, 183)));
-        buttonsContainer.add(Box.createVerticalStrut(20));
-        buttonsContainer.add(createShopButton("+ zone", 75, new Color(183, 187, 208)));
-        buttonsContainer.add(Box.createVerticalStrut(40));
-
-        // Mystery item
-        buttonsContainer.add(createShopButton("???", 999, new Color(234, 180, 167)));
-
-        shopPanel.add(buttonsContainer);
-        shopPanel.add(Box.createVerticalStrut(50));
-
-        // Item grid
-        JPanel gridContainer = new JPanel();
-        gridContainer.setOpaque(false);
-        gridContainer.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        gridContainer.setLayout(new GridLayout(2, 2, 5, 5));
-        gridContainer.setPreferredSize(new Dimension(200, 150));
-        gridContainer.setMaximumSize(new Dimension(200, 150));
-
-        // Add 4 item buttons
-        for (int i = 1; i <= 4; i++) {
-            JButton itemButton = new JButton("Item " + i);
-            itemButton.setBackground(new Color(200, 200, 200));
-            itemButton.setFocusPainted(false);
-            itemButton.setHorizontalAlignment(SwingConstants.CENTER);
-            itemButton.setBorderPainted(false);
-            gridContainer.add(itemButton);
-        }
-
-        // Center the grid container
-        JPanel gridWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        gridWrapper.setOpaque(false);
-        gridWrapper.add(gridContainer);
-        shopPanel.add(gridWrapper);
-
-        // Add bottom padding
-        shopPanel.add(Box.createVerticalStrut(20));
-        shopPanel.add(Box.createVerticalGlue());
-
+        // Create the shop panel with initial gold amount of 15
+        shopPanel = new TDShopPanel(15);
         return shopPanel;
-    }
-
-    /**
-     * Create a shop button with text, price, and color
-     *
-     * @param text Button text
-     * @param price Item price
-     * @param bgColor Background color
-     * @return JPanel containing the button and price
-     */
-    private JPanel createShopButton(String text, int price, Color bgColor) {
-        JPanel buttonPanel = new JPanel(new BorderLayout());
-        buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
-        buttonPanel.setOpaque(false);
-
-        // Create button
-        JButton button = new JButton(text);
-        button.setBackground(bgColor);
-        button.setFocusPainted(false);
-        buttonPanel.add(button, BorderLayout.WEST);
-
-        // Create price label with coin
-        JPanel pricePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-        pricePanel.setOpaque(false);
-
-        JLabel priceLabel = new JLabel(String.valueOf(price));
-        priceLabel.setFont(new Font("Arial", Font.BOLD, 14));
-
-        ImageIcon coinIcon = new ImageIcon("./img/gold-coin.png");
-        Image scaledCoin = coinIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        JLabel coinLabel = new JLabel(new ImageIcon(scaledCoin));
-
-        pricePanel.add(priceLabel);
-        pricePanel.add(coinLabel);
-
-        buttonPanel.add(pricePanel, BorderLayout.EAST);
-
-        return buttonPanel;
     }
 
     /**
