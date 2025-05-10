@@ -1,5 +1,8 @@
 package window;
 
+import command.CommandManager;
+import window.DrawingCanvas;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,9 +17,11 @@ public class TDWindow {
 
     private UpperMenu upperMenu;
     private ToolBar toolBar;
-    private UpperMenu.DrawingCanvas drawingCanvas;
     private StatusBar statusBar;
     private ShopPanel shopPanel;
+    private DrawingCanvas drawingCanvas;
+
+    private CommandManager commandManager;
 
     private TDWindow() {
         // Main window
@@ -24,6 +29,8 @@ public class TDWindow {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
+
+        commandManager = new CommandManager();
 
         // Upper menu
         frame.setJMenuBar(createUpperMenu());
@@ -98,7 +105,7 @@ public class TDWindow {
 //        toolBar.add(Box.createHorizontalStrut(10));
 //        toolBar.add(redButton);
 
-        toolBar = new ToolBar();
+        toolBar = new ToolBar(drawingCanvas);
         return toolBar;
     }
 
@@ -108,7 +115,7 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createCanvas() {
-        drawingCanvas = new UpperMenu.DrawingCanvas();
+        drawingCanvas = new DrawingCanvas(commandManager);
         return drawingCanvas;
     }
 

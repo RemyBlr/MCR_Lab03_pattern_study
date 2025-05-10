@@ -1,5 +1,6 @@
 package window;
 
+import command.CommandManager;
 import window.components.ButtonIcon;
 
 import javax.swing.*;
@@ -24,13 +25,17 @@ public class ToolBar extends JToolBar {
     /**
      * Constructeur de la classe ToolBar.
      */
-    public ToolBar() {
+    public ToolBar(DrawingCanvas canvas) {
         setFloatable(false);
         currentColor = Color.BLACK;
         currentTool = "pen";
 
         initializeComponents();
         addComponentsToToolBar();
+
+        penButton.addActionListener(e -> {
+            canvas.setDrawingEnabled(true);
+        });
     }
 
     /**
