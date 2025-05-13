@@ -7,15 +7,22 @@ import java.util.Stack;
  * It maintains a history of executed commands, allowing for undo functionality.
  */
 public class CommandManager {
-    private static final Stack<Command> history = new Stack<>();
+    private final Stack<UndoableCommand> history = new Stack<>();
 
     /**
      * Executes a command and pushes it onto the history stack.
      *
      * @param command The command to execute.
      */
-    public static void executeCommand(Command command) {
+    public void executeCommand(UndoableCommand command) {
         command.execute();
         history.push(command);
+    }
+
+    public void undo() {
+        if(!history.isEmpty()) {
+            UndoableCommand command = history.pop();
+            command.undo();
+        }
     }
 }

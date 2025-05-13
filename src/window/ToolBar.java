@@ -67,59 +67,6 @@ public class ToolBar extends JToolBar {
         add(redButton);
     }
 
-//    /**
-//     * Ajoute les écouteurs d'événements aux boutons.
-//     */
-//    private void addListeners() {
-//        penButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentTool = "pen";
-//                System.out.println("Outil stylo sélectionné");
-//            }
-//        });
-//
-//        selectButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentTool = "select";
-//                System.out.println("Outil sélection sélectionné");
-//            }
-//        });
-//
-//        blackButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentColor = Color.BLACK;
-//                System.out.println("Couleur noire sélectionnée");
-//            }
-//        });
-//
-//        blueButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentColor = Color.BLUE;
-//                System.out.println("Couleur bleue sélectionnée");
-//            }
-//        });
-//
-//        greenButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentColor = Color.GREEN;
-//                System.out.println("Couleur verte sélectionnée");
-//            }
-//        });
-//
-//        redButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentColor = Color.RED;
-//                System.out.println("Couleur rouge sélectionnée");
-//            }
-//        });
-//    }
-
     /**
      * Obtient la couleur actuellement sélectionnée.
      *

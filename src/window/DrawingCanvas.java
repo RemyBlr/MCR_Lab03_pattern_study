@@ -1,13 +1,18 @@
 package window;
 
 import command.CommandManager;
-import command.DrawWallCommand;
+import command.CreateWallCommand;
+import game.Game;
+import game.Wall;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DrawingCanvas extends JPanel {
     private static final int CASTLE_WIDTH = 200;
@@ -15,18 +20,21 @@ public class DrawingCanvas extends JPanel {
     private static int DEFENSE_RADIUS = 200;
     private Image castleImage;
 
-    private Path2D currentPath;
+    private final Game game;
     private CommandManager commandManager;
+    private Path2D currentPath;
     private Color currentColor = Color.BLACK;
     private int strokeWidth = 3;
     private boolean isDrawingZone = false;
+    private final List<Wall> walls = new ArrayList<>();
 
-    public DrawingCanvas(CommandManager commandManager) {
+
+    public DrawingCanvas(Game game, CommandManager commandManager) {
+        this.game = game;
         this.commandManager = commandManager;
 
         ImageIcon castleIcon = new ImageIcon("./img/castle.png");
-        castleImage = castleIcon.getImage();
-        castleImage = castleImage.getScaledInstance(CASTLE_WIDTH, CASTLE_HEIGHT, Image.SCALE_SMOOTH);
+        castleImage = castleIcon.getImage().getScaledInstance(CASTLE_WIDTH, CASTLE_HEIGHT, Image.SCALE_SMOOTH);
 
         setBackground(Color.WHITE);
 
@@ -37,13 +45,15 @@ public class DrawingCanvas extends JPanel {
         MouseAdapter adapter = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                if (!isInsideDrawingZone(e.getX(), e.getY())) return;
                 currentPath = new Path2D.Double();
                 currentPath.moveTo(e.getX(), e.getY());
+                repaint();
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (isDrawingZone && currentPath != null && isInsideDrawingZone(e.getX(), e.getY())) {
+                if (currentPath != null && isInsideDrawingZone(e.getX(), e.getY())) {
                     currentPath.lineTo(e.getX(), e.getY());
                     repaint();
                 }
@@ -53,11 +63,15 @@ public class DrawingCanvas extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 if (currentPath != null) {
                     currentPath.lineTo(e.getX(), e.getY());
-
-                    DrawWallCommand cmd = new DrawWallCommand(DrawingCanvas.this, currentPath, currentColor, strokeWidth);
-                    CommandManager.executeCommand(cmd);
-
+                    int cost = (int) Math.ceil(getPathLength(currentPath));
+                    if (game.canUseInk(cost)) {
+                        CreateWallCommand command = new CreateWallCommand(game, DrawingCanvas.this, currentPath, currentColor, strokeWidth, cost);
+                        commandManager.executeCommand(command);
+                        walls.clear();
+                        walls.addAll(game.getWalls());
+                    }
                     currentPath = null;
+                    repaint();
                 }
             }
         };
@@ -65,6 +79,32 @@ public class DrawingCanvas extends JPanel {
         addMouseListener(adapter);
         addMouseMotionListener(adapter);
     }
+
+    private double getPathLength(Path2D path) {
+        double length = 0;
+        // TODO calculer la longueur du chemin JSP si correct c'est Copilot
+        PathIterator it = path.getPathIterator(null, 1);
+        double[] coords = new double[6];
+        double[] prev = new double[2];
+        if (!it.isDone()) {
+            it.currentSegment(prev);
+            it.next();
+        }
+        while (!it.isDone()) {
+            int type = it.currentSegment(coords);
+            if (type != PathIterator.SEG_CLOSE) {
+                double dx = coords[0] - prev[0];
+                double dy = coords[1] - prev[1];
+                length += Math.hypot(dx, dy);
+                prev[0] = coords[0];
+                prev[1] = coords[1];
+            }
+            it.next();
+        }
+        return length;
+    }
+
+    public Game getGame() { return game; }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -84,6 +124,14 @@ public class DrawingCanvas extends JPanel {
         int imgX = centerX - CASTLE_WIDTH / 2;
         int imgY = centerY - CASTLE_HEIGHT / 2;
         g2d.drawImage(castleImage, imgX, imgY, this);
+
+        // Draw walls that are already drawn
+        for (Wall w : walls) {
+            g2d.setColor(w.getColor());
+            g2d.setStroke(new BasicStroke(
+                    w.getWidth(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g2d.draw(w.getPath());
+        }
 
         if (currentPath != null) {
             g2d.setColor(currentColor);
