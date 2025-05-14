@@ -12,13 +12,15 @@ import java.awt.*;
  * Contains gold display, purchase buttons and item grid.
  */
 public class ShopPanel extends JPanel {
-    private GoldCoinIcon playerGold;
+    private GoldCoinIcon goldIcon;
     private ShopButton refillInkButton;
     private ShopButton addInkButton;
     private ShopButton addPvButton;
     private ShopButton addZoneButton;
     private ShopButton mysteryButton;
     private ItemGrid itemGrid;
+
+    private int playerGold = 0;
 
     // Price constants
     private static final int REFILL_INK_PRICE = 100;
@@ -29,18 +31,16 @@ public class ShopPanel extends JPanel {
 
     /**
      * Creates a new shop panel with all components
-     *
-     * @param initialGold Initial gold amount
      */
-    public ShopPanel(int initialGold) {
+    public ShopPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(230, 230, 250));
 
         // Add player sold
-        playerGold = new GoldCoinIcon(initialGold);
-        playerGold.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playerGold.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        add(playerGold);
+        goldIcon = new GoldCoinIcon(playerGold);
+        goldIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
+        goldIcon.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        add(goldIcon);
 
         // Container for buttons
         JPanel buttonsContainer = new JPanel();
@@ -82,5 +82,9 @@ public class ShopPanel extends JPanel {
         // Add bottom padding
         add(Box.createVerticalStrut(20));
         add(Box.createVerticalGlue());
+    }
+
+    public void update() {
+        playerGold = Game.getInstance().getGold();
     }
 }

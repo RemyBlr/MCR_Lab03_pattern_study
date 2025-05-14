@@ -2,7 +2,6 @@ package game;
 
 import java.awt.Rectangle;
 import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
 
 /**
  * Enemy class represents an enemy in the game.
@@ -11,7 +10,7 @@ public class Enemy {
     private final Path2D path;
     private final double speed;
     private int hp;
-    private final int reward;
+    private final Gold reward;
     private double distanceTraveled = 0.0;
 
     /**

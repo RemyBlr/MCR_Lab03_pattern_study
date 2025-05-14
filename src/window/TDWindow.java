@@ -65,7 +65,7 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createShopMenu() {
-        shopPanel = new ShopPanel(15);
+        shopPanel = new ShopPanel();
         return shopPanel;
     }
 
@@ -130,6 +130,22 @@ public class TDWindow {
         splitPane.setDividerSize(0);
 
         return splitPane;
+    }
+
+    public void updateShopPanel() {
+        shopPanel.update();
+    }
+
+    public void updateStatusBar() {
+        statusBar.update();
+    }
+
+    public void updateToolBar() {
+
+    }
+
+    public void updateDrawingCanvas() {
+
     }
 
     /**

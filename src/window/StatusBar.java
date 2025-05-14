@@ -58,4 +58,8 @@ public class StatusBar extends JPanel {
         add(centerPanel, BorderLayout.CENTER);
         add(timeLabel, BorderLayout.EAST);
     }
+
+    public void update() {
+
+    }
 }

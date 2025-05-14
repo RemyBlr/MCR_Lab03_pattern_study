@@ -6,7 +6,7 @@ import game.Game;
  * Command to change the ink amount in the game.
  * This command is undoable, meaning it can be reversed.
  */
-public class ChangeInkCommand implements UndoableCommand{
+public class ChangeInkCommand implements UndoableCommand {
     private final Game game;
     private final int amount;
 
