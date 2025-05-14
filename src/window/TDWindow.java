@@ -1,86 +1,128 @@
 package window;
 
+import command.CommandManager;
+import game.Game;
+import window.DrawingCanvas;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Image;
 
 public class TDWindow {
     private static TDWindow instance;
-    private static final int width = 1500;
-    private static final int COIN_SIZE = 45;
+
+    // Get screen size
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private final int width = (int) screenSize.getWidth();
+    private final int height = (int) screenSize.getHeight();
+    private static final int COIN_SIZE = 50;
+
+    private UpperMenu upperMenu;
+    private ToolBar toolBar;
+    private StatusBar statusBar;
+    private ShopPanel shopPanel;
+    private DrawingCanvas drawingCanvas;
+
+    private Game game;
+    private CommandManager commandManager;
 
     private TDWindow() {
+        game = new Game(500, 100, 0);
+        commandManager = new CommandManager();
+
         // Main window
         JFrame frame = new JFrame("Paint Tower Defense");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, 700);
+        frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
 
         // Upper menu
-        frame.add(createUpperMenu(), BorderLayout.NORTH);
+        frame.setJMenuBar(createUpperMenu());
 
-        // Left menu
-        JPanel shop = createShopMenu();
-        frame.add(shop);
-
-        // Canvas
-        frame.add(getJSplitPane(shop));
+        // Canvas + shop
+        JSplitPane splitPane = getJSplitPane();
+        frame.add(splitPane, BorderLayout.CENTER);
 
         // Show window
         frame.setVisible(true);
     }
 
+    /**
+     * Create the upper menu with "Option" and "Help" menus.
+     *
+     * @return JMenuBar
+     */
     private JMenuBar createUpperMenu() {
-        JMenuBar menuBar = new JMenuBar();
 
-        JMenu menuOption = new JMenu("Option");
-        menuOption.add(new JMenuItem("Reset"));
-        menuOption.add(new JMenuItem("Quit"));
-
-        JMenu menuHelp = new JMenu("Help");
-        menuHelp.add(new JMenuItem("About us"));
-
-        menuBar.add(menuOption);
-        menuBar.add(menuHelp);
-
-        return menuBar;
+        upperMenu = new UpperMenu();
+        return upperMenu;
     }
 
+    /**
+     * Create the shop menu containing the gold coins and the different
+     * buying options. Now uses modular components.
+     *
+     * @return JPanel
+     */
     private JPanel createShopMenu() {
-        JPanel shopPanel = new JPanel();
-        shopPanel.setBackground(new Color(230, 230, 250));
-
-        JLabel shopLabel = new JLabel("Gold: 8");
-        shopPanel.add(shopLabel);
-
-        // Add coin image
-        ImageIcon goldCoinImg = new ImageIcon("./img/gold-coin.png");
-        java.awt.Image scaledImage = goldCoinImg.getImage().getScaledInstance(COIN_SIZE, COIN_SIZE, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-
-        JLabel goldCoin = new JLabel(resizedIcon);
-        goldCoin.setPreferredSize(new Dimension(COIN_SIZE, COIN_SIZE));
-        shopPanel.add(goldCoin);
-
+        shopPanel = new ShopPanel(15);
         return shopPanel;
     }
 
-    private static JSplitPane getJSplitPane(JPanel shop) {
-        JPanel canvasPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.LIGHT_GRAY);
-                g.drawString("Drawing zone", 10, 20);
-            }
-        };
-        canvasPanel.setBackground(Color.WHITE);
+    /**
+     * Create the toolbar with different buttons.
+     * For example: Pen, Select, Colors...
+     *
+     * @return JToolBar
+     */
+    private JToolBar createToolBar() {
+
+        toolBar = new ToolBar(drawingCanvas);
+        return toolBar;
+    }
+
+    /**
+     * Create the drawing canvas with a castle image and a red circle.
+     *
+     * @return JPanel
+     */
+    private JPanel createCanvas() {
+        drawingCanvas = new DrawingCanvas(game, commandManager);
+        return drawingCanvas;
+    }
+
+    /**
+     * Create the status bar at the bottom of the canvas.
+     *
+     * @return JPanel
+     */
+    private JPanel createStatusBar() {
+        statusBar = new StatusBar();
+        return statusBar;
+    }
+
+    /**
+     * Create the main split pane with the canvas and the shop.
+     *
+     * @return JSplitPane
+     */
+    private JSplitPane getJSplitPane() {
+
+        JToolBar toolBar = createToolBar();
+        JPanel drawingZone = createCanvas();
+        JPanel statusBar = createStatusBar();
+        JPanel shopPanel = createShopMenu();
+
+        JPanel canvasPanel = new JPanel(new BorderLayout());
+        canvasPanel.add(toolBar, BorderLayout.NORTH);
+        canvasPanel.add(drawingZone, BorderLayout.CENTER);
+        canvasPanel.add(statusBar, BorderLayout.SOUTH);
 
         // Separation
         JSplitPane splitPane = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
                 canvasPanel,
-                shop
+                shopPanel
         );
         int threeQuarterWidth = width * 3 / 4;
         splitPane.setDividerLocation(threeQuarterWidth);
@@ -90,6 +132,11 @@ public class TDWindow {
         return splitPane;
     }
 
+    /**
+     * Get the singleton instance of TDWindow.
+     *
+     * @return TDWindow instance
+     */
     public static TDWindow getInstance() {
         if(instance == null)
             instance = new TDWindow();
