@@ -9,8 +9,6 @@ import java.awt.*;
 import java.awt.Image;
 
 public class TDWindow {
-    private static TDWindow instance;
-
     // Get screen size
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int width = (int) screenSize.getWidth();
@@ -23,11 +21,9 @@ public class TDWindow {
     private ShopPanel shopPanel;
     private DrawingCanvas drawingCanvas;
 
-    private Game game;
     private CommandManager commandManager;
 
-    private TDWindow() {
-        game = new Game(500, 100, 0);
+    public TDWindow() {
         commandManager = new CommandManager();
 
         // Main window
@@ -87,7 +83,7 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createCanvas() {
-        drawingCanvas = new DrawingCanvas(game, commandManager);
+        drawingCanvas = new DrawingCanvas(Game.getInstance(), commandManager);
         return drawingCanvas;
     }
 
@@ -130,16 +126,5 @@ public class TDWindow {
         splitPane.setDividerSize(0);
 
         return splitPane;
-    }
-
-    /**
-     * Get the singleton instance of TDWindow.
-     *
-     * @return TDWindow instance
-     */
-    public static TDWindow getInstance() {
-        if(instance == null)
-            instance = new TDWindow();
-        return instance;
     }
 }

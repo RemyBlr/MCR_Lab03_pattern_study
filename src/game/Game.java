@@ -1,5 +1,7 @@
 package game;
 
+import window.TDWindow;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +10,10 @@ import java.util.List;
  * Centralizes the game logic and manages the game state.
  */
 public class Game {
+    private static Game instance;
+
+    private TDWindow tdWindow;
+
     private int ink;
     private int baseHp;
     private int gold;
@@ -20,10 +26,14 @@ public class Game {
      * @param ink ink amount you start with
      * @param baseHp health amount of the base at the beginning
      */
-    public Game(int ink, int baseHp, int gold) {
+    private Game(int ink, int baseHp, int gold) {
         this.ink = ink;
         this.baseHp = baseHp;
         this.gold = gold;
+
+        System.out.println("game");
+
+        tdWindow = new TDWindow();
     }
 
     /**
@@ -97,4 +107,14 @@ public class Game {
 
     // TODO ajouter les futures classes
 
+    /**
+     * Get the singleton instance of TDWindow.
+     *
+     * @return TDWindow instance
+     */
+    public static Game getInstance() {
+        if(instance == null)
+            instance = new Game(500, 100, 0);
+        return instance;
+    }
 }
