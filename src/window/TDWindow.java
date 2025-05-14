@@ -83,7 +83,7 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createCanvas() {
-        drawingCanvas = new DrawingCanvas(Game.getInstance(), commandManager);
+        drawingCanvas = new DrawingCanvas(commandManager);
         return drawingCanvas;
     }
 

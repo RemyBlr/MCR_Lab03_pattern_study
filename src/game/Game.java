@@ -31,7 +31,7 @@ public class Game {
         this.baseHp = baseHp;
         this.gold = gold;
 
-        System.out.println("game");
+        System.out.println(instance);
 
         tdWindow = new TDWindow();
     }
