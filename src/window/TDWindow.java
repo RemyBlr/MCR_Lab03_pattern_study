@@ -6,6 +6,7 @@ import window.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Image;
 
 public class TDWindow {
     private static TDWindow instance;
