@@ -1,5 +1,6 @@
 package window;
 
+import game.Game;
 import window.components.GoldCoinIcon;
 import window.components.ItemGrid;
 import window.components.ShopButton;

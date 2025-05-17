@@ -35,14 +35,14 @@ public class DrawWallCommand implements UndoableCommand {
         g2d.setStroke(new BasicStroke(wallWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2d.draw(path);
         g2d.dispose();
-        canvas.getGame().addWall(wall);
+        Game.getInstance().addWall(wall);
     }
 
     @Override
     public void undo() {
         System.out.println("Undoing wall drawing...");
 
-        canvas.getGame().removeWall(wall);
+        Game.getInstance().removeWall(wall);
         canvas.repaint();
     }
 }

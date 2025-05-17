@@ -21,7 +21,6 @@ public class DrawingCanvas extends JPanel {
     private static int DEFENSE_RADIUS = 200;
     private Image castleImage;
 
-    private final Game game;
     private CommandManager commandManager;
     private Path2D currentPath;
     private Color currentColor = Color.BLACK;
@@ -29,9 +28,7 @@ public class DrawingCanvas extends JPanel {
     private boolean isDrawingZone = false;
     private final List<Wall> walls = new ArrayList<>();
 
-
-    public DrawingCanvas(Game game, CommandManager commandManager) {
-        this.game = game;
+    public DrawingCanvas( CommandManager commandManager) {
         this.commandManager = commandManager;
 
         ImageIcon castleIcon = new ImageIcon("./img/castle.png");
@@ -62,6 +59,7 @@ public class DrawingCanvas extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                Game game = Game.getInstance();
                 if (currentPath != null) {
                     currentPath.lineTo(e.getX(), e.getY());
                     int cost = (int) Math.ceil(getPathLength(currentPath));
@@ -105,7 +103,7 @@ public class DrawingCanvas extends JPanel {
         return length;
     }
 
-    public Game getGame() { return game; }
+    //public Game getGame() { return game; }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -156,5 +154,13 @@ public class DrawingCanvas extends JPanel {
 
         double distance = Math.sqrt(dx * dx + dy * dy);
         return distance <= DEFENSE_RADIUS;
+    }
+
+    public void update() {
+        DEFENSE_RADIUS = Game.getInstance().getDefenseRadius();
+        Game game = Game.getInstance();
+        walls.clear();
+        walls.addAll(game.getWalls());
+        repaint();
     }
 }

@@ -1,5 +1,7 @@
 package window;
 
+import game.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -60,6 +62,7 @@ public class StatusBar extends JPanel {
     }
 
     public void update() {
-
+        inkLevel = Game.getInstance().getInk();
+        // Time to fetch from Game ? Timer not created yet
     }
 }

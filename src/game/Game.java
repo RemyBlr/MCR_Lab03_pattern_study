@@ -1,16 +1,22 @@
 package game;
 
+import window.TDWindow;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Centralizes the game logic and manages the game state.
  */
 public class Game {
+    private static Game instance;
+
+    private TDWindow tdWindow;
+
     private int ink;
     private int baseHp;
     private int gold;
+    private int defenseRadius = 500;
     private List<Wall> walls = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
 
@@ -20,10 +26,14 @@ public class Game {
      * @param ink ink amount you start with
      * @param baseHp health amount of the base at the beginning
      */
-    public Game(int ink, int baseHp, int gold) {
+    private Game(int ink, int baseHp, int gold) {
         this.ink = ink;
         this.baseHp = baseHp;
         this.gold = gold;
+
+        System.out.println(instance);
+
+        tdWindow = new TDWindow();
     }
 
     /**
@@ -32,6 +42,11 @@ public class Game {
      * @param amount the amount of ink to change
      */
     public void setInk(int amount) { ink = ink + amount; }
+
+    /**
+     * Gets the current gold amount.
+     */
+    public int getGold() { return gold; }
 
     /**
      * Sets the new gold amount.
@@ -47,6 +62,16 @@ public class Game {
      * @param amount the amount of health that the base will lose
      */
     public void setDamageToBase(int amount) { baseHp = Math.max(0, baseHp - amount); }
+
+    /**
+     * @return the defense radius size for the castle
+     */
+    public int getDefenseRadius() { return defenseRadius; }
+
+    /**
+     * @return the current ink amount
+     */
+    public int getInk() { return ink; }
 
     /**
      * @param amount the amount of ink that will be used
@@ -97,4 +122,14 @@ public class Game {
 
     // TODO ajouter les futures classes
 
+    /**
+     * Get the singleton instance of TDWindow.
+     *
+     * @return TDWindow instance
+     */
+    public static Game getInstance() {
+        if(instance == null)
+            instance = new Game(500, 100, 0);
+        return instance;
+    }
 }
