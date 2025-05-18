@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 
 /**
@@ -51,8 +52,26 @@ public class Wall {
      * For simplicity, the enemy's hitbox is a rectangle
      */
     public boolean isCollision(Enemy enemy) {
-        Rectangle bounds = path.getBounds();
+        Rectangle bounds = getBounds();
         return enemy.getBounds().intersects(bounds);
+    }
+
+    /**
+     * Translates the wall from (dx, dy)
+     * @param dx
+     * @param dy
+     */
+    public void move(double dx, double dy) {
+        AffineTransform from = AffineTransform.getTranslateInstance(dx, dy);
+        path.transform(from);
+    }
+
+    /**
+     * Gets the bounds of the wall
+     * @return a Rectangle representing the wall's hitbox
+     */
+    public Rectangle getBounds() {
+        return path.getBounds();
     }
 
     // TODO completer cette classe
