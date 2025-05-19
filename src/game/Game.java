@@ -41,7 +41,10 @@ public class Game {
      *
      * @param amount the amount of ink to change
      */
-    public void setInk(int amount) { ink = ink + amount; }
+    public void setInk(int amount) {
+        ink = ink + amount;
+        tdWindow.updateStatusBar();
+    }
 
     /**
      * Sets the new gold amount.
@@ -106,6 +109,13 @@ public class Game {
     public List<Wall> getWalls() { return walls; }
 
     // TODO ajouter les futures classes
+
+
+    /**
+     * Returns the amount of ink left
+     * @return int amount
+     */
+    public int getInk() { return ink; }
 
     /**
      * Get the singleton instance of TDWindow.

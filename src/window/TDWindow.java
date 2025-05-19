@@ -127,4 +127,9 @@ public class TDWindow {
 
         return splitPane;
     }
+
+    // TODO : same comment as in statusBar, could we call update on a refresh rate ?
+    public void updateStatusBar() {
+        statusBar.update();
+    }
 }
