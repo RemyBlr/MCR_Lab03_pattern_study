@@ -12,8 +12,6 @@ import java.util.List;
 public class Game {
     private static Game instance;
 
-    private TDWindow tdWindow;
-
     private int ink;
     private int baseHp;
     private int gold;
@@ -30,10 +28,6 @@ public class Game {
         this.ink = ink;
         this.baseHp = baseHp;
         this.gold = gold;
-
-        System.out.println(instance);
-
-        tdWindow = new TDWindow();
     }
 
     /**
@@ -43,7 +37,6 @@ public class Game {
      */
     public void setInk(int amount) {
         ink = ink + amount;
-        tdWindow.updateStatusBar();
     }
 
     /**
@@ -116,6 +109,9 @@ public class Game {
      * @return int amount
      */
     public int getInk() { return ink; }
+
+    public int getGold() { return gold; }
+
 
     /**
      * Get the singleton instance of TDWindow.

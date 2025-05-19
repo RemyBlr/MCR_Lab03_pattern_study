@@ -26,6 +26,10 @@ public class TDWindow {
     public TDWindow() {
         commandManager = new CommandManager();
 
+
+
+        Game game = Game.getInstance();
+
         // Main window
         JFrame frame = new JFrame("Paint Tower Defense");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,6 +45,13 @@ public class TDWindow {
 
         // Show window
         frame.setVisible(true);
+
+        Timer timer = new Timer(20, (e) -> {
+            // game.tick() for example
+            updateStatusBar();
+        });
+
+        timer.start();
     }
 
     /**
