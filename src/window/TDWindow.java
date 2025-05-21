@@ -47,8 +47,8 @@ public class TDWindow {
         frame.setVisible(true);
 
         Timer timer = new Timer(20, (e) -> {
-            // game.tick() for example
-            updateStatusBar();
+            game.tick();
+            statusBar.update();
         });
 
         timer.start();
@@ -143,4 +143,6 @@ public class TDWindow {
     public void updateStatusBar() {
         statusBar.update();
     }
+
+
 }

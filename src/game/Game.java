@@ -17,6 +17,8 @@ public class Game {
     private int gold;
     private List<Wall> walls = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
+    private long timeElapsed = 0;
+    private long startTime = System.nanoTime();
 
     /**
      * Constructor for the game.Game class.
@@ -123,4 +125,10 @@ public class Game {
             instance = new Game(500, 100, 0);
         return instance;
     }
+
+    public void tick(){
+        timeElapsed = System.nanoTime() - startTime;
+    }
+
+    public long getTimeElapsed() { return timeElapsed; }
 }
