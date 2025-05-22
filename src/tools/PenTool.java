@@ -2,6 +2,7 @@ package tools;
 
 import command.CommandManager;
 import command.CreateWallCommand;
+import game.Game;
 import game.Wall;
 import window.DrawingCanvas;
 
@@ -48,12 +49,13 @@ public class PenTool implements Tool {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        Game game = Game.getInstance();
         if (currentPath == null) return;
         currentPath.lineTo(e.getX(), e.getY());
         int cost = (int)Math.ceil(canvas.getPathLength(currentPath));
-        if (canvas.getGame().canUseInk(cost)) {
+        if (game.canUseInk(cost)) {
             CreateWallCommand cmd = new CreateWallCommand(
-                    canvas.getGame(), canvas,
+                    game, canvas,
                     currentPath, canvas.getCurrentColor(),
                     canvas.getStrokeWidth(), cost
             );
