@@ -1,5 +1,7 @@
 package window;
 
+import game.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ public class StatusBar extends JPanel {
     private JLabel waveLabel;
     private JLabel timeLabel;
 
+    // TODO : we dont store this info in a panel
     private int inkLevel;
     private int waveNumber;
     private int seconds;
@@ -28,7 +31,7 @@ public class StatusBar extends JPanel {
         setBackground(new Color(245, 245, 245));
         setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
-        inkLevel = 100;
+        inkLevel = 100; // TODO : same here, we should use the game info
         waveNumber = 1;
         seconds = 0;
 
@@ -41,7 +44,8 @@ public class StatusBar extends JPanel {
      * Initialise les composants de la barre d'état.
      */
     private void initializeComponents() {
-        inkLabel = new JLabel("Encre: " + inkLevel);
+        Game game = Game.getInstance();
+        inkLabel = new JLabel("Encre: " + game.getInk());
         waveLabel = new JLabel("Vague: " + waveNumber);
         timeLabel = new JLabel("Temps: 00:00");
     }
@@ -57,5 +61,15 @@ public class StatusBar extends JPanel {
         add(inkLabel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
         add(timeLabel, BorderLayout.EAST);
+    }
+
+    // TODO : for now called by the game, but could have a refresh rate on its own no ?
+    public void update(){
+        Game game = Game.getInstance();
+        // Update the 3 jlabels using the game
+        inkLabel.setText("Encre: " + game.getInk());
+        timeLabel.setText("Temps : " + game.getTimeElapsed());
+
+
     }
 }

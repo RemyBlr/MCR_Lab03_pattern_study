@@ -9,8 +9,6 @@ import java.awt.*;
 import java.awt.Image;
 
 public class TDWindow {
-    private static TDWindow instance;
-
     // Get screen size
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int width = (int) screenSize.getWidth();
@@ -23,12 +21,14 @@ public class TDWindow {
     private ShopPanel shopPanel;
     private DrawingCanvas drawingCanvas;
 
-    private Game game;
     private CommandManager commandManager;
 
-    private TDWindow() {
-        game = new Game(500, 100, 0);
+    public TDWindow() {
         commandManager = new CommandManager();
+
+
+
+        Game game = Game.getInstance();
 
         // Main window
         JFrame frame = new JFrame("Paint Tower Defense");
@@ -45,6 +45,13 @@ public class TDWindow {
 
         // Show window
         frame.setVisible(true);
+
+        Timer timer = new Timer(20, (e) -> {
+            game.tick();
+            statusBar.update();
+        });
+
+        timer.start();
     }
 
     /**
@@ -77,7 +84,7 @@ public class TDWindow {
      */
     private JToolBar createToolBar() {
 
-        toolBar = new ToolBar(drawingCanvas);
+        toolBar = new ToolBar(drawingCanvas, commandManager);
         return toolBar;
     }
 
@@ -87,7 +94,7 @@ public class TDWindow {
      * @return JPanel
      */
     private JPanel createCanvas() {
-        drawingCanvas = new DrawingCanvas(game, commandManager);
+        drawingCanvas = new DrawingCanvas(commandManager);
         return drawingCanvas;
     }
 
@@ -108,8 +115,8 @@ public class TDWindow {
      */
     private JSplitPane getJSplitPane() {
 
-        JToolBar toolBar = createToolBar();
         JPanel drawingZone = createCanvas();
+        JToolBar toolBar = createToolBar();
         JPanel statusBar = createStatusBar();
         JPanel shopPanel = createShopMenu();
 
@@ -132,14 +139,10 @@ public class TDWindow {
         return splitPane;
     }
 
-    /**
-     * Get the singleton instance of TDWindow.
-     *
-     * @return TDWindow instance
-     */
-    public static TDWindow getInstance() {
-        if(instance == null)
-            instance = new TDWindow();
-        return instance;
+    // TODO : same comment as in statusBar, could we call update on a refresh rate ?
+    public void updateStatusBar() {
+        statusBar.update();
     }
+
+
 }

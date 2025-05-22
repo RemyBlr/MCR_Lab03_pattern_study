@@ -1,5 +1,7 @@
 package game;
 
+import window.TDWindow;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,11 +10,15 @@ import java.util.List;
  * Centralizes the game logic and manages the game state.
  */
 public class Game {
+    private static Game instance;
+
     private int ink;
     private int baseHp;
     private int gold;
     private List<Wall> walls = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
+    private long timeElapsed = 0;
+    private long startTime = System.nanoTime();
 
     /**
      * Constructor for the game.Game class.
@@ -20,7 +26,7 @@ public class Game {
      * @param ink ink amount you start with
      * @param baseHp health amount of the base at the beginning
      */
-    public Game(int ink, int baseHp, int gold) {
+    private Game(int ink, int baseHp, int gold) {
         this.ink = ink;
         this.baseHp = baseHp;
         this.gold = gold;
@@ -31,7 +37,9 @@ public class Game {
      *
      * @param amount the amount of ink to change
      */
-    public void setInk(int amount) { ink = ink + amount; }
+    public void setInk(int amount) {
+        ink = ink + amount;
+    }
 
     /**
      * Sets the new gold amount.
@@ -97,4 +105,30 @@ public class Game {
 
     // TODO ajouter les futures classes
 
+
+    /**
+     * Returns the amount of ink left
+     * @return int amount
+     */
+    public int getInk() { return ink; }
+
+    public int getGold() { return gold; }
+
+
+    /**
+     * Get the singleton instance of TDWindow.
+     *
+     * @return TDWindow instance
+     */
+    public static Game getInstance() {
+        if(instance == null)
+            instance = new Game(500, 100, 0);
+        return instance;
+    }
+
+    public void tick(){
+        timeElapsed = System.nanoTime() - startTime;
+    }
+
+    public long getTimeElapsed() { return timeElapsed; }
 }
