@@ -84,7 +84,7 @@ public class TDWindow {
      */
     private JToolBar createToolBar() {
 
-        toolBar = new ToolBar(drawingCanvas);
+        toolBar = new ToolBar(drawingCanvas, commandManager);
         return toolBar;
     }
 
@@ -115,8 +115,8 @@ public class TDWindow {
      */
     private JSplitPane getJSplitPane() {
 
-        JToolBar toolBar = createToolBar();
         JPanel drawingZone = createCanvas();
+        JToolBar toolBar = createToolBar();
         JPanel statusBar = createStatusBar();
         JPanel shopPanel = createShopMenu();
 

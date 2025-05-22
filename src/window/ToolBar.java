@@ -1,6 +1,7 @@
 package window;
 
 import command.CommandManager;
+import command.ToolSelectionCommand;
 import window.components.ButtonIcon;
 
 import javax.swing.*;
@@ -19,35 +20,32 @@ public class ToolBar extends JToolBar {
     private JButton greenButton;
     private JButton redButton;
 
-    private Color currentColor;
-    private String currentTool;
-
     /**
      * Constructeur de la classe ToolBar.
      */
-    public ToolBar(DrawingCanvas canvas) {
+    public ToolBar(DrawingCanvas canvas, CommandManager commandManager) {
         setFloatable(false);
-        currentColor = Color.BLACK;
-        currentTool = "pen";
-
         initializeComponents();
         addComponentsToToolBar();
 
-        penButton.addActionListener(e -> {
-            canvas.setDrawingEnabled(true);
-        });
+        penButton.addActionListener(e ->
+                commandManager.executeCommand(new ToolSelectionCommand(canvas, "Pen"))
+        );
+        selectButton.addActionListener(e ->
+                commandManager.executeCommand(new ToolSelectionCommand(canvas, "Select"))
+        );
     }
 
     /**
      * Initialise les composants de la barre d'outils.
      */
     private void initializeComponents() {
-        penButton = new ButtonIcon("./img/pen.png", "Stylo");
-        selectButton = new ButtonIcon("./img/select.png", "Sélection");
-        blackButton = new ButtonIcon("./img/black.png", "Noir");
-        blueButton = new ButtonIcon("./img/blue.png", "Bleu");
-        greenButton = new ButtonIcon("./img/green.png", "Vert");
-        redButton = new ButtonIcon("./img/red.png", "Rouge");
+        penButton = new ButtonIcon("./img/pen.png", "Pen");
+        selectButton = new ButtonIcon("./img/select.png", "Select");
+        blackButton = new ButtonIcon("./img/black.png", "Black");
+        blueButton = new ButtonIcon("./img/blue.png", "Blue");
+        greenButton = new ButtonIcon("./img/green.png", "Green");
+        redButton = new ButtonIcon("./img/red.png", "Red");
     }
 
     /**
@@ -65,23 +63,5 @@ public class ToolBar extends JToolBar {
         add(greenButton);
         add(Box.createHorizontalStrut(10));
         add(redButton);
-    }
-
-    /**
-     * Obtient la couleur actuellement sélectionnée.
-     *
-     * @return Color La couleur actuelle
-     */
-    public Color getCurrentColor() {
-        return currentColor;
-    }
-
-    /**
-     * Obtient l'outil actuellement sélectionné.
-     *
-     * @return String L'outil actuel
-     */
-    public String getCurrentTool() {
-        return currentTool;
     }
 }

@@ -10,6 +10,15 @@ public class CommandManager {
     private final Stack<UndoableCommand> history = new Stack<>();
 
     /**
+     * Executes a command without pushing it onto the history stack.
+     *
+     * @param command The command to execute.
+     */
+    public void executeCommand(Command command) {
+        command.execute();
+    }
+
+    /**
      * Executes a command and pushes it onto the history stack.
      *
      * @param command The command to execute.
