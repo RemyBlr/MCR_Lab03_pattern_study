@@ -3,11 +3,14 @@ package tools;
 import command.CommandManager;
 import command.CompositeCommand;
 import command.MoveWallCommand;
+import game.Game;
 import game.Wall;
 import window.DrawingCanvas;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SelectTool class implements the Tool interface to handle mouse events for selecting and moving walls.
@@ -16,60 +19,109 @@ import java.awt.event.MouseEvent;
 public class SelectTool implements Tool {
     private final DrawingCanvas canvas;
     private final CommandManager commandManager;
+
+    // Variables for selection rectangle
     private Point start;
     private Point last;
-    private Rectangle selectedRectangle;
-    private boolean isDragging;
+    private Rectangle selectionRectangle;
+    private boolean isDragging = false;
+    private boolean hasSelection = false;
 
-    public SelectTool(DrawingCanvas canvas, CommandManager mgr) {
+    // selected walls
+    private final List<Wall> selectedWalls = new ArrayList<>();
+
+    /**
+     * Constructor for SelectTool.
+     *
+     * @param canvas the drawing canvas
+     * @param commandManager the command manager to handle commands
+     */
+    public SelectTool(DrawingCanvas canvas, CommandManager commandManager) {
         this.canvas = canvas;
-        this.commandManager = mgr;
+        this.commandManager = commandManager;
     }
-
-    // TODO mon implémentation de fonctionne pas
 
     @Override
     public void mousePressed(MouseEvent e) {
-        /*start = e.getPoint();
-        selectedRectangle = new Rectangle(start);
-        isDragging = false;*/
+        start = e.getPoint();
+        last = start;
+
+        // move wall if we are inside selected walls
+        boolean clickInsideSelected = hasSelection && selectedWalls.stream()
+                .anyMatch(w -> w.getBounds().contains(start));
+
+
+        if (clickInsideSelected) {
+            isDragging = true;
+            // TODO ne change pas le curseur
+            canvas.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+        } else {
+            // new selection rectangle
+            isDragging = false;
+            hasSelection = false;
+            selectedWalls.clear();
+            selectionRectangle = new Rectangle(start);
+            canvas.setSelectionRectangle(selectionRectangle);
+            canvas.setHighlightedWalls(selectedWalls);
+            // TODO ne change pas le curseur
+            canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        /*if (!isDragging) {
-            selectedRectangle.setFrameFromDiagonal(start, e.getPoint());
-        } else {
-            int dx = e.getX() - last.x;
-            int dy = e.getY() - last.y;
-            for (Wall w : canvas.getGame().getWalls()) {
-                if (selectedRectangle.intersects(w.getBounds())) {
-                    w.move(dx, dy);
-                }
+        Point point = e.getPoint();
+
+        if (isDragging) {
+            // moves selected walls "Live"
+            int dx = point.x - last.x;
+            int dy = point.y - last.y;
+            for (Wall wall : selectedWalls) {
+                wall.move(dx, dy);
             }
+            last = point;
+            canvas.repaint();
+        } else {
+            // updates the selection rectangle
+            // setFrameFromDiagonal sets the diagonal of the framing rectangle of this Shape based on the two
+            // specified coordinates.
+            selectionRectangle.setFrameFromDiagonal(start, point);
+            canvas.setSelectionRectangle(selectionRectangle);
         }
-        last = e.getPoint();
-        canvas.repaint();*/
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        /*if (!isDragging) {
-            isDragging = true;
-            last = e.getPoint();
+        Point releasePoint = e.getPoint();
+
+        if (isDragging) {
+            // move selected walls to the new position
+            int totalDx = releasePoint.x - start.x;
+            int totalDy = releasePoint.y - start.y;
+            // composite command to move all selected walls
+            CompositeCommand comp = new CompositeCommand();
+            for (Wall wall : selectedWalls) {
+                comp.addCommand(new MoveWallCommand(wall, totalDx, totalDy));
+            }
+            // push command to history without executing it
+            commandManager.recordCommand(comp);  // undoable
         } else {
-            double totalDx = e.getX() - start.x;
-            double totalDy = e.getY() - start.y;
-            CompositeCommand compositeCommand = new CompositeCommand();
-            for (Wall wall : canvas.getGame().getWalls()) {
-                if (selectedRectangle.intersects(wall.getBounds())) {
-                    compositeCommand.addCommand(new MoveWallCommand(wall, totalDx, totalDy));
+            // finalize the selection rectangle
+            selectedWalls.clear();
+            for (Wall wall : Game.getInstance().getWalls()) {
+                if (selectionRectangle.intersects(wall.getBounds())) {
+                    selectedWalls.add(wall);
                 }
             }
-
-            commandManager.executeCommand(compositeCommand);
-            selectedRectangle = null;
+            // update the selection state
+            hasSelection = !selectedWalls.isEmpty();
+            canvas.setHighlightedWalls(selectedWalls);
         }
-        canvas.repaint();*/
+
+        isDragging = false;
+        canvas.setSelectionRectangle(null);
+        // TODO ne change pas le curseur
+        canvas.setCursor(Cursor.getDefaultCursor());
+        canvas.repaint();
     }
 }
