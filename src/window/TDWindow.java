@@ -1,12 +1,16 @@
 package window;
 
 import command.CommandManager;
+import command.ToolSelectionCommand;
 import game.Game;
+import tools.ToolOption;
 import window.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class TDWindow {
     // Get screen size
@@ -26,8 +30,6 @@ public class TDWindow {
     public TDWindow() {
         commandManager = new CommandManager();
 
-
-
         Game game = Game.getInstance();
 
         // Main window
@@ -43,6 +45,8 @@ public class TDWindow {
         JSplitPane splitPane = getJSplitPane();
         frame.add(splitPane, BorderLayout.CENTER);
 
+        configureKeyBindings(frame);
+
         // Show window
         frame.setVisible(true);
 
@@ -52,6 +56,35 @@ public class TDWindow {
         });
 
         timer.start();
+    }
+
+    /**
+     * Configure key bindings for the main window.
+     *
+     * @param frame the main window frame
+     */
+    private void configureKeyBindings(JFrame frame) {
+        JRootPane rootPane = frame.getRootPane();
+        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = rootPane.getActionMap();
+
+        // 1 -> pen
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0), "tool.pen");
+        actionMap.put("tool.pen", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.PEN));
+            }
+        });
+
+        // 2 -> select
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, 0), "tool.select");
+        actionMap.put("tool.select", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.SELECT));
+            }
+        });
     }
 
     /**

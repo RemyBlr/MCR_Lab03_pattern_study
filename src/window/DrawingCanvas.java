@@ -3,9 +3,7 @@ package window;
 import command.CommandManager;
 import game.Game;
 import game.Wall;
-import tools.PenTool;
-import tools.SelectTool;
-import tools.Tool;
+import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +15,7 @@ import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawingCanvas extends JPanel {
+public class DrawingCanvas extends JPanel implements ToolChangeListener {
     // Castle
     private static final int CASTLE_WIDTH = 170;
     private static final int CASTLE_HEIGHT = 170;
@@ -48,6 +46,9 @@ public class DrawingCanvas extends JPanel {
      */
     public DrawingCanvas(CommandManager commandManager) {
         this.commandManager = commandManager;
+
+        // Register the canvas as a listener for tool changes
+        ToolManager.getInstance().addListener(this);
 
         currentTool = new PenTool(this, commandManager);
 
@@ -256,14 +257,16 @@ public class DrawingCanvas extends JPanel {
     }
 
     /**
-     * Sets the current tool that is being used.
+     * Called by the ToolManager when the tool changes.
      * @param toolName the name of the tool to set
      */
-    public void setCurrentTool(String toolName) {
+    @Override
+    public void toolChanged(ToolOption toolName) {
         switch (toolName) {
-            case "Pen" -> currentTool = new PenTool(this, commandManager);
-            case "Select" -> currentTool = new SelectTool(this, commandManager);
+            case ToolOption.PEN -> currentTool = new PenTool(this, commandManager);
+            case ToolOption.SELECT -> currentTool = new SelectTool(this, commandManager);
             default -> throw new IllegalArgumentException("Unknown tool: " + toolName);
         }
     }
+
 }
