@@ -76,9 +76,38 @@ public class SelectTool implements Tool {
             // moves selected walls "Live"
             int dx = point.x - last.x;
             int dy = point.y - last.y;
+
+            // move only if all corners of the wall are inside the canvas
+            List<Wall> movable = new ArrayList<>();
             for (Wall wall : selectedWalls) {
+                Rectangle bounds = wall.getBounds();
+
+                // Check all four corners of the wall
+                Point[] corners = {
+                        new Point(bounds.x + dx, bounds.y + dy),
+                        new Point(bounds.x + dx + bounds.width, bounds.y + dy),
+                        new Point(bounds.x + dx,bounds.y + dy + bounds.height),
+                        new Point(bounds.x + dx + bounds.width, bounds.y + dy + bounds.height)
+                };
+                boolean allInside = true;
+
+                for (Point c : corners) {
+                    if (!canvas.isInsideDrawingZone(c.x, c.y)) {
+                        allInside = false;
+                        break;
+                    }
+                }
+                // add wall only if all corners are inside the canvas
+                if (allInside) {
+                    movable.add(wall);
+                }
+            }
+
+            // move all selected walls that are movable
+            for (Wall wall : movable) {
                 wall.move(dx, dy);
             }
+
             last = point;
             canvas.repaint();
         } else {
