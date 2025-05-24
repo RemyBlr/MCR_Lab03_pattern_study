@@ -77,18 +77,17 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         final List<JButton> buttonList = Arrays.asList(penButton, selectButton, blackButton, blueButton, greenButton, redButton);
 
         for (JButton b : buttonList) {
-            b.setOpaque(true);               // on affiche le fond
-            b.setBackground(null);           // fond transparent quand non-sélectionné
-            b.setBorder(UNSELECTED_BORDER);  // border invisible
-            b.setBorderPainted(true);        // forcer le peintre de border
-            b.setContentAreaFilled(true);    // forcer le remplissage du fond
-            b.setFocusPainted(false);        // on ne veut pas du focus default
+            b.setOpaque(true);
+            b.setBackground(null);
+            b.setBorder(UNSELECTED_BORDER);
+            b.setBorderPainted(true);
+            b.setContentAreaFilled(true);
+            b.setFocusPainted(false);
         }
 
-        // Remplir la map…
+        // Fill map
         buttonMap.put(ToolOption.PEN,    penButton);
         buttonMap.put(ToolOption.SELECT, selectButton);
-        // …
 
         // Listeners
         penButton.addActionListener(e ->
