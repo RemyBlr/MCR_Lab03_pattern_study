@@ -17,12 +17,6 @@ public class StatusBar extends JPanel {
     private JLabel waveLabel;
     private JLabel timeLabel;
 
-    // TODO : we dont store this info in a panel
-    private int inkLevel;
-    private int waveNumber;
-    private int seconds;
-    private Timer timer;
-
     /**
      * Constructeur de la classe StatusBar.
      */
@@ -30,10 +24,6 @@ public class StatusBar extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(245, 245, 245));
         setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-
-        inkLevel = 100; // TODO : same here, we should use the game info
-        waveNumber = 1;
-        seconds = 0;
 
         initializeComponents();
         addComponentsToPanel();
@@ -45,7 +35,7 @@ public class StatusBar extends JPanel {
     private void initializeComponents() {
         Game game = Game.getInstance();
         inkLabel = new JLabel("Encre: " + game.getInk());
-        waveLabel = new JLabel("Vague: " + waveNumber);
+        waveLabel = new JLabel("Vague: " + game.getWaveNumber());
         timeLabel = new JLabel("Temps: 00:00");
     }
 
@@ -80,7 +70,6 @@ public class StatusBar extends JPanel {
         timeLabel.setText("Temps: " + time);
 
         // Wave
-        int waveNumber = 1 + minutes; // 1 wave per minute
-        waveLabel.setText("Vague: " + waveNumber);
+        waveLabel.setText("Vague: " + game.getWaveNumber());
     }
 }

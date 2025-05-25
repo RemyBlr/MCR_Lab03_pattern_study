@@ -53,6 +53,9 @@ public class TDWindow {
         Timer timer = new Timer(20, (e) -> {
             game.tick();
             statusBar.update();
+
+            int currentWave = game.getWaveNumber();
+            toolBar.unlockColor(currentWave);
         });
 
         timer.start();
@@ -83,6 +86,42 @@ public class TDWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 commandManager.executeCommand(new ToolSelectionCommand(ToolOption.SELECT));
+            }
+        });
+
+        // 3 -> black
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, 0), "tool.black");
+        actionMap.put("tool.black", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLACK));
+            }
+        });
+
+        // 4 -> blue
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0), "tool.blue");
+        actionMap.put("tool.blue", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE));
+            }
+        });
+
+        // 5 -> green
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0), "tool.green");
+        actionMap.put("tool.green", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN));
+            }
+        });
+
+        // 6 -> red
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_6, 0), "tool.red");
+        actionMap.put("tool.red", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED));
             }
         });
     }

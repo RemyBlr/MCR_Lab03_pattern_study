@@ -48,16 +48,18 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         // register the toolbar as a listener for tool changes
         ToolManager.getInstance().addListener(this);
 
-        // fill the button map with tool options and their corresponding buttons
-        buttonMap.put(ToolOption.PEN,    penButton);
-        buttonMap.put(ToolOption.SELECT, selectButton);
+        blackButton.setVisible(true);
+        greenButton.setVisible(false);
+        redButton.setVisible(false);
+        blueButton.setVisible(false);
 
-        penButton.addActionListener(e ->
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.PEN))
-        );
-        selectButton.addActionListener(e ->
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.SELECT))
-        );
+        // fill the button map with tool options and their corresponding buttons
+        buttonMap.put(ToolOption.PEN, penButton);
+        buttonMap.put(ToolOption.SELECT, selectButton);
+        buttonMap.put(ToolOption.BLACK, blackButton);
+        buttonMap.put(ToolOption.BLUE, blueButton);
+        buttonMap.put(ToolOption.GREEN, greenButton);
+        buttonMap.put(ToolOption.RED, redButton);
 
         // pre-set colors
         toolChanged(ToolManager.getInstance().getCurrentTool());
@@ -67,14 +69,15 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
      * Initialise les composants de la barre d'outils.
      */
     private void initializeComponents() {
-        penButton = new ButtonIcon("./img/pen.png", "Pen");
-        selectButton = new ButtonIcon("./img/select.png", "Select");
-        blackButton = new ButtonIcon("./img/black.png", "Black");
-        blueButton = new ButtonIcon("./img/blue.png", "Blue");
-        greenButton = new ButtonIcon("./img/green.png", "Green");
-        redButton = new ButtonIcon("./img/red.png", "Red");
-
-        final List<JButton> buttonList = Arrays.asList(penButton, selectButton, blackButton, blueButton, greenButton, redButton);
+        // Je savais pas que c'était possible de faire ça, ça m'arrangeait que ça fonctionne donc j'ai essayé
+        final List<JButton> buttonList = Arrays.asList(
+            penButton = new ButtonIcon("./img/pen.png", "Pen", "1"),
+            selectButton = new ButtonIcon("./img/select.png", "Select", "2"),
+            blackButton = new ButtonIcon("./img/black.png", "Black", "3"),
+            blueButton = new ButtonIcon("./img/blue.png", "Blue", "4"),
+            greenButton = new ButtonIcon("./img/green.png", "Green", "5"),
+            redButton = new ButtonIcon("./img/red.png", "Red", "6")
+        );
 
         for (JButton b : buttonList) {
             b.setOpaque(true);
@@ -95,6 +98,18 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         );
         selectButton.addActionListener(e ->
                 commandManager.executeCommand(new ToolSelectionCommand(ToolOption.SELECT))
+        );
+        blackButton.addActionListener(e ->
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLACK))
+        );
+        blueButton.addActionListener(e ->
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE))
+        );
+        greenButton.addActionListener(e ->
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN))
+        );
+        redButton.addActionListener(e ->
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED))
         );
     }
 
@@ -133,5 +148,17 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
             btn.setBackground(Color.WHITE);
             currentSelected = btn;
         }
+    }
+
+    /**
+     * Unlocks the color buttons based on the current wave.
+     * @param wave the current wave number
+     */
+    public void unlockColor(int wave) {
+        if (wave >= 2) blueButton.setVisible(true);
+        if (wave >= 3) greenButton.setVisible(true);
+        if (wave >= 4) redButton.setVisible(true);
+        revalidate();
+        repaint();
     }
 }

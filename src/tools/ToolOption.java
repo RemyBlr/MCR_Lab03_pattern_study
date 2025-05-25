@@ -2,5 +2,9 @@ package tools;
 
 public enum ToolOption {
     PEN,
-    SELECT
+    SELECT,
+    BLACK,
+    GREEN,
+    BLUE,
+    RED
 }
