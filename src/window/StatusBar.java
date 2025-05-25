@@ -37,7 +37,6 @@ public class StatusBar extends JPanel {
 
         initializeComponents();
         addComponentsToPanel();
-//        startTimer();
     }
 
     /**
@@ -66,10 +65,22 @@ public class StatusBar extends JPanel {
     // TODO : for now called by the game, but could have a refresh rate on its own no ?
     public void update(){
         Game game = Game.getInstance();
-        // Update the 3 jlabels using the game
+
+        // Ink
         inkLabel.setText("Encre: " + game.getInk());
-        timeLabel.setText("Temps : " + game.getTimeElapsed());
 
+        // Time
+        long elapsedNanos = game.getTimeElapsed();
+        long elapsedSeconds = elapsedNanos / 1_000_000_000L;
+        int minutes = (int)(elapsedSeconds / 60);
+        int seconds = (int)(elapsedSeconds % 60);
 
+        // Format
+        String time = String.format("%02d:%02d", minutes, seconds);
+        timeLabel.setText("Temps: " + time);
+
+        // Wave
+        int waveNumber = 1 + minutes; // 1 wave per minute
+        waveLabel.setText("Vague: " + waveNumber);
     }
 }
