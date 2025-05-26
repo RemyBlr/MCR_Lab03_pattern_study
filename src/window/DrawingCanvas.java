@@ -4,6 +4,8 @@ import command.CommandManager;
 import command.CreateWallCommand;
 import game.Game;
 import game.Wall;
+import game.enemies.Enemy;
+import game.enemies.EnemyManager;
 import tools.PenTool;
 import tools.SelectTool;
 import tools.Tool;
@@ -15,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +29,13 @@ public class DrawingCanvas extends JPanel {
     private Image castleImage;
 
     private CommandManager commandManager;
-    private Path2D currentPath;
     private Color currentColor = Color.BLACK;
     private int strokeWidth = 3;
     private final List<Wall> walls = new ArrayList<>();
     private Tool currentTool;
+
+    private Path2D enemyPath;
+    private Path2D currentPath;
 
 
     public DrawingCanvas( CommandManager commandManager) {
@@ -70,30 +75,6 @@ public class DrawingCanvas extends JPanel {
         addMouseMotionListener(adapter);
     }
 
-    public double getPathLength(Path2D path) {
-        double length = 0;
-        // TODO calculer la longueur du chemin JSP si correct c'est Copilot
-        PathIterator it = path.getPathIterator(null, 1);
-        double[] coords = new double[6];
-        double[] prev = new double[2];
-        if (!it.isDone()) {
-            it.currentSegment(prev);
-            it.next();
-        }
-        while (!it.isDone()) {
-            int type = it.currentSegment(coords);
-            if (type != PathIterator.SEG_CLOSE) {
-                double dx = coords[0] - prev[0];
-                double dy = coords[1] - prev[1];
-                length += Math.hypot(dx, dy);
-                prev[0] = coords[0];
-                prev[1] = coords[1];
-            }
-            it.next();
-        }
-        return length;
-    }
-
     //public Game getGame() { return game; }
 
     @Override
@@ -128,11 +109,7 @@ public class DrawingCanvas extends JPanel {
             g2d.draw(w.getPath());
         }
 
-        if (currentPath != null) {
-            g2d.setColor(currentColor);
-            g2d.setStroke(new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-            g2d.draw(currentPath);
-        }
+        drawEnemies(g2d);
 
         g2d.dispose();
     }
@@ -179,5 +156,17 @@ public class DrawingCanvas extends JPanel {
             case "Select" -> currentTool = new SelectTool(this, commandManager);
             default -> throw new IllegalArgumentException("Unknown tool: " + toolName);
         }
+    }
+
+    private void drawEnemies(Graphics2D g2d) {
+        if (Game.getInstance().getActiveEnemies() != null) {
+            for (Enemy enemy : Game.getInstance().getActiveEnemies()) {
+                enemy.draw(g2d);
+            }
+        }
+    }
+
+    public void update(){
+        repaint();
     }
 }

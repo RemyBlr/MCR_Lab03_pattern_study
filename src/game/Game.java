@@ -1,10 +1,9 @@
 package game;
 
-import window.TDWindow;
+import game.enemies.Enemy;
+import game.enemies.EnemyManager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Centralizes the game logic and manages the game state.
@@ -15,8 +14,10 @@ public class Game {
     private int ink;
     private int baseHp;
     private int gold;
+    private int waveCount = 0;
     private List<Wall> walls = new ArrayList<>();
-    private List<Enemy> enemies = new ArrayList<>();
+    private static EnemyManager enemyManager;
+    private static boolean isPausedGame = false;
     private long timeElapsed = 0;
     private long startTime = System.nanoTime();
 
@@ -30,6 +31,7 @@ public class Game {
         this.ink = ink;
         this.baseHp = baseHp;
         this.gold = gold;
+        enemyManager = new EnemyManager();
     }
 
     /**
@@ -87,18 +89,6 @@ public class Game {
     }
 
     /**
-     * Adds an enemy to the list of enemies.
-     * @param enemy the enemy to add
-     */
-    public void addEnemy(Enemy enemy) { enemies.add(enemy); }
-
-    /**
-     * Removes an enemy from the list of enemies.
-     * @param enemy the enemy to remove
-     */
-    public void removeEnemy(Enemy enemy) { enemies.remove(enemy); }
-
-    /**
      * @return A list of all the walls
      */
     public List<Wall> getWalls() { return walls; }
@@ -114,6 +104,13 @@ public class Game {
 
     public int getGold() { return gold; }
 
+    public int getWaveCount() { return waveCount; }
+
+    public void nextWave() { this.waveCount++; }
+
+    public static boolean isPausedGame() { return isPausedGame; }
+
+    public static void setPausedGame(boolean pausedGame) { isPausedGame = pausedGame; }
 
     /**
      * Get the singleton instance of TDWindow.
@@ -128,7 +125,12 @@ public class Game {
 
     public void tick(){
         timeElapsed = System.nanoTime() - startTime;
+        enemyManager.update();
     }
 
     public long getTimeElapsed() { return timeElapsed; }
+
+    public List<Enemy> getActiveEnemies() {
+        return enemyManager.getActiveEnemies();
+    }
 }
