@@ -53,10 +53,10 @@ public class Wall {
      * Checks if the wall collides with an enemy.
      * For simplicity, the enemy's hitbox is a rectangle
      */
-    public boolean isCollision(Enemy enemy) {
-        Rectangle bounds = getBounds();
-        return enemy.getBounds().intersects(bounds);
-    }
+//    public boolean isCollision(Enemy enemy) {
+//        Rectangle bounds = getBounds();
+//        return enemy.getBounds().intersects(bounds);
+//    }
 
     /**
      * Translates the wall from (dx, dy)

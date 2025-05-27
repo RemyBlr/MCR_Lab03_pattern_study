@@ -159,10 +159,10 @@ public class DrawingCanvas extends JPanel {
     }
 
     private void drawEnemies(Graphics2D g2d) {
-        if (Game.getInstance().getActiveEnemies() != null) {
-            for (Enemy enemy : Game.getInstance().getActiveEnemies()) {
-                enemy.draw(g2d);
-            }
+        EnemyManager enemyManager = Game.getInstance().getEnemyManager();
+        List<Enemy> enemies = enemyManager.getActiveEnemies();
+        for (Enemy enemy : enemies) {
+            enemy.draw(g2d);
         }
     }
 
