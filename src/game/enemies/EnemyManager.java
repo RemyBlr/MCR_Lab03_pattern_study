@@ -4,20 +4,17 @@ import game.Game;
 import java.util.*;
 
 public class EnemyManager {
-    private LinkedList<Enemy> waitingEnemies;         // File d'attente des ennemis à spawner
-    private List<Enemy> activeEnemies;         // Ennemis actuellement sur le terrain
+    private LinkedList<Enemy> waitingEnemies; // File d'attente des ennemis de la vague généré
+    private List<Enemy> activeEnemies; // Ennemis actuellement sur le terrain
     private EnemyFactory enemyFactory;
-    private static final long SPAWN_INTERVAL = 1000; // Intervalle entre chaque spawn (ms)
+
     private long lastSpawnTime;
+    private static final long MIN_SPAWN_INTERVAL = 2000; // Attendre au moins 2s entre chaque spawn'
 
     public EnemyManager() {
         this.waitingEnemies = new LinkedList<>();
         this.activeEnemies = new ArrayList<>();
         this.lastSpawnTime = System.currentTimeMillis();
-    }
-
-    public void setEnemyFactory(EnemyFactory factory) {
-        this.enemyFactory = factory;
     }
 
     public void update() {
@@ -26,23 +23,27 @@ public class EnemyManager {
         // New waves
         if (waitingEnemies.isEmpty() && activeEnemies.isEmpty() && !game.isPausedGame()) {
             if (game.getWaveCount() > 0) {
-                startNewWave();
+                initializeNewWave();
             }
         }
 
         // Spawn existing enemies
         long currentTime = System.currentTimeMillis();
-        if (!waitingEnemies.isEmpty() && currentTime - lastSpawnTime >= SPAWN_INTERVAL) {
+        if (!waitingEnemies.isEmpty() && currentTime - lastSpawnTime >= MIN_SPAWN_INTERVAL) {
             Enemy enemy = waitingEnemies.removeFirst();
             activeEnemies.add(enemy);
             lastSpawnTime = currentTime;
         }
 
         // Mise à jour des ennemis actifs
-        updateActiveEnemies();
+        if(!activeEnemies.isEmpty()) {
+            for (Enemy enemy : activeEnemies) {
+                enemy.update();
+            }
+        }
     }
 
-    private void startNewWave() {
+    private void initializeNewWave() {
         Game.getInstance().nextWave();
 
         if (enemyFactory != null) {
@@ -50,24 +51,9 @@ public class EnemyManager {
         }
     }
 
-    private void updateActiveEnemies() {
-        if(activeEnemies.isEmpty()) return;
-
-        for (Enemy enemy : activeEnemies) {
-            enemy.update();
-        }
-    }
-
-    public List<Enemy> getActiveEnemies() {
-        return activeEnemies;
-    }
-
-    public boolean isWaveInProgress() {
-        return !waitingEnemies.isEmpty() || !activeEnemies.isEmpty();
-    }
-
-    public void clearEnemies() {
+    public void clearWave() {
         waitingEnemies.clear();
         activeEnemies.clear();
+        this.lastSpawnTime = 0;
     }
 }

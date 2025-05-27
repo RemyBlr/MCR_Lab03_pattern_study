@@ -130,7 +130,7 @@ public class Game {
 
     public long getTimeElapsed() { return timeElapsed; }
 
-    public List<Enemy> getActiveEnemies() {
-        return enemyManager.getActiveEnemies();
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
     }
 }
