@@ -17,12 +17,6 @@ public class StatusBar extends JPanel {
     private JLabel waveLabel;
     private JLabel timeLabel;
 
-    // TODO : we dont store this info in a panel
-    private int inkLevel;
-    private int waveNumber;
-    private int seconds;
-    private Timer timer;
-
     /**
      * Constructeur de la classe StatusBar.
      */
@@ -31,13 +25,8 @@ public class StatusBar extends JPanel {
         setBackground(new Color(245, 245, 245));
         setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
-        inkLevel = 100; // TODO : same here, we should use the game info
-        waveNumber = 1;
-        seconds = 0;
-
         initializeComponents();
         addComponentsToPanel();
-//        startTimer();
     }
 
     /**
@@ -46,7 +35,7 @@ public class StatusBar extends JPanel {
     private void initializeComponents() {
         Game game = Game.getInstance();
         inkLabel = new JLabel("Encre: " + game.getInk());
-        waveLabel = new JLabel("Vague: " + waveNumber);
+        waveLabel = new JLabel("Vague: " + game.getWaveNumber());
         timeLabel = new JLabel("Temps: 00:00");
     }
 
@@ -66,8 +55,21 @@ public class StatusBar extends JPanel {
     // TODO : for now called by the game, but could have a refresh rate on its own no ?
     public void update(){
         Game game = Game.getInstance();
-        // Update the 3 jlabels using the game
+
+        // Ink
         inkLabel.setText("Encre: " + game.getInk());
-        timeLabel.setText("Temps : " + game.getTimeElapsed());
+
+        // Time
+        long elapsedNanos = game.getTimeElapsed();
+        long elapsedSeconds = elapsedNanos / 1_000_000_000L;
+        int minutes = (int)(elapsedSeconds / 60);
+        int seconds = (int)(elapsedSeconds % 60);
+
+        // Format
+        String time = String.format("%02d:%02d", minutes, seconds);
+        timeLabel.setText("Temps: " + time);
+
+        // Wave
+        waveLabel.setText("Vague: " + game.getWaveNumber());
     }
 }

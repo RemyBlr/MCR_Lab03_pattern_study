@@ -3,7 +3,10 @@ package game;
 import game.enemies.Enemy;
 import game.enemies.EnemyManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Centralizes the game logic and manages the game state.
@@ -20,6 +23,7 @@ public class Game {
     private static boolean isPausedGame = false;
     private long timeElapsed = 0;
     private long startTime = System.nanoTime();
+    private int waveNumber;
 
     /**
      * Constructor for the game.Game class.
@@ -32,6 +36,7 @@ public class Game {
         this.baseHp = baseHp;
         this.gold = gold;
         enemyManager = new EnemyManager();
+        this.waveNumber = 1;
     }
 
     /**
@@ -132,5 +137,14 @@ public class Game {
 
     public EnemyManager getEnemyManager() {
         return enemyManager;
+    }
+
+    public int getWaveNumber() {
+        long elapsedSeconds = timeElapsed / 1_000_000_000L;
+        // Every 60 seconds, increase the wave number
+        if (elapsedSeconds / 60 > waveNumber - 1) {
+            waveNumber++;
+        }
+        return waveNumber;
     }
 }
