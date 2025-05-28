@@ -26,7 +26,6 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
     private static final Border SELECTED_BORDER = BorderFactory.createLineBorder(Color.BLUE, 3);
     private static final Border UNSELECTED_BORDER = BorderFactory.createEmptyBorder(3,3,3,3);
 
-    private JButton penButton;
     private JButton selectButton;
     private JButton blackButton;
     private JButton blueButton;
@@ -53,14 +52,6 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         redButton.setVisible(false);
         blueButton.setVisible(false);
 
-        // fill the button map with tool options and their corresponding buttons
-        buttonMap.put(ToolOption.PEN, penButton);
-        buttonMap.put(ToolOption.SELECT, selectButton);
-        buttonMap.put(ToolOption.BLACK, blackButton);
-        buttonMap.put(ToolOption.BLUE, blueButton);
-        buttonMap.put(ToolOption.GREEN, greenButton);
-        buttonMap.put(ToolOption.RED, redButton);
-
         // pre-set colors
         toolChanged(ToolManager.getInstance().getCurrentTool());
     }
@@ -71,12 +62,11 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
     private void initializeComponents() {
         // Je savais pas que c'était possible de faire ça, ça m'arrangeait que ça fonctionne donc j'ai essayé
         final List<JButton> buttonList = Arrays.asList(
-            penButton = new ButtonIcon("./img/pen.png", "Pen", "1"),
-            selectButton = new ButtonIcon("./img/select.png", "Select", "2"),
-            blackButton = new ButtonIcon("./img/black.png", "Black", "3"),
-            blueButton = new ButtonIcon("./img/blue.png", "Blue", "4"),
-            greenButton = new ButtonIcon("./img/green.png", "Green", "5"),
-            redButton = new ButtonIcon("./img/red.png", "Red", "6")
+            selectButton = new ButtonIcon("./img/select.png", "Select", "1"),
+            blackButton = new ButtonIcon("./img/black.png", "Black", "2"),
+            blueButton = new ButtonIcon("./img/blue.png", "Blue", "3"),
+            greenButton = new ButtonIcon("./img/green.png", "Green", "4"),
+            redButton = new ButtonIcon("./img/red.png", "Red", "5")
         );
 
         for (JButton b : buttonList) {
@@ -89,27 +79,27 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         }
 
         // Fill map
-        buttonMap.put(ToolOption.PEN,    penButton);
         buttonMap.put(ToolOption.SELECT, selectButton);
+        buttonMap.put(ToolOption.BLACK_PEN, blackButton);
+        buttonMap.put(ToolOption.BLUE_PEN, blueButton);
+        buttonMap.put(ToolOption.GREEN_PEN, greenButton);
+        buttonMap.put(ToolOption.RED_PEN, redButton);
 
         // Listeners
-        penButton.addActionListener(e ->
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.PEN))
-        );
         selectButton.addActionListener(e ->
                 commandManager.executeCommand(new ToolSelectionCommand(ToolOption.SELECT))
         );
         blackButton.addActionListener(e ->
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLACK))
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLACK_PEN))
         );
         blueButton.addActionListener(e ->
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE))
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE_PEN))
         );
         greenButton.addActionListener(e ->
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN))
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN_PEN))
         );
         redButton.addActionListener(e ->
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED))
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED_PEN))
         );
     }
 
@@ -117,8 +107,6 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
      * Ajoute les composants à la barre d'outils.
      */
     private void addComponentsToToolBar() {
-        add(penButton);
-        add(Box.createHorizontalStrut(10));
         add(selectButton);
         add(Box.createHorizontalStrut(10));
         add(blackButton);

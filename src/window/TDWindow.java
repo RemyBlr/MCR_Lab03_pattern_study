@@ -71,17 +71,8 @@ public class TDWindow {
         InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = rootPane.getActionMap();
 
-        // 1 -> pen
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0), "tool.pen");
-        actionMap.put("tool.pen", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.PEN));
-            }
-        });
-
-        // 2 -> select
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, 0), "tool.select");
+        // 1 -> select
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0), "tool.select");
         actionMap.put("tool.select", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,39 +80,39 @@ public class TDWindow {
             }
         });
 
-        // 3 -> black
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, 0), "tool.black");
+        // 2 -> black
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, 0), "tool.black");
         actionMap.put("tool.black", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLACK));
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLACK_PEN));
             }
         });
 
-        // 4 -> blue
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0), "tool.blue");
+        // 3 -> blue
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, 0), "tool.blue");
         actionMap.put("tool.blue", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE));
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE_PEN));
             }
         });
 
-        // 5 -> green
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0), "tool.green");
+        // 4 -> green
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0), "tool.green");
         actionMap.put("tool.green", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN));
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN_PEN));
             }
         });
 
-        // 6 -> red
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_6, 0), "tool.red");
+        // 5 -> red
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0), "tool.red");
         actionMap.put("tool.red", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED));
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED_PEN));
             }
         });
     }

@@ -263,12 +263,25 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener {
     @Override
     public void toolChanged(ToolOption toolName) {
         switch (toolName) {
-            case ToolOption.PEN -> currentTool = new PenTool(this, commandManager);
-            case ToolOption.SELECT -> currentTool = new SelectTool(this, commandManager);
-            case ToolOption.BLACK -> currentColor = Color.BLACK;
-            case ToolOption.BLUE -> currentColor = Color.BLUE;
-            case ToolOption.GREEN -> currentColor = Color.GREEN;
-            case ToolOption.RED -> currentColor = Color.RED;
+            case ToolOption.SELECT -> {
+                currentTool = new SelectTool(this, commandManager);
+            }
+            case ToolOption.BLACK_PEN -> {
+                currentColor = Color.BLACK;
+                currentTool =new PenTool(this, commandManager);
+            }
+            case ToolOption.BLUE_PEN -> {
+                currentColor = Color.BLUE;
+                currentTool =new PenTool(this, commandManager);
+            }
+            case ToolOption.GREEN_PEN -> {
+                currentColor = Color.GREEN;
+                currentTool =new PenTool(this, commandManager);
+            }
+            case ToolOption.RED_PEN -> {
+                currentColor = Color.RED;
+                currentTool =new PenTool(this, commandManager);
+            }
             default -> throw new IllegalArgumentException("Unknown tool: " + toolName);
         }
     }
