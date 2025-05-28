@@ -28,9 +28,9 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
 
     private JButton selectButton;
     private JButton blackButton;
-    private JButton blueButton;
-    private JButton greenButton;
-    private JButton redButton;
+    JButton blueButton;
+    JButton greenButton;
+    JButton redButton;
 
     private final CommandManager commandManager;
 
@@ -46,12 +46,6 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
 
         // register the toolbar as a listener for tool changes
         ToolManager.getInstance().addListener(this);
-
-        blackButton.setVisible(true);
-        greenButton.setVisible(false);
-        redButton.setVisible(false);
-        blueButton.setVisible(false);
-
         // pre-set colors
         toolChanged(ToolManager.getInstance().getCurrentTool());
     }
@@ -101,6 +95,12 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         redButton.addActionListener(e ->
                 commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED_PEN))
         );
+
+
+        blackButton.setVisible(true);
+        greenButton.setVisible(false);
+        redButton.setVisible(false);
+        blueButton.setVisible(false);
     }
 
     /**

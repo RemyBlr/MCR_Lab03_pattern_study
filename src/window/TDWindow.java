@@ -94,7 +94,8 @@ public class TDWindow {
         actionMap.put("tool.blue", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE_PEN));
+                if(toolBar.blueButton.isVisible())
+                    commandManager.executeCommand(new ToolSelectionCommand(ToolOption.BLUE_PEN));
             }
         });
 
@@ -103,7 +104,8 @@ public class TDWindow {
         actionMap.put("tool.green", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN_PEN));
+                if(toolBar.greenButton.isVisible())
+                    commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GREEN_PEN));
             }
         });
 
@@ -112,7 +114,8 @@ public class TDWindow {
         actionMap.put("tool.red", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED_PEN));
+                if(toolBar.redButton.isVisible())
+                    commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED_PEN));
             }
         });
     }
