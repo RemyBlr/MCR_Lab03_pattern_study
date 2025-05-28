@@ -42,16 +42,30 @@ public class PenTool implements Tool {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (currentPath == null && canvas.isInsideDrawingZone(e.getX(), e.getY())) return;
-        currentPath.lineTo(e.getX(), e.getY());
-        canvas.updatePath();
+        if (currentPath == null) return;
+
+        int x = e.getX();
+        int y = e.getY();
+
+        if(canvas.isInsideDrawingZone(x, y)) {
+            currentPath.lineTo(x, y);
+            canvas.updatePath();
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Game game = Game.getInstance();
         if (currentPath == null) return;
-        currentPath.lineTo(e.getX(), e.getY());
+
+        int x = e.getX();
+        int y = e.getY();
+
+        if(canvas.isInsideDrawingZone(x, y)) {
+            currentPath.lineTo(x, y);
+        }
+
+        Game game = Game.getInstance();
+
         int cost = (int)Math.ceil(canvas.getPathLength(currentPath));
         if (game.canUseInk(cost)) {
             CreateWallCommand cmd = new CreateWallCommand(

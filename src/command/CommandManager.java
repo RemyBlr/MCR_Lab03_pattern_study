@@ -28,10 +28,22 @@ public class CommandManager {
         history.push(command);
     }
 
+    /**
+     * Undoes the last executed command.
+     * If there are no commands in the history, nothing happens.
+     */
     public void undo() {
         if(!history.isEmpty()) {
             UndoableCommand command = history.pop();
             command.undo();
         }
+    }
+
+    /**
+     * Records a command in the history stack without executing it.
+     * @param command The command to record.
+     */
+    public void recordCommand(UndoableCommand command) {
+        history.push(command);
     }
 }

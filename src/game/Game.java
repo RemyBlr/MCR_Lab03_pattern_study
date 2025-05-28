@@ -5,6 +5,7 @@ import window.TDWindow;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Centralizes the game logic and manages the game state.
@@ -19,6 +20,7 @@ public class Game {
     private List<Enemy> enemies = new ArrayList<>();
     private long timeElapsed = 0;
     private long startTime = System.nanoTime();
+    private int waveNumber;
 
     /**
      * Constructor for the game.Game class.
@@ -30,6 +32,7 @@ public class Game {
         this.ink = ink;
         this.baseHp = baseHp;
         this.gold = gold;
+        this.waveNumber = 1;
     }
 
     /**
@@ -131,4 +134,13 @@ public class Game {
     }
 
     public long getTimeElapsed() { return timeElapsed; }
+
+    public int getWaveNumber() {
+        long elapsedSeconds = timeElapsed / 1_000_000_000L;
+        // Every 60 seconds, increase the wave number
+        if (elapsedSeconds / 60 > waveNumber - 1) {
+            waveNumber++;
+        }
+        return waveNumber;
+    }
 }

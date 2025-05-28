@@ -1,12 +1,9 @@
 package window;
 
 import command.CommandManager;
-import command.CreateWallCommand;
 import game.Game;
 import game.Wall;
-import tools.PenTool;
-import tools.SelectTool;
-import tools.Tool;
+import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,27 +15,42 @@ import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawingCanvas extends JPanel {
+public class DrawingCanvas extends JPanel implements ToolChangeListener {
+    // Castle
     private static final int CASTLE_WIDTH = 170;
     private static final int CASTLE_HEIGHT = 170;
     private static int DEFENSE_RADIUS = 200;
     private static final int CASTLE_RADIUS = CASTLE_WIDTH / 2;
     private Image castleImage;
 
+    // Commands
     private CommandManager commandManager;
+
+    // Walls
     private Path2D currentPath;
     private Color currentColor = Color.BLACK;
     private int strokeWidth = 3;
     private final List<Wall> walls = new ArrayList<>();
+
+    // highlighted walls and selection rectangle
+    private Rectangle selectionRectangle;
+    private List<Wall> highlightedWalls = new ArrayList<>();
+
+    // Tools
     private Tool currentTool;
 
-
-    public DrawingCanvas( CommandManager commandManager) {
+    /**
+     * Constructor for the DrawingCanvas.
+     * Initializes the canvas with a background color and sets up the mouse listener.
+     * @param commandManager the command manager to handle commands
+     */
+    public DrawingCanvas(CommandManager commandManager) {
         this.commandManager = commandManager;
 
-        PenTool pen = new PenTool(this, commandManager);
+        // Register the canvas as a listener for tool changes
+        ToolManager.getInstance().addListener(this);
 
-        currentTool = pen;
+        currentTool = new PenTool(this, commandManager);
 
         ImageIcon castleIcon = new ImageIcon("./img/castle.png");
         castleImage = castleIcon.getImage().getScaledInstance(CASTLE_WIDTH, CASTLE_HEIGHT, Image.SCALE_SMOOTH);
@@ -48,6 +60,10 @@ public class DrawingCanvas extends JPanel {
         setupMouseListener();
     }
 
+    /**
+     * Sets up the mouse listener for the canvas.
+     * Events when mouse is pressed, dragged, or released are handled by the current tool.
+     */
     private void setupMouseListener() {
         MouseAdapter adapter = new MouseAdapter() {
             @Override
@@ -70,6 +86,11 @@ public class DrawingCanvas extends JPanel {
         addMouseMotionListener(adapter);
     }
 
+    /**
+     * Returns the path length of the given path.
+     * @param path the path to measure
+     * @return the length of the path
+     */
     public double getPathLength(Path2D path) {
         double length = 0;
         // TODO calculer la longueur du chemin JSP si correct c'est Copilot
@@ -94,8 +115,10 @@ public class DrawingCanvas extends JPanel {
         return length;
     }
 
-    //public Game getGame() { return game; }
-
+    /**
+     * Paints the component.
+     * @param g the <code>Graphics</code> object to paint
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -134,18 +157,66 @@ public class DrawingCanvas extends JPanel {
             g2d.draw(currentPath);
         }
 
+        // Highlight walls that are selected
+        g2d.setColor(new Color(0, 120, 215, 80));
+        for (Wall w : highlightedWalls) {
+            Rectangle b = w.getBounds();
+            g2d.fillRect(b.x, b.y, b.width, b.height);
+        }
+
+        // Adds a pointed border when dragging the selection tool
+        if (selectionRectangle != null) {
+            g2d.setColor(Color.BLUE);
+            g2d.setStroke(new BasicStroke(
+                    1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+                    1, new float[]{5}, 0
+            ));
+            g2d.draw(selectionRectangle);
+        }
+
         g2d.dispose();
     }
 
+    /**
+     * Sets the rectangle used for selection.
+     * @param rectangle the rectangle to set
+     */
+    public void setSelectionRectangle(Rectangle rectangle) {
+        this.selectionRectangle = rectangle;
+        repaint();
+    }
+
+    /**
+     * Set the walls to be highlighted.
+     * @param walls the selected walls
+     */
+    public void setHighlightedWalls(List<Wall> walls) {
+        this.highlightedWalls = walls;
+        repaint();
+    }
+
+    /**
+     * Used by the PenTool to start drawing a new path.
+     * Updates the current path and repaints the canvas on mouse press.
+     * @param path the starting path
+     */
     public void startPath(Path2D path) {
         currentPath = path;
         repaint();
     }
 
+    /**
+     * Repaints the canvas to show the current path.
+     * Used by the PenTool to update the path on mouse drag.
+     */
     public void updatePath() {
         repaint();
     }
 
+    /**
+     * Finishes the current path and adds it to the list of walls.
+     * Used by the PenTool to finalize the wall on mouse release.
+     */
     public void finishPath() {
         currentPath = null;
         walls.clear();
@@ -153,6 +224,12 @@ public class DrawingCanvas extends JPanel {
         repaint();
     }
 
+    /**
+     * Checks if the given coordinates are inside the drawing zone.
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return true if the coordinates are inside the drawing zone, false otherwise
+     */
     public boolean isInsideDrawingZone(int x, int y) {
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
@@ -165,19 +242,35 @@ public class DrawingCanvas extends JPanel {
         return distance <= DEFENSE_RADIUS * DEFENSE_RADIUS && distance >= CASTLE_RADIUS  * CASTLE_RADIUS;
     }
 
+    /**
+     * @return the current color used for drawing
+     */
     public Color getCurrentColor() {
         return currentColor;
     }
 
+    /**
+     * @return the stroke width used for drawing
+     */
     public int getStrokeWidth() {
         return strokeWidth;
     }
 
-    public void setCurrentTool(String toolName) {
+    /**
+     * Called by the ToolManager when the tool changes.
+     * @param toolName the name of the tool to set
+     */
+    @Override
+    public void toolChanged(ToolOption toolName) {
         switch (toolName) {
-            case "Pen" -> currentTool = new PenTool(this, commandManager);
-            case "Select" -> currentTool = new SelectTool(this, commandManager);
+            case ToolOption.PEN -> currentTool = new PenTool(this, commandManager);
+            case ToolOption.SELECT -> currentTool = new SelectTool(this, commandManager);
+            case ToolOption.BLACK -> currentColor = Color.BLACK;
+            case ToolOption.BLUE -> currentColor = Color.BLUE;
+            case ToolOption.GREEN -> currentColor = Color.GREEN;
+            case ToolOption.RED -> currentColor = Color.RED;
             default -> throw new IllegalArgumentException("Unknown tool: " + toolName);
         }
     }
+
 }

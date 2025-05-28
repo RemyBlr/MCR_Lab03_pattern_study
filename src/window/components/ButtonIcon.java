@@ -10,6 +10,7 @@ public class ButtonIcon extends JButton {
     private static final int ICON_SIZE = 50;
     private Icon toolIcon;
     private String toolName;
+    private String shortcut;
 
     /**
      * Creates a new button with the specified icon and tool name.
@@ -17,8 +18,9 @@ public class ButtonIcon extends JButton {
      * @param iconPath Path to the icon image file
      * @param toolName Name of the tool
      */
-    public ButtonIcon(String iconPath, String toolName) {
+    public ButtonIcon(String iconPath, String toolName, String shortcut) {
         this.toolName = toolName;
+        this.shortcut = shortcut;
 
         setLayout(new BorderLayout());
         setOpaque(false);
@@ -30,7 +32,7 @@ public class ButtonIcon extends JButton {
         Image scaledImage = icon.getImage().getScaledInstance(ICON_SIZE, ICON_SIZE, Image.SCALE_SMOOTH);
         setIcon(new ImageIcon(scaledImage));
 
-        setText(toolName);
+        setText(toolName + " (" + shortcut + ")");
         setHorizontalTextPosition(SwingConstants.CENTER);
         setVerticalTextPosition(SwingConstants.BOTTOM);
     }
