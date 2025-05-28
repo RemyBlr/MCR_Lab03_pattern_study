@@ -3,6 +3,7 @@ package window;
 import command.CommandManager;
 import command.CreateWallCommand;
 import game.Game;
+import game.Position;
 import game.Wall;
 import game.enemies.Enemy;
 import game.enemies.EnemyManager;
@@ -24,6 +25,9 @@ import java.util.List;
 public class DrawingCanvas extends JPanel {
     private static final int CASTLE_WIDTH = 170;
     private static final int CASTLE_HEIGHT = 170;
+
+    private static final Position castlePos = new Position(0, 0);
+
     private static int DEFENSE_RADIUS = 200;
     private static final int CASTLE_RADIUS = CASTLE_WIDTH / 2;
     private Image castleImage;
@@ -34,7 +38,6 @@ public class DrawingCanvas extends JPanel {
     private final List<Wall> walls = new ArrayList<>();
     private Tool currentTool;
 
-    private Path2D enemyPath;
     private Path2D currentPath;
 
 
@@ -97,9 +100,9 @@ public class DrawingCanvas extends JPanel {
                 CASTLE_RADIUS * 2, CASTLE_RADIUS * 2);
 
         // Castle
-        int imgX = centerX - CASTLE_WIDTH / 2;
-        int imgY = centerY - CASTLE_HEIGHT / 2;
-        g2d.drawImage(castleImage, imgX, imgY, this);
+        castlePos.setX(centerX - CASTLE_WIDTH / 2);
+        castlePos.setY(centerY - CASTLE_HEIGHT / 2);
+        g2d.drawImage(castleImage, (int)castlePos.getX(), (int)castlePos.getY(), this);
 
         // Draw walls that are already drawn
         for (Wall w : walls) {

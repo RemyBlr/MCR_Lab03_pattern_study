@@ -69,7 +69,5 @@ public class StatusBar extends JPanel {
         // Update the 3 jlabels using the game
         inkLabel.setText("Encre: " + game.getInk());
         timeLabel.setText("Temps : " + game.getTimeElapsed());
-
-
     }
 }

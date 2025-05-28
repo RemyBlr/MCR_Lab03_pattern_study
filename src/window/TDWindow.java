@@ -49,6 +49,7 @@ public class TDWindow {
         Timer timer = new Timer(20, (e) -> {
             game.tick();
             statusBar.update();
+            drawingCanvas.update(); // Update enemy positions
         });
 
         timer.start();
