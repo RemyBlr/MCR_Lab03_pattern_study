@@ -77,7 +77,6 @@ public class Game {
      */
     public void addWall(Wall wall) {
         walls.add(wall);
-        ink -= wall.getCost();
     }
 
     /**
@@ -86,7 +85,6 @@ public class Game {
      */
     public void removeWall(Wall wall) {
         walls.remove(wall);
-        ink += wall.getCost() / 2; // TODO faire mieux qu'un chiffre arbitraire
     }
 
     /**
