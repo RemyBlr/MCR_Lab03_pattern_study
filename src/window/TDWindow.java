@@ -1,7 +1,6 @@
 package window;
 
-import command.CommandManager;
-import command.ToolSelectionCommand;
+import command.*;
 import game.Game;
 import tools.ToolOption;
 import window.DrawingCanvas;
@@ -118,6 +117,50 @@ public class TDWindow {
                     commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED_PEN));
             }
         });
+
+        // ctrl + 1 -> refill ink
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK), "shop.refillInk");
+        actionMap.put("shop.refillInk", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new RefillInkCommand(Game.getInstance(), ShopPanel.REFILL_INK_PRICE));
+            }
+        });
+
+        // ctrl + 2 -> add ink
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, KeyEvent.CTRL_DOWN_MASK), "shop.addInk");
+        actionMap.put("shop.addInk", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new AddInkCapacityCommand(Game.getInstance(), ShopPanel.ADD_INK_PRICE));
+            }
+        });
+
+        // ctrl + 3 -> add hp
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_DOWN_MASK), "shop.addHp");
+        actionMap.put("shop.addHp", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new AddHpCommand(Game.getInstance(), ShopPanel.ADD_PV_PRICE));
+            }
+        });
+
+        // ctrl + 4 -> add zone
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_DOWN_MASK), "shop.addZone");
+        actionMap.put("shop.addZone", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), drawingCanvas, ShopPanel.ADD_ZONE_PRICE));
+            }
+        });
+
+        // ctrl + 5 -> mystery item
+
+        // ctrl + z -> undo
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), "util.undo");
+        actionMap.put("util.undo", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.undo();
+                drawingCanvas.updateWalls();
+            }
+        });
     }
 
     /**
@@ -137,10 +180,10 @@ public class TDWindow {
      *
      * @return JPanel
      */
-    private JPanel createShopMenu() {
-        shopPanel = new ShopPanel(15);
+    /*private JPanel createShopMenu() {
+        shopPanel = new ShopPanel(game.Game.getInstance(), drawingCanvas, commandManager);
         return shopPanel;
-    }
+    }*/
 
     /**
      * Create the toolbar with different buttons.
@@ -184,7 +227,7 @@ public class TDWindow {
         JPanel drawingZone = createCanvas();
         JToolBar toolBar = createToolBar();
         JPanel statusBar = createStatusBar();
-        JPanel shopPanel = createShopMenu();
+        JPanel shopPanel = new ShopPanel(game.Game.getInstance(), drawingCanvas, commandManager);
 
         JPanel canvasPanel = new JPanel(new BorderLayout());
         canvasPanel.add(toolBar, BorderLayout.NORTH);

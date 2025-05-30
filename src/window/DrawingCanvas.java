@@ -217,7 +217,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener {
      * Finishes the current path and adds it to the list of walls.
      * Used by the PenTool to finalize the wall on mouse release.
      */
-    public void finishPath() {
+    public void updateWalls() {
         currentPath = null;
         walls.clear();
         walls.addAll(Game.getInstance().getWalls());
@@ -284,6 +284,11 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener {
             }
             default -> throw new IllegalArgumentException("Unknown tool: " + toolName);
         }
+    }
+
+    public void increaseDefenseRadius(int amount) {
+        DEFENSE_RADIUS += amount;
+        repaint();
     }
 
 }
