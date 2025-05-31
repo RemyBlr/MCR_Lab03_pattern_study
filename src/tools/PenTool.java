@@ -75,7 +75,7 @@ public class PenTool implements Tool {
             );
             commandManager.executeCommand(cmd);
         }
-        canvas.finishPath();
+        canvas.updateWalls();
         currentPath = null;
     }
 }

@@ -15,6 +15,7 @@ public class Game {
     private static Game instance;
 
     private int ink;
+    private int maxInk;
     private int baseHp;
     private int gold;
     private int waveCount = 0;
@@ -33,6 +34,7 @@ public class Game {
      */
     private Game(int ink, int baseHp, int gold) {
         this.ink = ink;
+        this.maxInk = ink;
         this.baseHp = baseHp;
         this.gold = gold;
         enemyManager = new EnemyManager();
@@ -81,7 +83,6 @@ public class Game {
      */
     public void addWall(Wall wall) {
         walls.add(wall);
-        ink -= wall.getCost();
     }
 
     /**
@@ -90,7 +91,6 @@ public class Game {
      */
     public void removeWall(Wall wall) {
         walls.remove(wall);
-        ink += wall.getCost() / 2; // TODO faire mieux qu'un chiffre arbitraire
     }
 
     /**
@@ -124,7 +124,7 @@ public class Game {
      */
     public static Game getInstance() {
         if(instance == null)
-            instance = new Game(500, 100, 0);
+            instance = new Game(500, 100, 1000);
         return instance;
     }
 
@@ -147,4 +147,15 @@ public class Game {
         }
         return waveNumber;
     }
+
+    public int getMaxInk() { return maxInk; }
+
+    public void refillInk() { ink = maxInk; }
+
+    public void increaseMaxInk(int amount) {
+        maxInk += amount;
+        ink += amount;
+    }
+
+    public void addBaseHp(int amount) { baseHp += amount; }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class ToolManager {
     private static final ToolManager instance = new ToolManager();
 
-    private ToolOption currentTool = ToolOption.PEN;
+    private ToolOption currentTool = ToolOption.BLACK_PEN;
     private final List<ToolChangeListener> listeners = new ArrayList<>();
 
     private ToolManager() {}

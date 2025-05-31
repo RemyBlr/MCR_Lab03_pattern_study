@@ -19,16 +19,14 @@ public class ShopButton extends JPanel {
      *
      * @param text Button text
      * @param price Item price
-     * @param bgColor Background color
      */
-    public ShopButton(String text, int price, Color bgColor) {
+    public ShopButton(String text, int price) {
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
         setOpaque(false);
 
         // Create button
         button = new JButton(text);
-        button.setBackground(bgColor);
         button.setFocusPainted(false);
         add(button, BorderLayout.WEST);
 
