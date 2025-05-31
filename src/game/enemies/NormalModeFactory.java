@@ -2,6 +2,7 @@ package game.enemies;
 
 import java.awt.geom.Path2D;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class NormalModeFactory extends EnemyFactory {
     private final int NB_ENEMIES = 25;
@@ -10,8 +11,10 @@ public class NormalModeFactory extends EnemyFactory {
     public LinkedList<Enemy> createEnemies() {
         LinkedList<Enemy> enemies = new LinkedList<>();
         for(int i = 0; i < NB_ENEMIES; i++) {
-            double speed = 1 * (0.8 + Math.random() * 0.4); // enemies speed between 0.8 and 1.2
-            enemies.add(new Seagull(speed));
+            if (new Random().nextInt(100) % 3 == 0)
+                enemies.add(new Seagull());
+            else
+                enemies.add(new Quaz());
         }
 
         return enemies;

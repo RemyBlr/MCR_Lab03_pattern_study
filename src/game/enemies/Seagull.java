@@ -1,39 +1,34 @@
 package game.enemies;
 
-import game.Position;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 public class Seagull extends Enemy {
-    private static final Color SEAGULL_COLOR = new Color(200, 200, 200); // Light gray
+    private static final Color COLOR = new Color(220, 220, 220); // Light gray color
+    private static final double SEAGULL_SPEED = 3.0; // Seagulls are relatively fast
 
-    public Seagull(double speed) {
-        super(speed);
+    public Seagull() {
+        super(SEAGULL_SPEED);
     }
 
     @Override
     public void draw(Graphics2D g2d) {
-        // Save the current transform
-        AffineTransform oldTransform = g2d.getTransform();
+        int size = getSize();
+        int x = (int) pos.getX();
+        int y = (int) pos.getY();
 
-        // Calculate angle towards castle for rotation
-        double dx = castlePosition.getX() - pos.getX();
-        double dy = castlePosition.getY() - pos.getY();
-        double angle = Math.atan2(dy, dx);
+        // Draw the main body
+        g2d.setColor(COLOR);
+        g2d.fillOval(x - size/2, y - size/2, size, size);
 
-        // Translate to seagull position and rotate
-        g2d.translate(pos.getX(), pos.getY());
-        g2d.rotate(angle);
+        // Draw wings
+        int wingWidth = size * 2;
+        int wingHeight = size/2;
+        g2d.fillArc(x - wingWidth/2, y - wingHeight/2, wingWidth, wingHeight, 0, 180);
 
-        // Draw seagull
-        g2d.setColor(SEAGULL_COLOR);
-        g2d.fillOval(-10, -10, 20, 20);
-        g2d.setColor(Color.WHITE);
-        g2d.fillArc(-15, -5, 30, 10, 0, 180); // Wings
-        g2d.setColor(Color.BLACK);
-        g2d.drawOval(-10, -10, 20, 20);
-
-        // Restore the original transform
-        g2d.setTransform(oldTransform);
+        // Draw beak
+        g2d.setColor(Color.ORANGE);
+        int[] xPoints = {x + size/2, x + size/2 + size/4, x + size/2};
+        int[] yPoints = {y - size/4, y, y + size/4};
+        g2d.fillPolygon(xPoints, yPoints, 3);
     }
 }

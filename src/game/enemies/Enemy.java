@@ -2,13 +2,17 @@
 package game.enemies;
 
 import game.Position;
+import window.DrawingCanvas;
+import window.TDWindow;
+
 import java.awt.*;
 
-public class Enemy {
+public abstract class Enemy {
     protected Position pos;
     private final double speed;
     private int reward = 10; // Gold reward
     private static final int SIZE = 20;
+    Position director; // Vector director towards castle
 
     public Enemy(double speed) {
         this.speed = speed;
@@ -19,31 +23,29 @@ public class Enemy {
     private Position initializeStartingPos() {
         double randomAngle = Math.random() * 2 * Math.PI;
         double radius = 800; // Spawn radius around the castle
-        double randomX = castlePosition.getX() + radius * Math.cos(randomAngle); // castlePosition needed
-        double randomY = castlePosition.getY() + radius * Math.sin(randomAngle);
-        return new Position(randomX, randomY);
-    }
+        double randomX = TDWindow.getCastlePos().getX() + radius * Math.cos(randomAngle);
+        double randomY = TDWindow.getCastlePos().getY() + radius * Math.sin(randomAngle);
 
-    public void update() {
         // Calculate direction vector toward castle
-        double dx = castlePosition.getX() - pos.getX();
-        double dy = castlePosition.getY() - pos.getY();
-
-        // Normalize the direction vector
-        double distance = Math.sqrt(dx * dx + dy * dy);
+        double dx = TDWindow.getCastlePos().getX() - randomX;
+        double dy = TDWindow.getCastlePos().getY() - randomY;
+        double distance = Math.sqrt(dx * dx + dy * dy); // Normalize
         if (distance > 0) {
             dx = dx / distance * speed;
             dy = dy / distance * speed;
         }
+        director = new Position(dx, dy);
 
-        pos.setX(pos.getX() + dx);
-        pos.setY(pos.getY() + dy);
+        return new Position(randomX, randomY);
     }
 
-    public void draw(Graphics2D g2d) {
-        g2d.setColor(Color.RED);
-        g2d.fillOval((int) pos.getX() - SIZE / 2, (int) pos.getY() - SIZE / 2, SIZE, SIZE);
+    // For now just move towards the castle
+    public void update() {
+        pos.setX(pos.getX() + director.getX());
+        pos.setY(pos.getY() + director.getY());
     }
+
+    public abstract void draw(Graphics2D g2d);
 
     public Position getPos() {
         return pos;

@@ -4,14 +4,15 @@ import game.Game;
 import java.util.*;
 
 public class EnemyManager {
-    private LinkedList<Enemy> waitingEnemies;       // File d'attente des ennemis de la vague généré
-    private List<Enemy> activeEnemies;              // Ennemis actuellement sur le terrain
     private EnemyFactory enemyFactory;
+    private LinkedList<Enemy> waitingEnemies;       // File d'attente des ennemis de la vague généré par la factory
+    private List<Enemy> activeEnemies;              // Ennemis actuellement sur le terrain
 
     private long lastSpawnTime;
     private static final long MIN_SPAWN_INTERVAL = 2000; // Attendre au moins 2s entre chaque spawn'
 
     public EnemyManager() {
+        this.enemyFactory = new PeacefullModeFactory();
         this.waitingEnemies = new LinkedList<>();
         this.activeEnemies = new ArrayList<>();
         this.lastSpawnTime = System.currentTimeMillis();
@@ -20,18 +21,19 @@ public class EnemyManager {
     public void update() {
         Game game = Game.getInstance();
 
-        // New waves
+        // Create a new wave
         if (waitingEnemies.isEmpty() && activeEnemies.isEmpty() && !game.isPausedGame()) {
             if (game.getWaveCount() > 0) {
                 initializeNewWave();
             }
         }
 
-        // Spawn existing enemies
+        // Spawn existing enemies if any
         long currentTime = System.currentTimeMillis();
         if (!waitingEnemies.isEmpty() && currentTime - lastSpawnTime >= MIN_SPAWN_INTERVAL) {
             Enemy enemy = waitingEnemies.removeFirst();
             activeEnemies.add(enemy);
+
             lastSpawnTime = currentTime;
         }
 

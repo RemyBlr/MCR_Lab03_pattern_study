@@ -9,7 +9,7 @@ public class PeacefullModeFactory extends EnemyFactory {
     public LinkedList<Enemy> createEnemies() {
         LinkedList<Enemy> enemies = new LinkedList<>();
         for(int i = 0; i < NB_ENEMIES; i++) {
-            enemies.add(new Seagull(1));
+            enemies.add(new Quaz());
         }
 
         return enemies;
