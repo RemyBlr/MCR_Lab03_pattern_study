@@ -22,7 +22,7 @@ public abstract class Enemy {
     // Gives the ennemy a random position around the castle
     private Position initializeStartingPos() {
         double randomAngle = Math.random() * 2 * Math.PI;
-        double radius = 800; // Spawn radius around the castle
+        double radius = 700; // Spawn radius around the castle
 
         // Get castle center position instead of top-left
         Position castleCenter = new Position(

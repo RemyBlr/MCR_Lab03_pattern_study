@@ -264,4 +264,6 @@ public class TDWindow {
     public static int getCastleWidth() { return DrawingCanvas.getCastleWidth(); }
 
     public static int getCastleHeight() { return DrawingCanvas.getCastleHeight(); }
+
+    public static int getCastleRadius() { return DrawingCanvas.getCastleRadius(); }
 }

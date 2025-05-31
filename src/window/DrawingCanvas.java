@@ -272,6 +272,11 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener {
         return CASTLE_HEIGHT;
     }
 
+    // ugly static for now
+    public static int getCastleRadius() {
+        return CASTLE_RADIUS;
+    }
+
     /**
      * Called by the ToolManager when the tool changes.
      * @param toolName the name of the tool to set

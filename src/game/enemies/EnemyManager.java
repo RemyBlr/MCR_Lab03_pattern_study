@@ -1,7 +1,13 @@
 package game.enemies;
 
 import game.Game;
+import game.Position;
+import game.Wall;
+import window.TDWindow;
+
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class EnemyManager {
     private EnemyFactory enemyFactory;
@@ -37,25 +43,75 @@ public class EnemyManager {
             lastSpawnTime = currentTime;
         }
 
-        // Mise à jour des ennemis actifs
+
+        // Update active enemies and check for collisions
         if(!activeEnemies.isEmpty()) {
-            for (Enemy enemy : activeEnemies) {
-                enemy.update();
+            Iterator<Enemy> iterator = activeEnemies.iterator();
+            while(iterator.hasNext()) {
+                Enemy enemy = iterator.next();
+                Position nextPos = new Position(
+                        enemy.getPos().getX() + enemy.director.getX(),
+                        enemy.getPos().getY() + enemy.director.getY()
+                );
+
+                // Check if the next position would hit a wall
+                Wall hitWall = hitWall(enemy);
+                if (hitWall != null) {
+                    // Remove both the wall and the enemy
+                    Game.getInstance().removeWall(hitWall);
+                    iterator.remove();
+                    continue;
+                }
+
+                enemy.update(); // Move the enemy if no wall collision
+
+                if (isAtCastle(enemy.getPos())) {
+                    game.setDamageToBase(1);  // Adjust damage as needed
+                    game.setGold(enemy.getReward());
+                    iterator.remove();
+                }
             }
         }
     }
 
-//    private boolean isAtCastle(Position pos) {
-//        // Implement castle collision detection
-//        // This is a simple example - adjust the values based on your castle size
-//        double castleX = 400; // Should match castle center X
-//        double castleY = 300; // Should match castle center Y
-//        double distance = Math.sqrt(
-//                Math.pow(pos.getX() - castleX, 2) +
-//                        Math.pow(pos.getY() - castleY, 2)
-//        );
-//        return distance < 50; // Adjust radius as needed
-//    }
+    // Not sure if this work yet
+    private Wall hitWall(Enemy enemy) {
+        for(Wall wall : Game.getInstance().getWalls()) {
+            BasicStroke stroke = new BasicStroke(
+                    wall.getWidth(),
+                    BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND
+            );
+
+            Shape wallShape = stroke.createStrokedShape(wall.getPath());
+
+            // Create a bounding box for the enemy at the given position
+            Rectangle enemyBounds = new Rectangle(
+                    (int)(enemy.getPos().getX() - enemy.getSize()/2),
+                    (int)(enemy.getPos().getY() - enemy.getSize()/2),
+                    enemy.getSize(),
+                    enemy.getSize()
+            );
+
+            // Check if the enemy's bounds intersect with the wall
+            if (wallShape.intersects(enemyBounds)) {
+                return wall;
+            }
+        }
+        return null;
+    }
+
+    private boolean isAtCastle(Position pos) {
+        Position castlePos = TDWindow.getCastlePos();
+        double castleX = castlePos.getX() + TDWindow.getCastleWidth()/2;
+        double castleY = castlePos.getY() + TDWindow.getCastleHeight()/2;
+
+        double distance = Math.sqrt(
+                Math.pow(pos.getX() - castleX, 2) +
+                        Math.pow(pos.getY() - castleY, 2)
+        );
+        return distance < TDWindow.getCastleRadius();
+    }
 
     private void initializeNewWave() {
         Game.getInstance().nextWave();
@@ -63,6 +119,8 @@ public class EnemyManager {
         if (enemyFactory != null) {
             waitingEnemies = enemyFactory.createEnemies();
         }
+
+        System.out.println("New wave initialized.");
     }
 
     public List<Enemy> getActiveEnemies() {
