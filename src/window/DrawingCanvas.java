@@ -259,6 +259,9 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener {
         return strokeWidth;
     }
 
+    // For now the castle pos is always available.
+    public static Position getCastlePos() { return castlePos; }
+
     /**
      * Called by the ToolManager when the tool changes.
      * @param toolName the name of the tool to set

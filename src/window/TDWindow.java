@@ -2,6 +2,7 @@ package window;
 
 import command.*;
 import game.Game;
+import game.Position;
 import tools.ToolOption;
 import window.DrawingCanvas;
 
@@ -255,4 +256,8 @@ public class TDWindow {
     }
 
 
+
+
+    // For now the castle pos is always available from here.
+    public static Position getCastlePos() { return DrawingCanvas.getCastlePos(); }
 }
