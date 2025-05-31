@@ -18,7 +18,6 @@ public class Game {
     private int maxInk;
     private int baseHp;
     private int gold;
-    private int waveCount = 0;
     private List<Wall> walls = new ArrayList<>();
     private static EnemyManager enemyManager;
     private static boolean isPausedGame = false;
@@ -109,9 +108,9 @@ public class Game {
 
     public int getGold() { return gold; }
 
-    public int getWaveCount() { return waveCount; }
+    public int getWaveCount() { return waveNumber; }
 
-    public void nextWave() { this.waveCount++; }
+    public void nextWave() { this.waveNumber++; }
 
     public static boolean isPausedGame() { return isPausedGame; }
 

@@ -262,6 +262,16 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener {
     // For now the castle pos is always available.
     public static Position getCastlePos() { return castlePos; }
 
+    // ugly static for now
+    public static int getCastleWidth() {
+        return CASTLE_WIDTH;
+    }
+
+    // ugly static for now
+    public static int getCastleHeight() {
+        return CASTLE_HEIGHT;
+    }
+
     /**
      * Called by the ToolManager when the tool changes.
      * @param toolName the name of the tool to set
@@ -295,6 +305,8 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener {
     private void drawEnemies(Graphics2D g2d) {
         EnemyManager enemyManager = Game.getInstance().getEnemyManager();
         List<Enemy> enemies = enemyManager.getActiveEnemies();
+        if(enemies.isEmpty()) return;
+
         for (Enemy enemy : enemies) {
             enemy.draw(g2d);
         }

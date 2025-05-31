@@ -23,12 +23,19 @@ public abstract class Enemy {
     private Position initializeStartingPos() {
         double randomAngle = Math.random() * 2 * Math.PI;
         double radius = 800; // Spawn radius around the castle
-        double randomX = TDWindow.getCastlePos().getX() + radius * Math.cos(randomAngle);
-        double randomY = TDWindow.getCastlePos().getY() + radius * Math.sin(randomAngle);
 
-        // Calculate direction vector toward castle
-        double dx = TDWindow.getCastlePos().getX() - randomX;
-        double dy = TDWindow.getCastlePos().getY() - randomY;
+        // Get castle center position instead of top-left
+        Position castleCenter = new Position(
+                TDWindow.getCastlePos().getX() + TDWindow.getCastleWidth()/2,
+                TDWindow.getCastlePos().getY() + TDWindow.getCastleHeight()/2
+        );
+
+        double randomX = castleCenter.getX() + radius * Math.cos(randomAngle);
+        double randomY = castleCenter.getY() + radius * Math.sin(randomAngle);
+
+        // Calculate direction vector toward castle center
+        double dx = (castleCenter.getX() - randomX);
+        double dy = (castleCenter.getY() - randomY);
         double distance = Math.sqrt(dx * dx + dy * dy); // Normalize
         if (distance > 0) {
             dx = dx / distance * speed;

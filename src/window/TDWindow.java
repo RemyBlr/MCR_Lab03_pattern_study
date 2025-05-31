@@ -260,4 +260,8 @@ public class TDWindow {
 
     // For now the castle pos is always available from here.
     public static Position getCastlePos() { return DrawingCanvas.getCastlePos(); }
+
+    public static int getCastleWidth() { return DrawingCanvas.getCastleWidth(); }
+
+    public static int getCastleHeight() { return DrawingCanvas.getCastleHeight(); }
 }
