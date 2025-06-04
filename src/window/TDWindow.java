@@ -2,6 +2,7 @@ package window;
 
 import command.*;
 import game.Game;
+import game.GameObserver;
 import game.Position;
 import tools.ToolOption;
 import window.DrawingCanvas;
@@ -15,8 +16,8 @@ import java.awt.event.KeyEvent;
 public class TDWindow {
     // Get screen size
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private final int width = (int) screenSize.getWidth();
-    private final int height = (int) screenSize.getHeight();
+    private final int width = (int) screenSize.getWidth() - 100;
+    private final int height = (int) screenSize.getHeight() - 100;
 
     private UpperMenu upperMenu;
     private ToolBar toolBar;
@@ -225,6 +226,7 @@ public class TDWindow {
         JPanel shopPanel = new ShopPanel(game.Game.getInstance(), drawingCanvas, commandManager);
         // TODO : why is not stored in TDWIndow anymore ? Why do we recreate this one instead of updating an existing one ?
         // TODO : We could update prices of things, like each extension is more expenseive
+        Game.getInstance().addObserver((GameObserver) shopPanel); // Added as listener, to respect order
 
         JPanel canvasPanel = new JPanel(new BorderLayout());
         canvasPanel.add(toolBar, BorderLayout.NORTH);
@@ -244,14 +246,6 @@ public class TDWindow {
 
         return splitPane;
     }
-
-    // TODO : same comment as in statusBar, could we call update on a refresh rate ?
-    public void updateStatusBar() {
-        statusBar.update();
-    }
-
-
-
 
     // For now the castle pos is always available from here.
     public static Position getCastlePos() { return DrawingCanvas.getCastlePos(); }

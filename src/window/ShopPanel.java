@@ -1,6 +1,7 @@
 package window;
 
 import command.*;
+import game.GameObserver;
 import window.components.GoldCoinIcon;
 import window.components.ItemGrid;
 import window.components.ShopButton;
@@ -14,7 +15,7 @@ import java.awt.*;
  * Custom panel for the shop in Paint Tower Defense.
  * Contains gold display, purchase buttons and item grid.
  */
-public class ShopPanel extends JPanel {
+public class ShopPanel extends JPanel implements GameObserver {
     private final Game game;
     private final DrawingCanvas canvas;
     private final GoldCoinIcon playerGold;
@@ -47,7 +48,7 @@ public class ShopPanel extends JPanel {
         setBackground(new Color(230, 230, 250));
 
         // Add player sold
-        playerGold = new GoldCoinIcon(game.getGold());
+        playerGold = new GoldCoinIcon();
         playerGold.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerGold.setBorder(BorderFactory.createEmptyBorder(20, 50, 50, 50));
         add(playerGold);
@@ -82,22 +83,18 @@ public class ShopPanel extends JPanel {
         // Listeners
         refillInkButton.addActionListener(e -> {
             commandManager.executeCommand(new RefillInkCommand(Game.getInstance(), REFILL_INK_PRICE));
-            refreshUI();
         });
 
         addInkButton.addActionListener(e -> {
             commandManager.executeCommand(new AddInkCapacityCommand(Game.getInstance(), ADD_INK_PRICE));
-            refreshUI();
         });
 
         addPvButton.addActionListener(e -> {
             commandManager.executeCommand(new AddHpCommand(Game.getInstance(), ADD_PV_PRICE));
-            refreshUI();
         });
 
         addZoneButton.addActionListener(e -> {
             commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), canvas, ADD_ZONE_PRICE));
-            refreshUI();
         });
 
 
@@ -118,8 +115,7 @@ public class ShopPanel extends JPanel {
     }
 
     // TODO trouver moyen refresh ui sur shortcut
-    private void refreshUI() {
-        playerGold.updateGoldAmount(game.getGold());
-
+    public void update() {
+        playerGold.update();
     }
 }
