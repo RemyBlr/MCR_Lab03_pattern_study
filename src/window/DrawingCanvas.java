@@ -152,7 +152,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         g2d.drawImage(castleImage, (int)castlePos.getX(), (int)castlePos.getY(), this);
 
         // Draw walls that are already drawn
-        for (Wall w : walls) {
+        for (Wall w : Game.getInstance().getWalls()) {
             g2d.setColor(w.getColor());
             g2d.setStroke(new BasicStroke(
                     w.getWidth(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
