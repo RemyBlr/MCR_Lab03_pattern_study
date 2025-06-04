@@ -25,6 +25,10 @@ public class Game {
     private long startTime = System.nanoTime();
     private int waveNumber;
 
+    private List<GameObserver> observers = new ArrayList<>();
+
+    private GameState gameState;
+
     /**
      * Constructor for the game.Game class.
      *
@@ -38,6 +42,8 @@ public class Game {
         this.gold = gold;
         enemyManager = new EnemyManager();
         this.waveNumber = 1;
+
+        this.gameState = new GameState();
     }
 
     /**
@@ -130,6 +136,7 @@ public class Game {
     public void tick(){
         timeElapsed = System.nanoTime() - startTime;
         enemyManager.update();
+        notifyObservers();
     }
 
     public long getTimeElapsed() { return timeElapsed; }
@@ -157,4 +164,21 @@ public class Game {
     }
 
     public void addBaseHp(int amount) { baseHp += amount; }
+
+    public void addObserver(GameObserver observer) {
+        if (observers.contains(observer)) {
+            return;
+        }
+        observers.add(observer);
+    }
+
+    public void removeObserver(GameObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (GameObserver observer : observers) {
+            observer.update(); // will pass a state later I think
+        }
+    }
 }

@@ -50,11 +50,11 @@ public class TDWindow {
         // Show window
         frame.setVisible(true);
 
+        game.addObserver(statusBar);
+        game.addObserver(drawingCanvas);
+
         Timer timer = new Timer(20, (e) -> {
             game.tick();
-            statusBar.update();
-            drawingCanvas.update(); // Update enemy positions
-
             int currentWave = game.getWaveNumber();
             toolBar.unlockColor(currentWave);
         });

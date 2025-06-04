@@ -2,6 +2,7 @@ package window;
 
 import command.CommandManager;
 import game.Game;
+import game.GameObserver;
 import game.Position;
 import game.Wall;
 import game.enemies.Enemy;
@@ -19,7 +20,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawingCanvas extends JPanel implements ToolChangeListener {
+public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObserver {
     // Castle
     private static final int CASTLE_WIDTH = 170;
     private static final int CASTLE_HEIGHT = 170;

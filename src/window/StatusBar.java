@@ -1,6 +1,7 @@
 package window;
 
 import game.Game;
+import game.GameObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.awt.event.ActionListener;
  * Classe représentant la barre d'état de l'application Paint Tower Defense.
  * Affiche le niveau d'encre, la vague actuelle et le temps écoulé.
  */
-public class StatusBar extends JPanel {
+public class StatusBar extends JPanel implements GameObserver {
 
     private JLabel inkLabel;
     private JLabel waveLabel;
