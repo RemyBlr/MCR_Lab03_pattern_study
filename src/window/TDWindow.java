@@ -17,7 +17,6 @@ public class TDWindow {
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int width = (int) screenSize.getWidth();
     private final int height = (int) screenSize.getHeight();
-    private static final int COIN_SIZE = 50;
 
     private UpperMenu upperMenu;
     private ToolBar toolBar;
@@ -167,11 +166,9 @@ public class TDWindow {
 
     /**
      * Create the upper menu with "Option" and "Help" menus.
-     *
      * @return JMenuBar
      */
     private JMenuBar createUpperMenu() {
-
         upperMenu = new UpperMenu();
         return upperMenu;
     }
@@ -190,7 +187,6 @@ public class TDWindow {
     /**
      * Create the toolbar with different buttons.
      * For example: Pen, Select, Colors...
-     *
      * @return JToolBar
      */
     private JToolBar createToolBar() {
@@ -201,7 +197,6 @@ public class TDWindow {
 
     /**
      * Create the drawing canvas with a castle image and a red circle.
-     *
      * @return JPanel
      */
     private JPanel createCanvas() {
@@ -211,7 +206,6 @@ public class TDWindow {
 
     /**
      * Create the status bar at the bottom of the canvas.
-     *
      * @return JPanel
      */
     private JPanel createStatusBar() {
@@ -221,7 +215,6 @@ public class TDWindow {
 
     /**
      * Create the main split pane with the canvas and the shop.
-     *
      * @return JSplitPane
      */
     private JSplitPane getJSplitPane() {
@@ -230,6 +223,8 @@ public class TDWindow {
         JToolBar toolBar = createToolBar();
         JPanel statusBar = createStatusBar();
         JPanel shopPanel = new ShopPanel(game.Game.getInstance(), drawingCanvas, commandManager);
+        // TODO : why is not stored in TDWIndow anymore ? Why do we recreate this one instead of updating an existing one ?
+        // TODO : We could update prices of things, like each extension is more expenseive
 
         JPanel canvasPanel = new JPanel(new BorderLayout());
         canvasPanel.add(toolBar, BorderLayout.NORTH);

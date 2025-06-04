@@ -1,12 +1,9 @@
 package game;
 
-import game.enemies.Enemy;
 import game.enemies.EnemyManager;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Centralizes the game logic and manages the game state.
@@ -27,6 +24,7 @@ public class Game {
 
     private List<GameObserver> observers = new ArrayList<>();
 
+    // TODO : use a state instead
     private GameState gameState;
 
     /**
@@ -46,6 +44,81 @@ public class Game {
         this.gameState = new GameState();
     }
 
+
+    public void tick(){
+        timeElapsed = System.nanoTime() - startTime;
+        enemyManager.update();
+        notifyObservers();
+    }
+
+    // TODO ajouter les futures classes
+
+    /**
+     * Sets the new base health points.
+     * Math.max is used to ensure that the base health points do not go below 0.
+     *
+     * @param amount the amount of health that the base will lose
+     */
+    public void setDamageToBase(int amount) { baseHp = Math.max(0, baseHp - amount); }
+
+    public long getTimeElapsed() { return timeElapsed; }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+
+    public void addBaseHp(int amount) { baseHp += amount; }
+
+    //region Gold
+    /**
+     * Return the amount of gold available
+     * @return int
+     */
+    public int getGold() { return gold; }
+
+    /**
+     * Sets the new gold amount.
+     *
+     * @param amount the amount of gold to change
+     */
+    public void setGold(int amount) { gold = gold + amount; }
+
+    /**
+     * @param amount the amount of gold that will be used
+     * @return true if there is enough ink to use
+     */
+    public boolean canUseGold(int amount) {return gold >= amount;}
+    //endregion
+
+    //region Wave management
+    /**
+     * Get the number of current wave
+     * @return int WaveNumber
+     */
+    public int getWaveCount() { return waveNumber; }
+
+    /**
+     * Go to the next wave
+     */
+    public void nextWave() { this.waveNumber++; }
+
+    public int getWaveNumber() {
+        long elapsedSeconds = timeElapsed / 1_000_000_000L;
+        // Every 60 seconds, increase the wave number
+        if (elapsedSeconds / 60 > waveNumber - 1) {
+            waveNumber++;
+        }
+        return waveNumber;
+    }
+    //endregion
+
+    //region Ink Management
+    /**
+     * Returns the amount of ink left
+     * @return int amount
+     */
+    public int getInk() { return ink; }
+
     /**
      * Sets the new ink amount.
      *
@@ -56,32 +129,33 @@ public class Game {
     }
 
     /**
-     * Sets the new gold amount.
-     *
-     * @param amount the amount of gold to change
-     */
-    public void setGold(int amount) { gold = gold + amount; }
-
-    /**
-     * Sets the new base health points.
-     * Math.max is used to ensure that the base health points do not go below 0.
-     *
-     * @param amount the amount of health that the base will lose
-     */
-    public void setDamageToBase(int amount) { baseHp = Math.max(0, baseHp - amount); }
-
-    /**
      * @param amount the amount of ink that will be used
      * @return true if there is enough ink to use
      */
     public boolean canUseInk(int amount) {return ink >= amount;}
 
     /**
-     * @param amount the amount of gold that will be used
-     * @return true if there is enough ink to use
+     * Increase how much ink you can store
+     * @param amount int
      */
-    public boolean canUseGold(int amount) {return gold >= amount;}
+    public void increaseMaxInk(int amount) {
+        maxInk += amount;
+        ink += amount;
+    }
 
+    /**
+     * Get the maximum amount of int
+     * @return int max int amount
+     */
+    public int getMaxInk() { return maxInk; }
+
+    /**
+     * Refill ink up to max ink
+     */
+    public void refillInk() { ink = maxInk; }
+    //endregion
+
+    //region Wall Management
     /**
      * Adds a wall to the list of walls.
      * @param wall the wall to add
@@ -102,69 +176,19 @@ public class Game {
      * @return A list of all the walls
      */
     public List<Wall> getWalls() { return walls; }
+    //endregion
 
-    // TODO ajouter les futures classes
-
-
-    /**
-     * Returns the amount of ink left
-     * @return int amount
-     */
-    public int getInk() { return ink; }
-
-    public int getGold() { return gold; }
-
-    public int getWaveCount() { return waveNumber; }
-
-    public void nextWave() { this.waveNumber++; }
-
+    //region Pause
     public static boolean isPausedGame() { return isPausedGame; }
 
     public static void setPausedGame(boolean pausedGame) { isPausedGame = pausedGame; }
+    //endregion
 
+    //region Observer Management
     /**
-     * Get the singleton instance of TDWindow.
-     *
-     * @return TDWindow instance
+     * Add an observer
+     * @param observer GameObserver
      */
-    public static Game getInstance() {
-        if(instance == null)
-            instance = new Game(500, 100, 1000);
-        return instance;
-    }
-
-    public void tick(){
-        timeElapsed = System.nanoTime() - startTime;
-        enemyManager.update();
-        notifyObservers();
-    }
-
-    public long getTimeElapsed() { return timeElapsed; }
-
-    public EnemyManager getEnemyManager() {
-        return enemyManager;
-    }
-
-    public int getWaveNumber() {
-        long elapsedSeconds = timeElapsed / 1_000_000_000L;
-        // Every 60 seconds, increase the wave number
-        if (elapsedSeconds / 60 > waveNumber - 1) {
-            waveNumber++;
-        }
-        return waveNumber;
-    }
-
-    public int getMaxInk() { return maxInk; }
-
-    public void refillInk() { ink = maxInk; }
-
-    public void increaseMaxInk(int amount) {
-        maxInk += amount;
-        ink += amount;
-    }
-
-    public void addBaseHp(int amount) { baseHp += amount; }
-
     public void addObserver(GameObserver observer) {
         if (observers.contains(observer)) {
             return;
@@ -172,13 +196,35 @@ public class Game {
         observers.add(observer);
     }
 
+    /**
+     * Remove an observer from the list
+     * @param observer GameObserver
+     */
     public void removeObserver(GameObserver observer) {
         observers.remove(observer);
     }
 
+    /**
+     * Notify all observers
+     * Call when changes have been made
+     */
     private void notifyObservers() {
         for (GameObserver observer : observers) {
             observer.update(); // will pass a state later I think
         }
     }
+    //endregion
+
+    //region Singleton
+    /**
+     * Get the singleton instance of Game.
+     * @return Game instance
+     */
+    public static Game getInstance() {
+        if(instance == null)
+            instance = new Game(500, 10, 1000);
+        return instance;
+    }
+
+    //endregion
 }
