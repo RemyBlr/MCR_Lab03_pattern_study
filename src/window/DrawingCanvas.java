@@ -159,6 +159,13 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
             g2d.draw(w.getPath());
         }
 
+        // Live drawing of the wall
+        if (currentPath != null) {
+            g2d.setColor(currentColor);
+            g2d.setStroke(new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g2d.draw(currentPath);
+        }
+
         drawEnemies(g2d);
 
         // Highlight walls that are selected
@@ -284,9 +291,14 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
      */
     @Override
     public void toolChanged(ToolOption toolName) {
+        if (currentTool instanceof GameObserver) {
+            Game.getInstance().removeObserver((GameObserver) currentTool);
+        }
+
         switch (toolName) {
             case ToolOption.SELECT -> {
                 currentTool = new SelectTool(this, commandManager);
+                Game.getInstance().addObserver((GameObserver) currentTool);
             }
             case ToolOption.BLACK_PEN -> {
                 currentColor = Color.BLACK;

@@ -4,6 +4,7 @@ import command.CommandManager;
 import command.CompositeCommand;
 import command.MoveWallCommand;
 import game.Game;
+import game.GameObserver;
 import game.Wall;
 import window.DrawingCanvas;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * SelectTool class implements the Tool interface to handle mouse events for selecting and moving walls.
  * It allows the user to select walls by dragging a rectangle around them and move them together.
  */
-public class SelectTool implements Tool {
+public class SelectTool implements Tool, GameObserver {
     private final DrawingCanvas canvas;
     private final CommandManager commandManager;
 
@@ -55,6 +56,9 @@ public class SelectTool implements Tool {
             isDragging = true;
             // TODO ne change pas le curseur
             canvas.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+            // ensure no residual selection rectangle is kept
+            selectionRectangle = null;
+            canvas.setSelectionRectangle(null);
         } else {
             // new selection rectangle
             isDragging = false;
@@ -73,6 +77,18 @@ public class SelectTool implements Tool {
         Point point = e.getPoint();
 
         if (isDragging) {
+            // if current selected wall is destroyed
+            // cancel drag until mouse is released
+            selectedWalls.removeIf(w -> !Game.getInstance().getWalls().contains(w));
+            if (selectedWalls.isEmpty()) {
+                isDragging = false;
+                hasSelection = false;
+                canvas.setHighlightedWalls(selectedWalls);
+                canvas.setSelectionRectangle(null);
+                canvas.setCursor(Cursor.getDefaultCursor());
+                return;
+            }
+
             // moves selected walls "Live"
             int dx = point.x - last.x;
             int dy = point.y - last.y;
@@ -112,10 +128,12 @@ public class SelectTool implements Tool {
             canvas.repaint();
         } else {
             // updates the selection rectangle
-            // setFrameFromDiagonal sets the diagonal of the framing rectangle of this Shape based on the two
-            // specified coordinates.
-            selectionRectangle.setFrameFromDiagonal(start, point);
-            canvas.setSelectionRectangle(selectionRectangle);
+            if (selectionRectangle != null) {
+                // setFrameFromDiagonal sets the diagonal of the framing rectangle of this Shape based on the two
+                // specified coordinates.
+                selectionRectangle.setFrameFromDiagonal(start, point);
+                canvas.setSelectionRectangle(selectionRectangle);
+            }
         }
     }
 
@@ -124,27 +142,32 @@ public class SelectTool implements Tool {
         Point releasePoint = e.getPoint();
 
         if (isDragging) {
-            // move selected walls to the new position
-            int totalDx = releasePoint.x - start.x;
-            int totalDy = releasePoint.y - start.y;
-            // composite command to move all selected walls
-            CompositeCommand comp = new CompositeCommand();
-            for (Wall wall : selectedWalls) {
-                comp.addCommand(new MoveWallCommand(wall, totalDx, totalDy));
+            // ensure dragged wall still exists
+            selectedWalls.removeIf(w -> !Game.getInstance().getWalls().contains(w));
+            if (!selectedWalls.isEmpty()) {
+                // move selected walls to the new position
+                int totalDx = releasePoint.x - start.x;
+                int totalDy = releasePoint.y - start.y;
+                // composite command to move all selected walls
+                CompositeCommand comp = new CompositeCommand();
+                for (Wall wall : selectedWalls)
+                    comp.addCommand(new MoveWallCommand(wall, totalDx, totalDy));
+                // push command to history without executing it
+                commandManager.recordCommand(comp);  // undoable
             }
-            // push command to history without executing it
-            commandManager.recordCommand(comp);  // undoable
         } else {
-            // finalize the selection rectangle
-            selectedWalls.clear();
-            for (Wall wall : Game.getInstance().getWalls()) {
-                if (selectionRectangle.intersects(wall.getBounds())) {
-                    selectedWalls.add(wall);
+            if (selectionRectangle != null) {
+                // finalize the selection rectangle
+                selectedWalls.clear();
+                for (Wall wall : Game.getInstance().getWalls()) {
+                    if (selectionRectangle.intersects(wall.getBounds())) {
+                        selectedWalls.add(wall);
+                    }
                 }
+                // update the selection state
+                hasSelection = !selectedWalls.isEmpty();
+                canvas.setHighlightedWalls(selectedWalls);
             }
-            // update the selection state
-            hasSelection = !selectedWalls.isEmpty();
-            canvas.setHighlightedWalls(selectedWalls);
         }
 
         isDragging = false;
@@ -152,5 +175,18 @@ public class SelectTool implements Tool {
         // TODO ne change pas le curseur
         canvas.setCursor(Cursor.getDefaultCursor());
         canvas.repaint();
+    }
+
+    @Override
+    public void update() {
+        List<Wall> currentWalls = Game.getInstance().getWalls();
+        if (selectedWalls.removeIf(w -> !currentWalls.contains(w))) {
+            hasSelection = !selectedWalls.isEmpty();
+            if (!hasSelection) {
+                isDragging = false;
+                canvas.setSelectionRectangle(null);
+            }
+            canvas.setHighlightedWalls(selectedWalls);
+        }
     }
 }
