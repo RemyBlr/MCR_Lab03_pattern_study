@@ -27,9 +27,9 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
 
     private static final Position castlePos = new Position(0, 0);
 
-    private static int DEFENSE_RADIUS = 200;
     private static final int CASTLE_RADIUS = CASTLE_WIDTH / 2;
     private Image castleImage;
+    private int defenseRadius;
 
     // Commands
     private CommandManager commandManager;
@@ -62,6 +62,8 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
 
         ImageIcon castleIcon = new ImageIcon("./img/castle.png");
         castleImage = castleIcon.getImage().getScaledInstance(CASTLE_WIDTH, CASTLE_HEIGHT, Image.SCALE_SMOOTH);
+
+        defenseRadius = Game.getInstance().getDefenseRadius();
 
         setBackground(Color.WHITE);
 
@@ -140,7 +142,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         // red zone
         Color transparentRed = new Color(255, 0, 0, 27);
         g2d.setColor(transparentRed);
-        g2d.fillOval(centerX - DEFENSE_RADIUS, centerY - DEFENSE_RADIUS, DEFENSE_RADIUS * 2, DEFENSE_RADIUS * 2);
+        g2d.fillOval(centerX - defenseRadius, centerY - defenseRadius, defenseRadius * 2, defenseRadius * 2);
         // inner cercle
         g2d.setColor(Color.WHITE);
         g2d.fillOval(centerX - CASTLE_RADIUS, centerY - CASTLE_RADIUS,
@@ -245,12 +247,12 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
 
-        int dx = x - centerX;
-        int dy = y - centerY;
+        Position center = new Position(centerX, centerY);
+        Position point = new Position(x, y);
 
-        double distance = dx*dx + dy*dy;
+        double distance = point.distanceTo(center);
 
-        return distance <= DEFENSE_RADIUS * DEFENSE_RADIUS && distance >= CASTLE_RADIUS  * CASTLE_RADIUS;
+        return distance <= defenseRadius && distance >= CASTLE_RADIUS;
     }
 
     /**
@@ -331,11 +333,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
     }
 
     public void update(){
-        repaint();
-    }
-
-    public void increaseDefenseRadius(int amount) {
-        DEFENSE_RADIUS += amount;
+        defenseRadius = Game.getInstance().getDefenseRadius();
         repaint();
     }
 }

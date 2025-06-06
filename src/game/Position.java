@@ -32,9 +32,9 @@ public class Position {
         this.y = newY;
     }
 
-//    public double distanceTo(Position other) {
-//        double dx = this.x - other.x;
-//        double dy = this.y - other.y;
-//        return Math.sqrt(dx * dx + dy * dy);
-//    }
+    public double distanceTo(Position other) {
+        double dx = this.x - other.x;
+        double dy = this.y - other.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 }

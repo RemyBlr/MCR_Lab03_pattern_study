@@ -1,7 +1,5 @@
 package game.enemies;
 
-import game.Position;
-
 import java.util.LinkedList;
 import java.util.Random;
 

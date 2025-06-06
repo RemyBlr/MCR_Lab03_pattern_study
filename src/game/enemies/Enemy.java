@@ -36,7 +36,8 @@ public abstract class Enemy {
         // Calculate direction vector toward castle center
         double dx = (castleCenter.getX() - randomX);
         double dy = (castleCenter.getY() - randomY);
-        double distance = Math.sqrt(dx * dx + dy * dy); // Normalize
+        //double distance = Math.sqrt(dx * dx + dy * dy); // Normalize
+        double distance = new Position(randomX, randomY).distanceTo(castleCenter);
         if (distance > 0) {
             dx = dx / distance * speed;
             dy = dy / distance * speed;

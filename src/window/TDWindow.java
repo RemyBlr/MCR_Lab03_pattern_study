@@ -148,7 +148,7 @@ public class TDWindow {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_DOWN_MASK), "shop.addZone");
         actionMap.put("shop.addZone", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), drawingCanvas, ShopPanel.ADD_ZONE_PRICE));
+                commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), ShopPanel.ADD_ZONE_PRICE));
             }
         });
 
@@ -223,7 +223,7 @@ public class TDWindow {
         JPanel drawingZone = createCanvas();
         JToolBar toolBar = createToolBar();
         JPanel statusBar = createStatusBar();
-        JPanel shopPanel = new ShopPanel(game.Game.getInstance(), drawingCanvas, commandManager);
+        JPanel shopPanel = new ShopPanel(game.Game.getInstance(), commandManager);
         // TODO : why is not stored in TDWIndow anymore ? Why do we recreate this one instead of updating an existing one ?
         // TODO : We could update prices of things, like each extension is more expenseive
         Game.getInstance().addObserver((GameObserver) shopPanel); // Added as listener, to respect order

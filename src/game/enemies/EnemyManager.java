@@ -103,15 +103,16 @@ public class EnemyManager {
 
     private boolean isAtCastle(Position pos) {
         Position castlePos = TDWindow.getCastlePos();
-        double castleX = castlePos.getX() + TDWindow.getCastleWidth()/2;
+        /*double castleX = castlePos.getX() + TDWindow.getCastleWidth()/2;
         // TODO : We should not call TDWINDOW, Game should have no knowledge of it
         // TODO: SO maybe store the dimension in the Game instance directly, maybe with a function
-        double castleY = castlePos.getY() + TDWindow.getCastleHeight()/2;
-
-        double distance = Math.sqrt(
-                Math.pow(pos.getX() - castleX, 2) +
-                        Math.pow(pos.getY() - castleY, 2)
+        double castleY = castlePos.getY() + TDWindow.getCastleHeight()/2;*/
+        Position castleCenter = new Position(
+                castlePos.getX() + TDWindow.getCastleWidth() / 2,
+                castlePos.getY() + TDWindow.getCastleHeight() / 2
         );
+        double distance = pos.distanceTo(castleCenter);
+
         return distance < TDWindow.getCastleRadius();
     }
 

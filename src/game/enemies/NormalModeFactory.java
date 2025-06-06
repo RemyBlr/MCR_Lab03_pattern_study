@@ -1,6 +1,5 @@
 package game.enemies;
 
-import java.awt.geom.Path2D;
 import java.util.LinkedList;
 import java.util.Random;
 

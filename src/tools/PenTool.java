@@ -8,8 +8,6 @@ import window.DrawingCanvas;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * PenTool class implements the Tool interface to handle mouse events for drawing walls.
@@ -19,7 +17,6 @@ public class PenTool implements Tool {
     private final DrawingCanvas canvas;
     private final CommandManager commandManager;
     private Path2D currentPath;
-    private final List<Wall> walls = new ArrayList<>();
 
     /**
      * Constructor for PenTool.

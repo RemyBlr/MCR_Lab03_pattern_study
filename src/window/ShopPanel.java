@@ -3,7 +3,6 @@ package window;
 import command.*;
 import game.GameObserver;
 import window.components.GoldCoinIcon;
-import window.components.ItemGrid;
 import window.components.ShopButton;
 import game.Game;
 
@@ -17,7 +16,6 @@ import java.awt.*;
  */
 public class ShopPanel extends JPanel implements GameObserver {
     private final Game game;
-    private final DrawingCanvas canvas;
     private final GoldCoinIcon playerGold;
     private final CommandManager commandManager;
 
@@ -27,7 +25,6 @@ public class ShopPanel extends JPanel implements GameObserver {
     private ShopButton addPvButton;
     private ShopButton addZoneButton;
     private ShopButton mysteryButton;
-    //private ItemGrid itemGrid;
 
     // Price constants
     public static final int REFILL_INK_PRICE = 100;
@@ -39,9 +36,8 @@ public class ShopPanel extends JPanel implements GameObserver {
     /**
      * Creates a new shop panel with all components
      */
-    public ShopPanel(Game game, DrawingCanvas canvas, CommandManager commandManager) {
+    public ShopPanel(Game game, CommandManager commandManager) {
         this.game = game;
-        this.canvas = canvas;
         this.commandManager = commandManager;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -94,24 +90,9 @@ public class ShopPanel extends JPanel implements GameObserver {
         });
 
         addZoneButton.addActionListener(e -> {
-            commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), canvas, ADD_ZONE_PRICE));
+            commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), ADD_ZONE_PRICE));
         });
 
-
-        //add(Box.createVerticalStrut(50));
-
-        // Item grid
-        /*itemGrid = new ItemGrid();
-
-        // Center the grid container
-        JPanel gridWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        gridWrapper.setOpaque(false);
-        gridWrapper.add(itemGrid);
-        add(gridWrapper);
-
-        // Add bottom padding
-        add(Box.createVerticalStrut(20));
-        add(Box.createVerticalGlue());*/
     }
 
     // TODO trouver moyen refresh ui sur shortcut

@@ -21,6 +21,7 @@ public class Game {
     private long timeElapsed = 0;
     private long startTime = System.nanoTime();
     private int waveNumber;
+    private int defenseRadius = 200;
 
     private List<GameObserver> observers = new ArrayList<>();
 
@@ -68,6 +69,15 @@ public class Game {
     }
 
     public void addBaseHp(int amount) { baseHp += amount; }
+
+    //region Defense zone
+    public int getDefenseRadius() { return defenseRadius; }
+
+    public void increaseDefenseRadius(int amount) {
+        defenseRadius += amount;
+        notifyObservers();
+    }
+    //endregion
 
     //region Gold
     /**
