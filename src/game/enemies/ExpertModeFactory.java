@@ -3,9 +3,8 @@ package game.enemies;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class HardModeFactory extends EnemyFactory {
-
-    public HardModeFactory() { this.NB_ENEMIES = 25; }
+public class ExpertModeFactory extends EnemyFactory {
+    public ExpertModeFactory() { this.NB_ENEMIES = 30; }
 
     @Override
     public LinkedList<Enemy> createEnemies() {
@@ -14,15 +13,16 @@ public class HardModeFactory extends EnemyFactory {
         java.util.stream.IntStream.range(0, NB_ENEMIES).forEach(i -> {
             Random random = new Random();
             int chance = random.nextInt(100);
-            if (chance < 55) // 55% chance
+            if (chance < 35) // 35% chance
                 enemies.add(new Quazo());
-            else if (chance < 70) // 15% chance
+            else if (chance < 60) // 25% chance
                 enemies.add(new Quaza());
-            else // 30% chance
+            else if (chance < 70) // 10% chance
                 enemies.add(new Quazi());
+            else // 30% chance
+                enemies.add(new Seagull());
         });
 
         return enemies;
     }
 }
-

@@ -68,11 +68,12 @@ public class EnemyManager {
             }
         }
 
-        if(game.getWaveCount() > 2 && waitingEnemies.isEmpty())
-            enemyFactory = new NormalModeFactory();
-
-        if(game.getWaveCount() > 4 && waitingEnemies.isEmpty())
+        if(game.getWaveCount() > 10 && game.getWaveCount() < 999 && waitingEnemies.isEmpty())
+            enemyFactory = new ExpertModeFactory();
+        else if(game.getWaveCount() > 5 && waitingEnemies.isEmpty())
             enemyFactory = new HardModeFactory();
+        else if(game.getWaveCount() > 2 && waitingEnemies.isEmpty())
+            enemyFactory = new NormalModeFactory();
     }
 
     // Not sure if this work yet

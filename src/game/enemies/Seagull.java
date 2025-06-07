@@ -3,11 +3,8 @@ package game.enemies;
 import java.awt.*;
 
 public class Seagull extends Enemy {
-    private static final Color COLOR = new Color(220, 220, 220);
-    private static final double SEAGULL_SPEED = 3.0;
-
     public Seagull() {
-        super(SEAGULL_SPEED);
+        super(3.0, Color.RED, 10);
     }
 
     @Override
@@ -17,7 +14,7 @@ public class Seagull extends Enemy {
         int y = (int) pos.getY();
 
         // Draw the main body
-        g2d.setColor(COLOR);
+        g2d.setColor(getColor());
         g2d.fillOval(x - size/2, y - size/2, size, size);
 
         // Draw wings

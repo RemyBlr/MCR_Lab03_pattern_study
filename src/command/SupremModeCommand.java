@@ -1,7 +1,7 @@
 package command;
 
 import game.Game;
-import game.enemies.SupremModeFactory;
+import game.enemies.SupremHardcoreModeFactory;
 
 public class SupremModeCommand implements Command {
     private final Game game;
@@ -13,6 +13,6 @@ public class SupremModeCommand implements Command {
     @Override
     public void execute() {
         game.setWaveCount(999);
-        game.setMode(new SupremModeFactory());
+        game.setMode(new SupremHardcoreModeFactory());
     }
 }

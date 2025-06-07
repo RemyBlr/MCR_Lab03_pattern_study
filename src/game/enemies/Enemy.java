@@ -8,16 +8,17 @@ import java.awt.*;
 
 public abstract class Enemy {
     protected Position pos;
-    protected final double speed;
-    protected Color color;
+    private final double speed;
+    private Color color;
+    private final int reward; // Gold reward
 
-    private final int reward = 10; // Gold reward
     private static final int SIZE = 20;
     Position director; // Vector director towards castle from the spawning point
 
-    public Enemy(double speed) {
+    public Enemy(double speed, Color color, int reward) {
         this.speed = speed;
-        this.color = Color.BLACK;
+        this.color = color;
+        this.reward = reward;
         this.pos = initializeStartingPos();
     }
 

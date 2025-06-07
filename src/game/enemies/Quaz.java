@@ -4,9 +4,8 @@ import java.awt.*;
 
 abstract class Quaz extends Enemy {
 
-    public Quaz(double speed, Color color) {
-        super(speed);
-        this.color = color;
+    public Quaz(double speed, Color color, int reward) {
+        super(speed, color, reward);
     }
 
     @Override
@@ -16,7 +15,7 @@ abstract class Quaz extends Enemy {
         int y = (int) pos.getY();
 
         // Draw square body
-        g2d.setColor(this.color);
+        g2d.setColor(getColor());
         g2d.fillRect(x - size/2, y - size/2, size, size);
 
         // Draw eyes
@@ -29,24 +28,24 @@ abstract class Quaz extends Enemy {
 
 class Quazo extends Quaz {
     public Quazo() {
-        super(1.2, Color.BLACK);
+        super(1.2, Color.BLACK, 1);
     }
 }
 
 class Quaza extends Quaz {
     public Quaza() {
-        super(1.5, Color.BLUE);
+        super(1.5, Color.BLUE, 2);
     }
 }
 
-//class Quavu extends Quaz {
-//    public Quavu() {
-//        super(1.7, Color.GREEN);
-//    }
-//}
+class Quazi extends Quaz {
+    public Quazi() {
+        super(2, Color.GREEN, 2);
+    }
+}
 
-class Quazy extends Quaz {
-    public Quazy() {
-        super(2.0, Color.RED);
+class Quaqua extends Quaz {
+    public Quaqua() {
+        super(2.5, Color.ORANGE, 10);
     }
 }

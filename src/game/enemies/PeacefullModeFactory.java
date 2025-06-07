@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class PeacefullModeFactory extends EnemyFactory {
 
-    public PeacefullModeFactory() { this.NB_ENEMIES = 25; }
+    public PeacefullModeFactory() { this.NB_ENEMIES = 10; }
 
     @Override
     public LinkedList<Enemy> createEnemies() {

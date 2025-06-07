@@ -22,7 +22,7 @@ public class Game {
     private long timeElapsed = 0;
     private long startTime = System.nanoTime();
     private int waveNumber;
-    private int defenseRadius = 200;
+    private int defenseRadius = 150;
     private Castle castle;
 
     private List<GameObserver> observers = new ArrayList<>();
@@ -36,13 +36,13 @@ public class Game {
      * @param ink ink amount you start with
      * @param baseHp health amount of the base at the beginning
      */
-    private Game(int ink, int baseHp, int gold) {
+    private Game(int ink, int baseHp) {
         this.ink = ink;
         this.maxInk = ink;
         this.baseHp = baseHp;
-        this.gold = gold;
+        this.gold = 0;
         enemyManager = new EnemyManager();
-        this.waveNumber = 1;
+        this.waveNumber = 0;
         this.castle = new Castle();
 
         this.gameState = new GameState();
@@ -58,8 +58,6 @@ public class Game {
     public Castle getCastle() {
         return castle;
     }
-
-    // TODO ajouter les futures classes
 
     /**
      * Sets the new base health points.
@@ -252,7 +250,7 @@ public class Game {
      */
     public static Game getInstance() {
         if(instance == null)
-            instance = new Game(500, 10, 1000);
+            instance = new Game(500, 10);
         return instance;
     }
 

@@ -31,6 +31,7 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
     JButton blueButton;
     JButton greenButton;
     JButton redButton;
+    JButton goldButton;
 
     private final CommandManager commandManager;
 
@@ -60,7 +61,8 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
             blackButton = new ButtonIcon("./img/black.png", "Black", "2"),
             blueButton = new ButtonIcon("./img/blue.png", "Blue", "3"),
             greenButton = new ButtonIcon("./img/green.png", "Green", "4"),
-            redButton = new ButtonIcon("./img/red.png", "Red", "5")
+            redButton = new ButtonIcon("./img/red.png", "Red", "5"),
+            goldButton = new ButtonIcon("./img/gold.png", "Gold", "6")
         );
 
         for (JButton b : buttonList) {
@@ -78,6 +80,7 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         buttonMap.put(ToolOption.BLUE_PEN, blueButton);
         buttonMap.put(ToolOption.GREEN_PEN, greenButton);
         buttonMap.put(ToolOption.RED_PEN, redButton);
+        buttonMap.put(ToolOption.GOLD_PEN, goldButton);
 
         // Listeners
         selectButton.addActionListener(e ->
@@ -96,11 +99,15 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
                 commandManager.executeCommand(new ToolSelectionCommand(ToolOption.RED_PEN))
         );
 
+        goldButton.addActionListener(e ->
+                commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GOLD_PEN))
+        );
 
         blackButton.setVisible(true);
         greenButton.setVisible(false);
         redButton.setVisible(false);
         blueButton.setVisible(false);
+        goldButton.setVisible(false);
     }
 
     /**
@@ -116,6 +123,8 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
         add(greenButton);
         add(Box.createHorizontalStrut(10));
         add(redButton);
+        add(Box.createHorizontalStrut(10));
+        add(goldButton);
     }
 
     /**
@@ -144,8 +153,9 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
      */
     public void unlockColor(int wave) {
         if (wave >= 2) blueButton.setVisible(true);
-        if (wave >= 3) greenButton.setVisible(true);
-        if (wave >= 4) redButton.setVisible(true);
+        if (wave >= 5) greenButton.setVisible(true);
+        if (wave >= 10) redButton.setVisible(true);
+        if (wave >= 999) goldButton.setVisible(true);
         revalidate();
         repaint();
     }
