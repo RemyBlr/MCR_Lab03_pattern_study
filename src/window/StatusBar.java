@@ -5,8 +5,7 @@ import game.GameObserver;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import window.components.InkBar;
 
 /**
  * Classe représentant la barre d'état de l'application Paint Tower Defense.
@@ -14,7 +13,8 @@ import java.awt.event.ActionListener;
  */
 public class StatusBar extends JPanel implements GameObserver {
 
-    private JLabel inkLabel;
+    //private JLabel inkLabel;
+    private InkBar inkBar;
     private JLabel waveLabel;
     private JLabel timeLabel;
 
@@ -35,7 +35,9 @@ public class StatusBar extends JPanel implements GameObserver {
      */
     private void initializeComponents() {
         Game game = Game.getInstance();
-        inkLabel = new JLabel("Encre: " + game.getInk());
+        //inkLabel = new JLabel("Encre: " + game.getInk());
+        inkBar = new InkBar();
+
         waveLabel = new JLabel("Vague: " + game.getWaveNumber());
         timeLabel = new JLabel("Temps: 00:00");
     }
@@ -48,7 +50,8 @@ public class StatusBar extends JPanel implements GameObserver {
         centerPanel.setOpaque(false);
         centerPanel.add(waveLabel);
 
-        add(inkLabel, BorderLayout.WEST);
+        //add(inkLabel, BorderLayout.WEST);
+        add(inkBar, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
         add(timeLabel, BorderLayout.EAST);
     }
@@ -58,7 +61,8 @@ public class StatusBar extends JPanel implements GameObserver {
         Game game = Game.getInstance();
 
         // Ink
-        inkLabel.setText("Encre: " + game.getInk());
+        //inkLabel.setText("Encre: " + game.getInk());
+        inkBar.repaint();
 
         // Time
         long elapsedNanos = game.getTimeElapsed();

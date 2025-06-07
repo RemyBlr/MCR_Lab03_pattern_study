@@ -10,10 +10,12 @@ public class Castle {
     private final Position position;
     private int hp;
     private int defenseRadius;
+    private int maxHp;
 
     public Castle(int hp) {
         this.position = new Position(0, 0);
         this.hp = hp;
+        this.maxHp = hp;
         this.defenseRadius = DEFENSE_RADIUS;
     }
 
@@ -45,8 +47,13 @@ public class Castle {
         return hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
     public void addHp(int amount) {
         hp += amount;
+        maxHp += amount;
     }
 
     public void takeDamage(int amount) {

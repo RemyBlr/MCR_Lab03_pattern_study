@@ -151,6 +151,36 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         castlePos.setY(centerY - castleHeight / 2);
         g2d.drawImage(castleImage, (int)castlePos.getX(), (int)castlePos.getY(), this);
 
+        // Castle health bar
+        int maxHp = Game.getInstance().getCastle().getMaxHp();
+        int currentHp = Game.getInstance().getCastle().getHp();
+        if(maxHp > 0) {
+            int barWidth = castleWidth;
+            int barHeight = 10;
+            int barX = (int) castlePos.getX();
+            int barY = (int) castlePos.getY() + castleHeight + 5;
+
+            double hpRatio = (double) currentHp / maxHp;
+            int filledWidth = (int) (barWidth * hpRatio);
+
+            g2d.setColor(Color.LIGHT_GRAY);
+            g2d.fillRect(barX, barY, barWidth, barHeight);
+            g2d.setColor(Color.RED);
+            g2d.fillRect(barX, barY, filledWidth, barHeight);
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(barX, barY, barWidth, barHeight);
+
+            String hpText = currentHp + "/" + maxHp;
+            FontMetrics metrics = g2d.getFontMetrics();
+            // font size
+            g2d.setFont(new Font( g.getFont().getFontName(), Font.PLAIN, 10));
+            int textWidth = metrics.stringWidth(hpText);
+            int textHeight = metrics.getAscent();
+            int textX = barX + (barWidth - textWidth) / 2;
+            int textY = barY + (barHeight + textHeight) / 2 - 2;
+            g2d.drawString(hpText, textX, textY);
+        }
+
         // Draw walls that are already drawn
         for (Wall w : Game.getInstance().getWalls()) {
             g2d.setColor(w.getColor());

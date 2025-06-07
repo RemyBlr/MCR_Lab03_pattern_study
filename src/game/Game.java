@@ -71,6 +71,7 @@ public class Game {
      */
     public int getGold() { return gold; }
 
+
     /**
      * Sets the new gold amount.
      *
