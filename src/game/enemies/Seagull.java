@@ -3,8 +3,8 @@ package game.enemies;
 import java.awt.*;
 
 public class Seagull extends Enemy {
-    private static final Color COLOR = new Color(220, 220, 220); // Light gray color
-    private static final double SEAGULL_SPEED = 3.0; // Seagulls are relatively fast
+    private static final Color COLOR = new Color(220, 220, 220);
+    private static final double SEAGULL_SPEED = 3.0;
 
     public Seagull() {
         super(SEAGULL_SPEED);

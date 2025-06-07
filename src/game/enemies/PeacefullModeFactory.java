@@ -3,15 +3,15 @@ package game.enemies;
 import java.util.LinkedList;
 
 public class PeacefullModeFactory extends EnemyFactory {
-    private final int NB_ENEMIES = 10;
+
+    public PeacefullModeFactory() { this.NB_ENEMIES = 25; }
 
     @Override
     public LinkedList<Enemy> createEnemies() {
         LinkedList<Enemy> enemies = new LinkedList<>();
-        for(int i = 0; i < NB_ENEMIES; i++) {
-            enemies.add(new Quaz());
-        }
 
+        // Only quazo
+        java.util.stream.IntStream.range(0, NB_ENEMIES).forEach(i -> enemies.add(new Quazo()));
         return enemies;
     }
 }

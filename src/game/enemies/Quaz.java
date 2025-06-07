@@ -2,12 +2,11 @@ package game.enemies;
 
 import java.awt.*;
 
-public class Quaz extends Enemy {
-    private static final Color QUAZ_COLOR = new Color(147, 112, 219); // Purple
-    private static final double QUAZ_SPEED = 1.5;
+abstract class Quaz extends Enemy {
 
-    public Quaz() {
-        super(QUAZ_SPEED);
+    public Quaz(double speed, Color color) {
+        super(speed);
+        this.color = color;
     }
 
     @Override
@@ -17,7 +16,7 @@ public class Quaz extends Enemy {
         int y = (int) pos.getY();
 
         // Draw square body
-        g2d.setColor(QUAZ_COLOR);
+        g2d.setColor(this.color);
         g2d.fillRect(x - size/2, y - size/2, size, size);
 
         // Draw eyes
@@ -25,5 +24,29 @@ public class Quaz extends Enemy {
         int eyeSize = size/3;
         g2d.fillOval(x - size/3, y - size/4, eyeSize, eyeSize);
         g2d.fillOval(x, y - size/4, eyeSize, eyeSize);
+    }
+}
+
+class Quazo extends Quaz {
+    public Quazo() {
+        super(1.2, Color.BLACK);
+    }
+}
+
+class Quaza extends Quaz {
+    public Quaza() {
+        super(1.5, Color.BLUE);
+    }
+}
+
+//class Quavu extends Quaz {
+//    public Quavu() {
+//        super(1.7, Color.GREEN);
+//    }
+//}
+
+class Quazy extends Quaz {
+    public Quazy() {
+        super(2.0, Color.RED);
     }
 }

@@ -8,13 +8,16 @@ import java.awt.*;
 
 public abstract class Enemy {
     protected Position pos;
-    private final double speed;
-    private int reward = 10; // Gold reward
+    protected final double speed;
+    protected Color color;
+
+    private final int reward = 10; // Gold reward
     private static final int SIZE = 20;
-    Position director; // Vector director towards castle
+    Position director; // Vector director towards castle from the spawning point
 
     public Enemy(double speed) {
         this.speed = speed;
+        this.color = Color.BLACK;
         this.pos = initializeStartingPos();
     }
 
@@ -23,7 +26,6 @@ public abstract class Enemy {
         double randomAngle = Math.random() * 2 * Math.PI;
         double radius = 700; // Spawn radius around the castle
 
-        // Get castle center position instead of top-left
         Position castleCenter = Game.getInstance().getCastle().getCenter();
 
         double randomX = castleCenter.getX() + radius * Math.cos(randomAngle);
@@ -34,16 +36,17 @@ public abstract class Enemy {
         double dy = (castleCenter.getY() - randomY);
         //double distance = Math.sqrt(dx * dx + dy * dy); // Normalize
         double distance = new Position(randomX, randomY).distanceTo(castleCenter);
+
         if (distance > 0) {
             dx = dx / distance * speed;
             dy = dy / distance * speed;
         }
-        director = new Position(dx, dy);
+        this.director = new Position(dx, dy);
 
         return new Position(randomX, randomY);
     }
 
-    // For now just move towards the castle
+    // Basic straigth movement
     public void update() {
         pos.setX(pos.getX() + director.getX());
         pos.setY(pos.getY() + director.getY());
@@ -55,13 +58,9 @@ public abstract class Enemy {
         return pos;
     }
 
-    public double getSpeed() {
-        return speed;
-    }
+    public int getSize() { return SIZE; }
 
-    public int getSize() {
-        return SIZE;
-    }
+    public Color getColor() { return color; }
 
     public int getReward() {
         return reward;

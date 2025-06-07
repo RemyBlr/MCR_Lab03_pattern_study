@@ -1,5 +1,6 @@
 package game;
 
+import game.enemies.EnemyFactory;
 import game.enemies.EnemyManager;
 
 import java.util.ArrayList;
@@ -113,10 +114,15 @@ public class Game {
      */
     public int getWaveCount() { return waveNumber; }
 
+    public void setWaveCount(int waveCount) { this.waveNumber = waveCount; }
+
     /**
      * Go to the next wave
      */
-    public void nextWave() { this.waveNumber++; }
+    public void nextWave() {
+        if(!(this.waveNumber >= 999))
+            this.waveNumber++;
+    }
 
     public int getWaveNumber() {
         long elapsedSeconds = timeElapsed / 1_000_000_000L;
@@ -198,6 +204,11 @@ public class Game {
     public static boolean isPausedGame() { return isPausedGame; }
 
     public static void setPausedGame(boolean pausedGame) { isPausedGame = pausedGame; }
+
+    public void setMode(EnemyFactory factory) {
+        enemyManager.setMode(factory);
+    }
+
     //endregion
 
     //region Observer Management

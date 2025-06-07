@@ -93,6 +93,9 @@ public class ShopPanel extends JPanel implements GameObserver {
             commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), ADD_ZONE_PRICE));
         });
 
+        mysteryButton.addActionListener(e -> {
+            commandManager.executeCommand(new SupremModeCommand(Game.getInstance()));
+        });
     }
 
     // TODO trouver moyen refresh ui sur shortcut

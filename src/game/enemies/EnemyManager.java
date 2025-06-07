@@ -17,7 +17,7 @@ public class EnemyManager {
     private static final long MIN_SPAWN_INTERVAL = 2000; // Attendre au moins 2s entre chaque spawn'
 
     public EnemyManager() {
-        this.enemyFactory = new NormalModeFactory();
+        this.enemyFactory = new PeacefullModeFactory();
         this.waitingEnemies = new LinkedList<>();
         this.activeEnemies = new ArrayList<>();
         this.lastSpawnTime = System.currentTimeMillis();
@@ -48,10 +48,6 @@ public class EnemyManager {
             Iterator<Enemy> iterator = activeEnemies.iterator();
             while(iterator.hasNext()) {
                 Enemy enemy = iterator.next();
-                Position nextPos = new Position(
-                        enemy.getPos().getX() + enemy.director.getX(),
-                        enemy.getPos().getY() + enemy.director.getY()
-                );
 
                 // Check if the next position would hit a wall
                 Wall hitWall = hitWall(enemy);
@@ -71,11 +67,18 @@ public class EnemyManager {
                 }
             }
         }
+
+        if(game.getWaveCount() > 2 && waitingEnemies.isEmpty())
+            enemyFactory = new NormalModeFactory();
+
+        if(game.getWaveCount() > 4 && waitingEnemies.isEmpty())
+            enemyFactory = new HardModeFactory();
     }
 
     // Not sure if this work yet
     private Wall hitWall(Enemy enemy) {
         for(Wall wall : Game.getInstance().getWalls()) {
+
             BasicStroke stroke = new BasicStroke(
                     wall.getWidth(),
                     BasicStroke.CAP_ROUND,
@@ -93,7 +96,7 @@ public class EnemyManager {
             );
 
             // Check if the enemy's bounds intersect with the wall
-            if (wallShape.intersects(enemyBounds)) {
+            if (wall.getColor() == enemy.getColor() && wallShape.intersects(enemyBounds)) {
                 return wall;
             }
         }
@@ -138,5 +141,9 @@ public class EnemyManager {
 
     public List<Enemy> getActiveEnemies() {
         return this.activeEnemies;
+    }
+
+    public void setMode(EnemyFactory factory) {
+        this.enemyFactory = factory;
     }
 }
