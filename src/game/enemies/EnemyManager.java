@@ -54,6 +54,7 @@ public class EnemyManager {
                 if (hitWall != null) {
                     // Remove both the wall and the enemy
                     Game.getInstance().removeWall(hitWall);
+                    game.setGold(enemy.getReward());
                     iterator.remove();
                     continue;
                 }
@@ -61,8 +62,7 @@ public class EnemyManager {
                 enemy.update(); // Move the enemy if no wall collision
 
                 if (isAtCastle(enemy.getPos())) {
-                    game.setDamageToBase(1);  // Adjust damage as needed
-                    game.setGold(enemy.getReward());
+                    game.setDamageToBase(2); // Damage to the base
                     iterator.remove();
                 }
             }
@@ -95,7 +95,7 @@ public class EnemyManager {
                     enemy.getSize()
             );
 
-            // Check if the enemy's bounds intersect with the wall
+            // Check if the enemy's bounds intersect with the wall && is of the same color
             if (wall.getColor() == enemy.getColor() && wallShape.intersects(enemyBounds)) {
                 return wall;
             }

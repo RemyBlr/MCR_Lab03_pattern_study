@@ -191,6 +191,9 @@ public class Game {
      * @param wall the wall to remove
      */
     public void removeWall(Wall wall) {
+        // Regains the ink of the wall
+        this.ink += wall.getCost();
+
         walls.remove(wall);
     }
 
