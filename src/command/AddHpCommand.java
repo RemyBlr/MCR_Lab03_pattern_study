@@ -16,6 +16,6 @@ public class AddHpCommand implements Command{
         System.out.println("Adding 100 HP for " + price + " gold.");
         if (!game.canUseGold(price)) return;
         game.setGold(-price);
-        game.addBaseHp(100);
+        game.getCastle().addHp(100);
     }
 }
