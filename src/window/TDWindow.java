@@ -53,7 +53,7 @@ public class TDWindow {
 
         Timer timer = new Timer(20, (e) -> {
             game.tick();
-            int currentWave = game.getWaveNumber();
+            int currentWave = game.getWaveCount();
             toolBar.unlockColor(currentWave);
         });
 

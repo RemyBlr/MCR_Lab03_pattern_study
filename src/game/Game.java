@@ -122,14 +122,14 @@ public class Game {
             this.waveNumber++;
     }
 
-    public int getWaveNumber() {
-        long elapsedSeconds = timeElapsed / 1_000_000_000L;
-        // Every 60 seconds, increase the wave number
-        if (elapsedSeconds / 60 > waveNumber - 1) {
-            waveNumber++;
-        }
-        return waveNumber;
-    }
+//    public int getWaveNumber() {
+//        long elapsedSeconds = timeElapsed / 1_000_000_000L;
+//        // Every 60 seconds, increase the wave number
+//        if (elapsedSeconds / 60 > waveNumber - 1) {
+//            waveNumber++;
+//        }
+//        return waveNumber;
+//    }
     //endregion
 
     //region Ink Management
@@ -250,7 +250,7 @@ public class Game {
      */
     public static Game getInstance() {
         if(instance == null)
-            instance = new Game(500, 10);
+            instance = new Game(200, 10);
         return instance;
     }
 

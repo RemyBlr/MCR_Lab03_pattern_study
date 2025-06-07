@@ -152,7 +152,7 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
      * @param wave the current wave number
      */
     public void unlockColor(int wave) {
-        if (wave >= 2) blueButton.setVisible(true);
+        if (wave >= 3) blueButton.setVisible(true);
         if (wave >= 5) greenButton.setVisible(true);
         if (wave >= 10) redButton.setVisible(true);
         if (wave >= 999) goldButton.setVisible(true);

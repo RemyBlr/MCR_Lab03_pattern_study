@@ -36,7 +36,7 @@ public class StatusBar extends JPanel implements GameObserver {
     private void initializeComponents() {
         Game game = Game.getInstance();
         inkLabel = new JLabel("Encre: " + game.getInk());
-        waveLabel = new JLabel("Vague: " + game.getWaveNumber());
+        waveLabel = new JLabel("Vague: " + game.getWaveCount());
         timeLabel = new JLabel("Temps: 00:00");
     }
 
@@ -71,6 +71,6 @@ public class StatusBar extends JPanel implements GameObserver {
         timeLabel.setText("Temps: " + time);
 
         // Wave
-        waveLabel.setText("Vague: " + game.getWaveNumber());
+        waveLabel.setText("Vague: " + game.getWaveCount());
     }
 }
