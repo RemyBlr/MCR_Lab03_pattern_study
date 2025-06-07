@@ -13,7 +13,6 @@ public class Game {
 
     private int ink;
     private int maxInk;
-    private int baseHp;
     private int gold;
     private List<Wall> walls = new ArrayList<>();
     private static EnemyManager enemyManager;
@@ -21,7 +20,6 @@ public class Game {
     private long timeElapsed = 0;
     private long startTime = System.nanoTime();
     private int waveNumber;
-    private int defenseRadius = 200;
     private Castle castle;
 
     private List<GameObserver> observers = new ArrayList<>();
@@ -38,11 +36,10 @@ public class Game {
     private Game(int ink, int baseHp, int gold) {
         this.ink = ink;
         this.maxInk = ink;
-        this.baseHp = baseHp;
         this.gold = gold;
         enemyManager = new EnemyManager();
         this.waveNumber = 1;
-        this.castle = new Castle();
+        this.castle = new Castle(baseHp);
 
         this.gameState = new GameState();
     }
@@ -60,30 +57,12 @@ public class Game {
 
     // TODO ajouter les futures classes
 
-    /**
-     * Sets the new base health points.
-     * Math.max is used to ensure that the base health points do not go below 0.
-     *
-     * @param amount the amount of health that the base will lose
-     */
-    public void setDamageToBase(int amount) { baseHp = Math.max(0, baseHp - amount); }
 
     public long getTimeElapsed() { return timeElapsed; }
 
     public EnemyManager getEnemyManager() {
         return enemyManager;
     }
-
-    public void addBaseHp(int amount) { baseHp += amount; }
-
-    //region Defense zone
-    public int getDefenseRadius() { return defenseRadius; }
-
-    public void increaseDefenseRadius(int amount) {
-        defenseRadius += amount;
-        notifyObservers();
-    }
-    //endregion
 
     //region Gold
     /**

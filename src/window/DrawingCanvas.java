@@ -61,7 +61,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         ImageIcon castleIcon = new ImageIcon("./img/castle.png");
         castleImage = castleIcon.getImage().getScaledInstance(castleWidth, castleHeight, Image.SCALE_SMOOTH);
 
-        defenseRadius = Game.getInstance().getDefenseRadius();
+        defenseRadius = Game.getInstance().getCastle().getDefenseRadius();
 
         setBackground(Color.WHITE);
 
@@ -313,7 +313,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
     }
 
     public void update(){
-        defenseRadius = Game.getInstance().getDefenseRadius();
+        defenseRadius = Game.getInstance().getCastle().getDefenseRadius();
         repaint();
     }
 }

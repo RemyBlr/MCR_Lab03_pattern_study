@@ -4,11 +4,17 @@ public class Castle {
     private static final int WIDTH = 170;
     private static final int HEIGHT = 170;
     private static final int RADIUS = WIDTH / 2;
+    private static final int DEFENSE_RADIUS = 200;
+
 
     private final Position position;
+    private int hp;
+    private int defenseRadius;
 
-    public Castle() {
+    public Castle(int hp) {
         this.position = new Position(0, 0);
+        this.hp = hp;
+        this.defenseRadius = DEFENSE_RADIUS;
     }
 
     public Position getPosition() {
@@ -33,5 +39,25 @@ public class Castle {
 
     public Position getCenter() {
         return new Position(position.getX() + WIDTH / 2, position.getY() + HEIGHT / 2);
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void addHp(int amount) {
+        hp += amount;
+    }
+
+    public void takeDamage(int amount) {
+        hp = Math.max(0, hp - amount);
+    }
+
+    public int getDefenseRadius() {
+        return defenseRadius;
+    }
+
+    public void increaseDefenseRadius(int amount) {
+        defenseRadius += amount;
     }
 }

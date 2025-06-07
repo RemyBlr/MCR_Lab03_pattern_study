@@ -65,7 +65,7 @@ public class EnemyManager {
                 enemy.update(); // Move the enemy if no wall collision
 
                 if (isAtCastle(enemy.getPos())) {
-                    game.setDamageToBase(1);  // Adjust damage as needed
+                    game.getCastle().takeDamage(1);  // Adjust damage as needed
                     game.setGold(enemy.getReward());
                     iterator.remove();
                 }

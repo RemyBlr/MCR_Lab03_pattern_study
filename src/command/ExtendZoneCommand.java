@@ -15,6 +15,6 @@ public class ExtendZoneCommand implements Command {
     public void execute() {
         if (!game.canUseGold(price)) return;
         game.setGold(-price);
-        game.increaseDefenseRadius(20);
+        game.getCastle().increaseDefenseRadius(20);
     }
 }
