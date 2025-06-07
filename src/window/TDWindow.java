@@ -3,9 +3,7 @@ package window;
 import command.*;
 import game.Game;
 import game.GameObserver;
-import game.Position;
 import tools.ToolOption;
-import window.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -246,13 +244,4 @@ public class TDWindow {
 
         return splitPane;
     }
-
-    // For now the castle pos is always available from here.
-    public static Position getCastlePos() { return DrawingCanvas.getCastlePos(); }
-
-    public static int getCastleWidth() { return DrawingCanvas.getCastleWidth(); }
-
-    public static int getCastleHeight() { return DrawingCanvas.getCastleHeight(); }
-
-    public static int getCastleRadius() { return DrawingCanvas.getCastleRadius(); }
 }

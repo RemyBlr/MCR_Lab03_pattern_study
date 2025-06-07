@@ -3,7 +3,6 @@ package game.enemies;
 import game.Game;
 import game.Position;
 import game.Wall;
-import window.TDWindow;
 
 import java.awt.*;
 import java.util.*;
@@ -18,7 +17,7 @@ public class EnemyManager {
     private static final long MIN_SPAWN_INTERVAL = 2000; // Attendre au moins 2s entre chaque spawn'
 
     public EnemyManager() {
-        this.enemyFactory = new PeacefullModeFactory();
+        this.enemyFactory = new NormalModeFactory();
         this.waitingEnemies = new LinkedList<>();
         this.activeEnemies = new ArrayList<>();
         this.lastSpawnTime = System.currentTimeMillis();
@@ -102,18 +101,29 @@ public class EnemyManager {
     }
 
     private boolean isAtCastle(Position pos) {
-        Position castlePos = TDWindow.getCastlePos();
+        //Position castlePos = TDWindow.getCastlePos();
         /*double castleX = castlePos.getX() + TDWindow.getCastleWidth()/2;
         // TODO : We should not call TDWINDOW, Game should have no knowledge of it
         // TODO: SO maybe store the dimension in the Game instance directly, maybe with a function
         double castleY = castlePos.getY() + TDWindow.getCastleHeight()/2;*/
-        Position castleCenter = new Position(
+        /*Position castleCenter = new Position(
                 castlePos.getX() + TDWindow.getCastleWidth() / 2,
                 castlePos.getY() + TDWindow.getCastleHeight() / 2
         );
         double distance = pos.distanceTo(castleCenter);
 
-        return distance < TDWindow.getCastleRadius();
+        return distance < TDWindow.getCastleRadius();*/
+
+        Position castlePosition = Game.getInstance().getCastle().getPosition();
+        double castleX = castlePosition.getX() + Game.getInstance().getCastle().getWidth()/2;
+        double castleY = castlePosition.getY() + Game.getInstance().getCastle().getHeight()/2;
+
+        double distance = Math.sqrt(
+                Math.pow(pos.getX() - castleX, 2) +
+                        Math.pow(pos.getY() - castleY, 2)
+        );
+
+        return distance < Game.getInstance().getCastle().getRadius();
     }
 
     private void initializeNewWave() {

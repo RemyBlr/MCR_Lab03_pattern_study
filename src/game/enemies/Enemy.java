@@ -2,8 +2,7 @@
 package game.enemies;
 
 import game.Position;
-import window.DrawingCanvas;
-import window.TDWindow;
+import game.Game;
 
 import java.awt.*;
 
@@ -25,10 +24,7 @@ public abstract class Enemy {
         double radius = 700; // Spawn radius around the castle
 
         // Get castle center position instead of top-left
-        Position castleCenter = new Position(
-                TDWindow.getCastlePos().getX() + TDWindow.getCastleWidth()/2,
-                TDWindow.getCastlePos().getY() + TDWindow.getCastleHeight()/2
-        );
+        Position castleCenter = Game.getInstance().getCastle().getCenter();
 
         double randomX = castleCenter.getX() + radius * Math.cos(randomAngle);
         double randomY = castleCenter.getY() + radius * Math.sin(randomAngle);

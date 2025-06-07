@@ -22,12 +22,10 @@ import java.util.List;
 
 public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObserver {
     // Castle
-    private static final int CASTLE_WIDTH = 170;
-    private static final int CASTLE_HEIGHT = 170;
-
-    private static final Position castlePos = new Position(0, 0);
-
-    private static final int CASTLE_RADIUS = CASTLE_WIDTH / 2;
+    private final Position castlePos = Game.getInstance().getCastle().getPosition();
+    private final int castleWidth = Game.getInstance().getCastle().getWidth();
+    private final int castleHeight = Game.getInstance().getCastle().getHeight();
+    private final int castleRadius = Game.getInstance().getCastle().getRadius();
     private Image castleImage;
     private int defenseRadius;
 
@@ -61,7 +59,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         currentTool = new PenTool(this, commandManager);
 
         ImageIcon castleIcon = new ImageIcon("./img/castle.png");
-        castleImage = castleIcon.getImage().getScaledInstance(CASTLE_WIDTH, CASTLE_HEIGHT, Image.SCALE_SMOOTH);
+        castleImage = castleIcon.getImage().getScaledInstance(castleWidth, castleHeight, Image.SCALE_SMOOTH);
 
         defenseRadius = Game.getInstance().getDefenseRadius();
 
@@ -145,12 +143,12 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         g2d.fillOval(centerX - defenseRadius, centerY - defenseRadius, defenseRadius * 2, defenseRadius * 2);
         // inner cercle
         g2d.setColor(Color.WHITE);
-        g2d.fillOval(centerX - CASTLE_RADIUS, centerY - CASTLE_RADIUS,
-                CASTLE_RADIUS * 2, CASTLE_RADIUS * 2);
+        g2d.fillOval(centerX - castleRadius, centerY - castleRadius,
+                castleRadius * 2, castleRadius * 2);
 
         // Castle
-        castlePos.setX(centerX - CASTLE_WIDTH / 2);
-        castlePos.setY(centerY - CASTLE_HEIGHT / 2);
+        castlePos.setX(centerX - castleWidth / 2);
+        castlePos.setY(centerY - castleHeight / 2);
         g2d.drawImage(castleImage, (int)castlePos.getX(), (int)castlePos.getY(), this);
 
         // Draw walls that are already drawn
@@ -252,7 +250,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
 
         double distance = point.distanceTo(center);
 
-        return distance <= defenseRadius && distance >= CASTLE_RADIUS;
+        return distance <= defenseRadius && distance >= castleRadius;
     }
 
     /**
@@ -267,24 +265,6 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
      */
     public int getStrokeWidth() {
         return strokeWidth;
-    }
-
-    // For now the castle pos is always available.
-    public static Position getCastlePos() { return castlePos; }
-
-    // ugly static for now
-    public static int getCastleWidth() {
-        return CASTLE_WIDTH;
-    }
-
-    // ugly static for now
-    public static int getCastleHeight() {
-        return CASTLE_HEIGHT;
-    }
-
-    // ugly static for now
-    public static int getCastleRadius() {
-        return CASTLE_RADIUS;
     }
 
     /**

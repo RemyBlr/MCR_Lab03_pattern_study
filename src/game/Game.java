@@ -22,6 +22,7 @@ public class Game {
     private long startTime = System.nanoTime();
     private int waveNumber;
     private int defenseRadius = 200;
+    private Castle castle;
 
     private List<GameObserver> observers = new ArrayList<>();
 
@@ -41,6 +42,7 @@ public class Game {
         this.gold = gold;
         enemyManager = new EnemyManager();
         this.waveNumber = 1;
+        this.castle = new Castle();
 
         this.gameState = new GameState();
     }
@@ -50,6 +52,10 @@ public class Game {
         timeElapsed = System.nanoTime() - startTime;
         enemyManager.update();
         notifyObservers();
+    }
+
+    public Castle getCastle() {
+        return castle;
     }
 
     // TODO ajouter les futures classes
