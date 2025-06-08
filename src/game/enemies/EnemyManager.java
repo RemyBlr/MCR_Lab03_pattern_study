@@ -27,11 +27,8 @@ public class EnemyManager {
         Game game = Game.getInstance();
 
         // Create a new wave
-        if (waitingEnemies.isEmpty() && activeEnemies.isEmpty() && !game.isPausedGame()) {
-            if (game.getWaveCount() > 0) {
-                initializeNewWave();
-            }
-        }
+        if (waitingEnemies.isEmpty() && activeEnemies.isEmpty() && !game.isPausedGame())
+            initializeNewWave();
 
         // Spawn existing enemies if any
         long currentTime = System.currentTimeMillis();
