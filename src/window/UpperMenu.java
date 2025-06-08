@@ -1,5 +1,7 @@
 package window;
 
+import command.RestartGameCommand;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -31,6 +33,9 @@ public class UpperMenu extends JMenuBar {
         menuHelp = new JMenu("Help");
 
         resetItem = new JMenuItem("Reset");
+        resetItem.addActionListener(e ->{
+            new RestartGameCommand().execute();
+        });
         quitItem = new JMenuItem("Quit");
         aboutItem = new JMenuItem("About us");
     }
