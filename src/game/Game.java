@@ -74,9 +74,23 @@ public class Game {
         notifyObservers();
     }
 
-    // TODO: Restart the game (doesn't tick from the TDWindow)
+    // TODO: Restart the game's panels (pen all showing) : TDWindow.reset()
     private void isGameOver() {
-        //instance = new Game(200, 10);
+        isPausedGame = true;
+
+        this.ink = 200;
+        this.maxInk = 200;
+        this.baseHp = 20;
+        this.gold = 0;
+        this.walls.clear();
+        this.timeElapsed = 0;
+        this.startTime = System.nanoTime();
+        this.waveNumber = 0;
+        this.defenseRadius = 150;
+        enemyManager = new EnemyManager();
+
+        notifyObservers();
+        isPausedGame = false;
     }
 
     public long getTimeElapsed() { return timeElapsed; }
@@ -262,7 +276,7 @@ public class Game {
      */
     public static Game getInstance() {
         if(instance == null)
-            instance = new Game(200, 10);
+            instance = new Game(200, 20);
         return instance;
     }
 

@@ -4,8 +4,8 @@ import java.awt.*;
 
 abstract class Quaz extends Enemy {
 
-    public Quaz(double speed, Color color, int reward) {
-        super(speed, color, reward);
+    public Quaz(double speed, Color color, int reward, int damage) {
+        super(speed, color, reward, damage);
     }
 
     @Override
@@ -28,13 +28,13 @@ abstract class Quaz extends Enemy {
 
 class Quazo extends Quaz {
     public Quazo() {
-        super(1.2, Color.BLACK, 1);
+        super(1.2, Color.BLACK, 1, 1);
     }
 }
 
 class Quaza extends Quaz {
     public Quaza() {
-        super(1.5, Color.BLUE, 2);
+        super(1.5, Color.BLUE, 2, 2);
     }
 
     @Override
@@ -47,7 +47,7 @@ class Quaza extends Quaz {
 
 class Quazi extends Quaz {
     public Quazi() {
-        super(2, Color.GREEN, 2);
+        super(2, Color.GREEN, 2, 5);
     }
 
     @Override
@@ -60,7 +60,7 @@ class Quazi extends Quaz {
 
 class Quaqua extends Quaz {
     public Quaqua() {
-        super(0.5, Color.ORANGE, 10);
+        super(0.5, Color.ORANGE, 10, 10);
     }
 
     @Override

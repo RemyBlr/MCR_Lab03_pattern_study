@@ -11,14 +11,16 @@ public abstract class Enemy {
     private final double speed;
     private Color color;
     private final int reward; // Gold reward
+    private final int damage;
 
     private static final int SIZE = 20;
     Position director; // Vector director towards castle from the spawning point
 
-    public Enemy(double speed, Color color, int reward) {
+    public Enemy(double speed, Color color, int reward, int damage) {
         this.speed = speed;
         this.color = color;
         this.reward = reward;
+        this.damage = damage;
         this.pos = initializeStartingPos();
     }
 
@@ -65,5 +67,9 @@ public abstract class Enemy {
 
     public int getReward() {
         return reward;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }
