@@ -27,8 +27,9 @@ public class EnemyManager {
         Game game = Game.getInstance();
 
         // Create a new wave
-        if (waitingEnemies.isEmpty() && activeEnemies.isEmpty() && !game.isPausedGame())
+        if (waitingEnemies.isEmpty() && activeEnemies.isEmpty()) {
             initializeNewWave();
+        }
 
         // Spawn enemies if any with a minimum delay between each spawn
         long currentTime = System.currentTimeMillis();
