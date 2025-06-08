@@ -13,7 +13,6 @@ public class SupremModeCommand implements Command {
     // TODO: When CTRL + H don't need money
     @Override
     public void execute() {
-        //if(!game.canUseGold(999)) return;
         game.getEnemyManager().reset();
         game.setWaveCount(999);
         game.setMode(new SupremHardcoreModeFactory());

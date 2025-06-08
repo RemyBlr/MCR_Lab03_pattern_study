@@ -94,19 +94,6 @@ public class Game {
      */
     private void gameOver(){
         state = State.GAMEOVER;
-//        isPausedGame = true;
-//
-//        this.ink = 200;
-//        this.maxInk = 200;
-//        this.gold = 0;
-//        this.walls.clear();
-//        this.timeElapsed = 0;
-//        this.startTime = System.nanoTime();
-//        this.waveNumber = 0;
-//        enemyManager = new EnemyManager();
-//
-//        notifyObservers();
-//        isPausedGame = false;
         System.out.println("Game Over !!");
     }
 

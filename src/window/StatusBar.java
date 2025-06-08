@@ -13,7 +13,6 @@ import window.components.InkBar;
  */
 public class StatusBar extends JPanel implements GameObserver {
 
-    //private JLabel inkLabel;
     private InkBar inkBar;
     private JLabel waveLabel;
     private JLabel timeLabel;
@@ -35,7 +34,6 @@ public class StatusBar extends JPanel implements GameObserver {
      */
     private void initializeComponents() {
         Game game = Game.getInstance();
-        //inkLabel = new JLabel("Encre: " + game.getInk());
         inkBar = new InkBar();
 
         waveLabel = new JLabel("Vague: " + game.getWaveCount());
@@ -50,7 +48,6 @@ public class StatusBar extends JPanel implements GameObserver {
         centerPanel.setOpaque(false);
         centerPanel.add(waveLabel);
 
-        //add(inkLabel, BorderLayout.WEST);
         add(inkBar, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
         add(timeLabel, BorderLayout.EAST);
@@ -61,7 +58,6 @@ public class StatusBar extends JPanel implements GameObserver {
         Game game = Game.getInstance();
 
         // Ink
-        //inkLabel.setText("Encre: " + game.getInk());
         inkBar.repaint();
 
         // Time

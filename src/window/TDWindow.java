@@ -90,14 +90,12 @@ public class TDWindow {
     public void restartGame() {
         System.out.println("Restarting game...");
 
-        // Reset game state
         Game.reset();
 
-
         // Reset UI components that reflect game state
-        statusBar.update();          // Update wave, time, ink bar etc.
-        drawingCanvas.updateWalls(); // Or any method that refreshes the canvas
-        shopPanel.update();          // If ShopPanel implements update()
+        statusBar.update();
+        drawingCanvas.updateWalls();
+        shopPanel.update();
         toolBar.reset();
 
         // Remove Game Over panel if it exists
@@ -113,7 +111,6 @@ public class TDWindow {
         frame.revalidate();
 
         startGame();
-
     }
 
     /**
