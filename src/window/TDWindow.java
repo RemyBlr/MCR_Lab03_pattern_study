@@ -118,6 +118,16 @@ public class TDWindow {
             }
         });
 
+        // 6 -> gold
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_6, 0), "tool.gold");
+        actionMap.put("tool.gold", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(toolBar.redButton.isVisible())
+                    commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GOLD_PEN));
+            }
+        });
+
         // ctrl + 1 -> refill ink
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK), "shop.refillInk");
         actionMap.put("shop.refillInk", new AbstractAction() {
@@ -159,6 +169,15 @@ public class TDWindow {
             public void actionPerformed(ActionEvent e) {
                 commandManager.undo();
                 drawingCanvas.updateWalls();
+            }
+        });
+
+        // ctrl + h -> easter egg: goes into SupremMode
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK), "util.suprem");
+        actionMap.put("util.suprem", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new SupremModeCommand(Game.getInstance()));
             }
         });
     }

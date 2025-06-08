@@ -12,6 +12,7 @@ public class SupremModeCommand implements Command {
 
     @Override
     public void execute() {
+        if(!game.canUseGold(999)) return;
         game.setWaveCount(999);
         game.setMode(new SupremHardcoreModeFactory());
     }

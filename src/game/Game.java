@@ -65,7 +65,20 @@ public class Game {
      *
      * @param amount the amount of health that the base will lose
      */
-    public void setDamageToBase(int amount) { baseHp = Math.max(0, baseHp - amount); }
+    public void setDamageToBase(int amount) {
+        baseHp = baseHp - amount;
+
+        if(baseHp < 0)
+            isGameOver();
+
+        notifyObservers();
+    }
+
+    // TODO: Restart the game (doesn't tick from the TDWindow)
+    private void isGameOver() {
+        isPausedGame = true;
+        instance = new Game(200, 10);
+    }
 
     public long getTimeElapsed() { return timeElapsed; }
 

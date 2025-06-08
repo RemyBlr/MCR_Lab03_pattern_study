@@ -30,7 +30,7 @@ public class EnemyManager {
         if (waitingEnemies.isEmpty() && activeEnemies.isEmpty() && !game.isPausedGame())
             initializeNewWave();
 
-        // Spawn existing enemies if any
+        // Spawn enemies if any with a minimum delay between each spawn
         long currentTime = System.currentTimeMillis();
         if (!waitingEnemies.isEmpty() && currentTime - lastSpawnTime >= MIN_SPAWN_INTERVAL) {
             Enemy enemy = waitingEnemies.removeFirst();
@@ -38,7 +38,6 @@ public class EnemyManager {
 
             lastSpawnTime = currentTime;
         }
-
 
         // Update active enemies and check for collisions
         if(!activeEnemies.isEmpty()) {
@@ -65,6 +64,7 @@ public class EnemyManager {
             }
         }
 
+        // Difficulty increasing by time/waves
         if(game.getWaveCount() >= 10 && game.getWaveCount() < 999 && waitingEnemies.isEmpty())
             enemyFactory = new ExpertModeFactory();
         else if(game.getWaveCount() >= 5 && waitingEnemies.isEmpty())
@@ -73,10 +73,10 @@ public class EnemyManager {
             enemyFactory = new NormalModeFactory();
     }
 
-    // Not sure if this work yet
     private Wall hitWall(Enemy enemy) {
         for(Wall wall : Game.getInstance().getWalls()) {
 
+            // Actual width of the wall
             BasicStroke stroke = new BasicStroke(
                     wall.getWidth(),
                     BasicStroke.CAP_ROUND,
@@ -85,7 +85,7 @@ public class EnemyManager {
 
             Shape wallShape = stroke.createStrokedShape(wall.getPath());
 
-            // Create a bounding box for the enemy at the given position
+            // Get actual enemy hit box
             Rectangle enemyBounds = new Rectangle(
                     (int)(enemy.getPos().getX() - enemy.getSize()/2),
                     (int)(enemy.getPos().getY() - enemy.getSize()/2),
@@ -102,19 +102,6 @@ public class EnemyManager {
     }
 
     private boolean isAtCastle(Position pos) {
-        //Position castlePos = TDWindow.getCastlePos();
-        /*double castleX = castlePos.getX() + TDWindow.getCastleWidth()/2;
-        // TODO : We should not call TDWINDOW, Game should have no knowledge of it
-        // TODO: SO maybe store the dimension in the Game instance directly, maybe with a function
-        double castleY = castlePos.getY() + TDWindow.getCastleHeight()/2;*/
-        /*Position castleCenter = new Position(
-                castlePos.getX() + TDWindow.getCastleWidth() / 2,
-                castlePos.getY() + TDWindow.getCastleHeight() / 2
-        );
-        double distance = pos.distanceTo(castleCenter);
-
-        return distance < TDWindow.getCastleRadius();*/
-
         Position castlePosition = Game.getInstance().getCastle().getPosition();
         double castleX = castlePosition.getX() + Game.getInstance().getCastle().getWidth()/2;
         double castleY = castlePosition.getY() + Game.getInstance().getCastle().getHeight()/2;
