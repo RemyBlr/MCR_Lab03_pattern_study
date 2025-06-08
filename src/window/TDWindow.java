@@ -3,6 +3,7 @@ package window;
 import command.*;
 import game.Game;
 import game.GameObserver;
+import game.State;
 import tools.ToolOption;
 
 import javax.swing.*;
@@ -22,16 +23,21 @@ public class TDWindow {
     private StatusBar statusBar;
     private ShopPanel shopPanel;
     private DrawingCanvas drawingCanvas;
+    private GameOverPanel gameOverPanel; // store reference
 
     private CommandManager commandManager;
+
+    private Timer timer;
+
+    private JFrame frame; // store frame as
+
 
     public TDWindow() {
         commandManager = new CommandManager();
 
-        Game game = Game.getInstance();
 
         // Main window
-        JFrame frame = new JFrame("Paint Tower Defense");
+        frame = new JFrame("Paint Tower Defense");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
@@ -48,16 +54,62 @@ public class TDWindow {
         // Show window
         frame.setVisible(true);
 
+        startGame();
+    }
+
+    public void dispose() {
+        if (frame != null) {
+            frame.dispose();
+        }
+    }
+
+    private void startGame(){
+        Game game = Game.getInstance();
         game.addObserver(statusBar);
         game.addObserver(drawingCanvas);
+        game.addObserver(shopPanel);
 
-        Timer timer = new Timer(20, (e) -> {
-            game.tick();
-            int currentWave = game.getWaveNumber();
-            toolBar.unlockColor(currentWave);
+        timer = new Timer(20, (e) -> {
+
+            if (game.getState() != State.GAMEOVER) {
+                game.tick();
+                int currentWave = game.getWaveNumber();
+                toolBar.unlockColor(currentWave);
+            } else  {
+                showGameOverPanel();
+                timer.stop();
+            }
         });
 
         timer.start();
+    }
+
+    public void restartGame() {
+        System.out.println("Restarting game...");
+
+        // Reset game state
+        Game.reset();
+
+
+        // Reset UI components that reflect game state
+        statusBar.update();          // Update wave, time, ink bar etc.
+        drawingCanvas.updateWalls(); // Or any method that refreshes the canvas
+        shopPanel.update();          // If ShopPanel implements update()
+
+        // Remove Game Over panel if it exists
+        JLayeredPane layeredPane = frame.getLayeredPane();
+        for (Component comp : layeredPane.getComponentsInLayer(JLayeredPane.POPUP_LAYER)) {
+            if (comp instanceof GameOverPanel) {
+                layeredPane.remove(comp);
+            }
+        }
+
+        // Revalidate and repaint frame to apply changes
+        frame.repaint();
+        frame.revalidate();
+
+        startGame();
+
     }
 
     /**
@@ -221,10 +273,7 @@ public class TDWindow {
         JPanel drawingZone = createCanvas();
         JToolBar toolBar = createToolBar();
         JPanel statusBar = createStatusBar();
-        JPanel shopPanel = new ShopPanel(game.Game.getInstance(), commandManager);
-        // TODO : why is not stored in TDWIndow anymore ? Why do we recreate this one instead of updating an existing one ?
-        // TODO : We could update prices of things, like each extension is more expenseive
-        Game.getInstance().addObserver((GameObserver) shopPanel); // Added as listener, to respect order
+        shopPanel = new ShopPanel(game.Game.getInstance(), commandManager);
 
         JPanel canvasPanel = new JPanel(new BorderLayout());
         canvasPanel.add(toolBar, BorderLayout.NORTH);
@@ -244,4 +293,15 @@ public class TDWindow {
 
         return splitPane;
     }
+
+    private void showGameOverPanel() {
+        if (gameOverPanel == null) {
+            gameOverPanel = new GameOverPanel();
+            gameOverPanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
+        }
+        JLayeredPane layeredPane = frame.getLayeredPane();
+        layeredPane.add(gameOverPanel, JLayeredPane.POPUP_LAYER);
+        layeredPane.repaint();
+    }
+
 }

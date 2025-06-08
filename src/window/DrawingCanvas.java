@@ -1,10 +1,7 @@
 package window;
 
 import command.CommandManager;
-import game.Game;
-import game.GameObserver;
-import game.Position;
-import game.Wall;
+import game.*;
 import game.enemies.Enemy;
 import game.enemies.EnemyManager;
 import tools.*;
@@ -22,10 +19,6 @@ import java.util.List;
 
 public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObserver {
     // Castle
-    private final Position castlePos = Game.getInstance().getCastle().getPosition();
-    private final int castleWidth = Game.getInstance().getCastle().getWidth();
-    private final int castleHeight = Game.getInstance().getCastle().getHeight();
-    private final int castleRadius = Game.getInstance().getCastle().getRadius();
     private Image castleImage;
     private int defenseRadius;
 
@@ -57,11 +50,12 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         ToolManager.getInstance().addListener(this);
 
         currentTool = new PenTool(this, commandManager);
+        Castle castle = Game.getInstance().getCastle();
 
         ImageIcon castleIcon = new ImageIcon("./img/castle.png");
-        castleImage = castleIcon.getImage().getScaledInstance(castleWidth, castleHeight, Image.SCALE_SMOOTH);
+        castleImage = castleIcon.getImage().getScaledInstance(castle.getWidth(), castle.getHeight(), Image.SCALE_SMOOTH);
 
-        defenseRadius = Game.getInstance().getCastle().getDefenseRadius();
+        defenseRadius = castle.getDefenseRadius();
 
         setBackground(Color.WHITE);
 
@@ -132,6 +126,9 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
+        Castle castle = Game.getInstance().getCastle();
+        int castleRadius = castle.getRadius();
+
         // zones
         int width = getWidth();
         int height = getHeight();
@@ -146,19 +143,21 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
         g2d.fillOval(centerX - castleRadius, centerY - castleRadius,
                 castleRadius * 2, castleRadius * 2);
 
+        Position castlePos = castle.getPosition();
         // Castle
-        castlePos.setX(centerX - castleWidth / 2);
-        castlePos.setY(centerY - castleHeight / 2);
+
+        castlePos.setX(centerX - castle.getWidth() / 2);
+        castlePos.setY(centerY - castle.getHeight() / 2);
         g2d.drawImage(castleImage, (int)castlePos.getX(), (int)castlePos.getY(), this);
 
         // Castle health bar
         int maxHp = Game.getInstance().getCastle().getMaxHp();
         int currentHp = Game.getInstance().getCastle().getHp();
         if(maxHp > 0) {
-            int barWidth = castleWidth;
+            int barWidth = castle.getWidth();
             int barHeight = 10;
             int barX = (int) castlePos.getX();
-            int barY = (int) castlePos.getY() + castleHeight + 5;
+            int barY = (int) castlePos.getY() + castle.getHeight() + 5;
 
             double hpRatio = (double) currentHp / maxHp;
             int filledWidth = (int) (barWidth * hpRatio);
@@ -280,7 +279,7 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
 
         double distance = point.distanceTo(center);
 
-        return distance <= defenseRadius && distance >= castleRadius;
+        return distance <= defenseRadius && distance >= Game.getInstance().getCastle().getRadius();
     }
 
     /**

@@ -5,6 +5,7 @@ import game.enemies.EnemyManager;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Centralizes the game logic and manages the game state.
  */
@@ -22,6 +23,8 @@ public class Game {
     private int waveNumber;
     private Castle castle;
 
+    private State state;
+
     private List<GameObserver> observers = new ArrayList<>();
 
     // TODO : use a state instead
@@ -34,6 +37,7 @@ public class Game {
      * @param baseHp health amount of the base at the beginning
      */
     private Game(int ink, int baseHp, int gold) {
+        this.state = State.RUNNING;
         this.ink = ink;
         this.maxInk = ink;
         this.gold = gold;
@@ -48,8 +52,25 @@ public class Game {
     public void tick(){
         timeElapsed = System.nanoTime() - startTime;
         enemyManager.update();
+
+        // check if castle dead
+        if (castle.getHp() <= 0){
+            gameOver();
+        }
         notifyObservers();
     }
+
+    private void gameOver(){
+        state = State.GAMEOVER;
+
+        System.out.println("Game Over !!");
+        // other stuff ?
+    }
+
+    public static void reset() {
+        instance = new Game(500, 2, 0);
+    }
+
 
     public Castle getCastle() {
         return castle;
@@ -62,6 +83,10 @@ public class Game {
 
     public EnemyManager getEnemyManager() {
         return enemyManager;
+    }
+
+    public State getState(){
+        return state;
     }
 
     //region Gold
@@ -218,7 +243,7 @@ public class Game {
      */
     public static Game getInstance() {
         if(instance == null)
-            instance = new Game(500, 10, 1000);
+            instance = new Game(500, 2, 0);
         return instance;
     }
 
