@@ -1,5 +1,6 @@
 package game;
 
+import game.enemies.EnemyFactory;
 import game.enemies.EnemyManager;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Game {
 
     private long startTime = System.nanoTime();
     private int waveNumber;
+
     private Castle castle;
 
     private State state;
@@ -46,7 +48,6 @@ public class Game {
         enemyManager = new EnemyManager();
         this.waveNumber = 1;
         this.castle = new Castle(baseHp);
-
         this.gameState = new GameState();
     }
 
@@ -93,7 +94,19 @@ public class Game {
      */
     private void gameOver(){
         state = State.GAMEOVER;
-
+//        isPausedGame = true;
+//
+//        this.ink = 200;
+//        this.maxInk = 200;
+//        this.gold = 0;
+//        this.walls.clear();
+//        this.timeElapsed = 0;
+//        this.startTime = System.nanoTime();
+//        this.waveNumber = 0;
+//        enemyManager = new EnemyManager();
+//
+//        notifyObservers();
+//        isPausedGame = false;
         System.out.println("Game Over !!");
     }
 
@@ -102,7 +115,7 @@ public class Game {
      * Creates a new instance to replace the current one
      */
     public static void reset() {
-        instance = new Game(500, 2, 0);
+        instance = new Game(200, 2, 0);
     }
 
     /**
@@ -156,19 +169,24 @@ public class Game {
      */
     public int getWaveCount() { return waveNumber; }
 
+    public void setWaveCount(int waveCount) { this.waveNumber = waveCount; }
+
     /**
      * Go to the next wave
      */
-    public void nextWave() { this.waveNumber++; }
-
-    public int getWaveNumber() {
-        long elapsedSeconds = timeElapsed / 1_000_000_000L;
-        // Every 60 seconds, increase the wave number
-        if (elapsedSeconds / 60 > waveNumber - 1) {
-            waveNumber++;
-        }
-        return waveNumber;
+    public void nextWave() {
+        if(!(this.waveNumber >= 999))
+            this.waveNumber++;
     }
+
+//    public int getWaveNumber() {
+//        long elapsedSeconds = timeElapsed / 1_000_000_000L;
+//        // Every 60 seconds, increase the wave number
+//        if (elapsedSeconds / 60 > waveNumber - 1) {
+//            waveNumber++;
+//        }
+//        return waveNumber;
+//    }
     //endregion
 
     //region Ink Management
@@ -228,6 +246,9 @@ public class Game {
      * @param wall the wall to remove
      */
     public void removeWall(Wall wall) {
+        // Regains the ink of the wall
+        this.ink += wall.getCost();
+
         walls.remove(wall);
     }
 
@@ -236,7 +257,7 @@ public class Game {
      */
     public List<Wall> getWalls() { return walls; }
     //endregion
-
+  
     //region Observer Management
     /**
      * Add an observer
@@ -275,7 +296,7 @@ public class Game {
      */
     public static Game getInstance() {
         if(instance == null)
-            instance = new Game(500, 2, 0);
+            instance = new Game(200, 2, 0);
         return instance;
     }
 

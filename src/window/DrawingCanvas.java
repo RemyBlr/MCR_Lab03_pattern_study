@@ -325,7 +325,11 @@ public class DrawingCanvas extends JPanel implements ToolChangeListener, GameObs
             }
             case ToolOption.RED_PEN -> {
                 currentColor = Color.RED;
-                currentTool =new PenTool(this, commandManager);
+                currentTool = new PenTool(this, commandManager);
+            }
+            case ToolOption.GOLD_PEN -> {
+                currentColor = Color.ORANGE;
+                currentTool = new PenTool(this, commandManager);
             }
             default -> throw new IllegalArgumentException("Unknown tool: " + toolName);
         }

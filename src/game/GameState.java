@@ -19,7 +19,7 @@ public class GameState {
         this.ink = 0;
         this.gold = 0;
         this.health = 100;
-        this.wave = 1;
+        this.wave = 0;
         this.timeElapsed = 0;
         this.isPaused = false;
         this.tickDuration = 20;

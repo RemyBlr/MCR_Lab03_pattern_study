@@ -16,7 +16,7 @@ public class GameOverPanel extends JPanel {
         gameOverLabel.setForeground(Color.WHITE);
         gameOverLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel waveLabel = new JLabel("You reached wave " + game.Game.getInstance().getWaveNumber());
+        JLabel waveLabel = new JLabel("You reached wave " + game.Game.getInstance().getWaveCount());
         waveLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         waveLabel.setForeground(Color.WHITE);
         waveLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -2,12 +2,10 @@ package game.enemies;
 
 import java.awt.*;
 
-public class Quaz extends Enemy {
-    private static final Color QUAZ_COLOR = new Color(147, 112, 219); // Purple
-    private static final double QUAZ_SPEED = 1.5;
+abstract class Quaz extends Enemy {
 
-    public Quaz() {
-        super(QUAZ_SPEED);
+    public Quaz(double speed, Color color, int reward, int damage) {
+        super(speed, color, reward, damage);
     }
 
     @Override
@@ -17,7 +15,7 @@ public class Quaz extends Enemy {
         int y = (int) pos.getY();
 
         // Draw square body
-        g2d.setColor(QUAZ_COLOR);
+        g2d.setColor(getColor());
         g2d.fillRect(x - size/2, y - size/2, size, size);
 
         // Draw eyes
@@ -25,5 +23,50 @@ public class Quaz extends Enemy {
         int eyeSize = size/3;
         g2d.fillOval(x - size/3, y - size/4, eyeSize, eyeSize);
         g2d.fillOval(x, y - size/4, eyeSize, eyeSize);
+    }
+}
+
+class Quazo extends Quaz {
+    public Quazo() {
+        super(1.2, Color.BLACK, 1, 1);
+    }
+}
+
+class Quaza extends Quaz {
+    public Quaza() {
+        super(1.5, Color.BLUE, 2, 2);
+    }
+
+    @Override
+    public void update() {
+        double time = System.currentTimeMillis() / 200.0;
+        pos.setX(pos.getX() + director.getX() + Math.sin(time) * 10);
+        pos.setY(pos.getY() + director.getY());
+    }
+}
+
+class Quazi extends Quaz {
+    public Quazi() {
+        super(2, Color.GREEN, 2, 5);
+    }
+
+    @Override
+    public void update() {
+        double time = System.currentTimeMillis() / 200.0;
+        pos.setX(pos.getX() + director.getX() * Math.cos(time));
+        pos.setY(pos.getY() + director.getY() * Math.sin(time));
+    }
+}
+
+class Quaqua extends Quaz {
+    public Quaqua() {
+        super(0.5, Color.ORANGE, 10, 10);
+    }
+
+    @Override
+    public void update() {
+        double time = System.currentTimeMillis() / 200.0;
+        pos.setX(pos.getX() + director.getX() + Math.sin(time * 0.5) * 15);
+        pos.setY(pos.getY() + director.getY() + Math.cos(time * 0.5) * 15);
     }
 }
