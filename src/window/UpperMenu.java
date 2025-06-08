@@ -37,6 +37,9 @@ public class UpperMenu extends JMenuBar {
             new RestartGameCommand().execute();
         });
         quitItem = new JMenuItem("Quit");
+        quitItem.addActionListener(e -> {
+            System.exit(0);
+        });
         aboutItem = new JMenuItem("About us");
     }
 
