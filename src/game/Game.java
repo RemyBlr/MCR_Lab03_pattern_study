@@ -220,6 +220,10 @@ public class Game {
         ink += amount;
     }
 
+    public void setMode(EnemyFactory factory) {
+        enemyManager.setMode(factory);
+    }
+
     /**
      * Get the maximum amount of int
      * @return int max int amount
