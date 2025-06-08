@@ -73,7 +73,7 @@ public class TDWindow {
 
             if (game.getState() != State.GAMEOVER) {
                 game.tick();
-                int currentWave = game.getWaveNumber();
+                int currentWave = game.getWaveCount();
                 toolBar.unlockColor(currentWave);
             } else  {
                 showGameOverPanel();
@@ -170,6 +170,16 @@ public class TDWindow {
             }
         });
 
+        // 6 -> gold
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_6, 0), "tool.gold");
+        actionMap.put("tool.gold", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(toolBar.redButton.isVisible())
+                    commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GOLD_PEN));
+            }
+        });
+
         // ctrl + 1 -> refill ink
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK), "shop.refillInk");
         actionMap.put("shop.refillInk", new AbstractAction() {
@@ -202,8 +212,6 @@ public class TDWindow {
             }
         });
 
-        // ctrl + 5 -> mystery item
-
         // ctrl + z -> undo
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), "util.undo");
         actionMap.put("util.undo", new AbstractAction() {
@@ -211,6 +219,15 @@ public class TDWindow {
             public void actionPerformed(ActionEvent e) {
                 commandManager.undo();
                 drawingCanvas.updateWalls();
+            }
+        });
+
+        // ctrl + h -> easter egg: goes into SupremMode
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK), "util.suprem");
+        actionMap.put("util.suprem", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new SupremModeCommand(Game.getInstance()));
             }
         });
     }
