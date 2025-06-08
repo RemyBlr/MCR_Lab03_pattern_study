@@ -58,6 +58,7 @@ public class EnemyManager {
                 if (hitWall != null) {
                     // Remove both the wall and the enemy
                     Game.getInstance().removeWall(hitWall);
+                    game.setGold(enemy.getReward());
                     iterator.remove();
                     continue;
                 }
@@ -66,7 +67,6 @@ public class EnemyManager {
 
                 if (isAtCastle(enemy.getPos())) {
                     game.getCastle().takeDamage(1);  // Adjust damage as needed
-                    game.setGold(enemy.getReward());
                     iterator.remove();
                 }
             }
