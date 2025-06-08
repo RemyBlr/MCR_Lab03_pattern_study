@@ -14,9 +14,9 @@ public class NormalModeFactory extends EnemyFactory {
         java.util.stream.IntStream.range(0, NB_ENEMIES).forEach(i -> {
             Random random = new Random();
             int chance = random.nextInt(100);
-            if (chance < 50) // 50% chance
+            if (chance < 50)
                 enemies.add(new Quazo());
-            else // 50% chance
+            else
                 enemies.add(new Quaza());
         });
 

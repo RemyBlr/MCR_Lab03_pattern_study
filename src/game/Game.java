@@ -76,8 +76,7 @@ public class Game {
 
     // TODO: Restart the game (doesn't tick from the TDWindow)
     private void isGameOver() {
-        isPausedGame = true;
-        instance = new Game(200, 10);
+        //instance = new Game(200, 10);
     }
 
     public long getTimeElapsed() { return timeElapsed; }

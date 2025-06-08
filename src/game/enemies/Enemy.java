@@ -47,7 +47,7 @@ public abstract class Enemy {
         return new Position(randomX, randomY);
     }
 
-    // Basic straigth movement
+    // Basic straigth movement by default
     public void update() {
         pos.setX(pos.getX() + director.getX());
         pos.setY(pos.getY() + director.getY());

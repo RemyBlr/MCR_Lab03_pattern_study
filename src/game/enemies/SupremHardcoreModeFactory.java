@@ -11,19 +11,19 @@ public class SupremHardcoreModeFactory extends EnemyFactory{
     public LinkedList<Enemy> createEnemies() {
         LinkedList<Enemy> enemies = new LinkedList<>();
 
-        java.util.stream.IntStream.range(0, NB_ENEMIES).forEach(i -> {
+        java.util.stream.IntStream.range(0, 100).forEach(i -> {
             Random random = new Random();
             int chance = random.nextInt(100);
-            if (chance < 15) // 15% chance 
-                enemies.add(new Quazo());
-            else if (chance < 35) // 20% chance
-                enemies.add(new Quaza());
-            else if (chance < 50) // 15% chance
-                enemies.add(new Quazi());
-            else if (chance < 75) // 25% chance
-                enemies.add(new Seagull());
-            else // 25% chance
+            if (chance < 25)
                 enemies.add(new Quaqua());
+            else if (chance < 50)
+                enemies.add(new Seagull());
+            else if (chance < 70)
+                enemies.add(new Quazi());
+            else if (chance < 85)
+                enemies.add(new Quaza());
+            else
+                enemies.add(new Quazo());
         });
 
         return enemies;

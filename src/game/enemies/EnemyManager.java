@@ -131,4 +131,10 @@ public class EnemyManager {
     public void setMode(EnemyFactory factory) {
         this.enemyFactory = factory;
     }
+
+    public void reset() {
+        this.activeEnemies.clear();
+        this.waitingEnemies.clear();
+        this.lastSpawnTime = System.currentTimeMillis();
+    }
 }

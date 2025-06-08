@@ -14,12 +14,12 @@ public class HardModeFactory extends EnemyFactory {
         java.util.stream.IntStream.range(0, NB_ENEMIES).forEach(i -> {
             Random random = new Random();
             int chance = random.nextInt(100);
-            if (chance < 55) // 55% chance
-                enemies.add(new Quazo());
-            else if (chance < 70) // 15% chance
+            if (chance < 35)
                 enemies.add(new Quaza());
-            else // 30% chance
+            else if (chance < 60)
                 enemies.add(new Quazi());
+            else
+                enemies.add(new Quazo());
         });
 
         return enemies;

@@ -36,16 +36,37 @@ class Quaza extends Quaz {
     public Quaza() {
         super(1.5, Color.BLUE, 2);
     }
+
+    @Override
+    public void update() {
+        double time = System.currentTimeMillis() / 200.0;
+        pos.setX(pos.getX() + director.getX() + Math.sin(time) * 10);
+        pos.setY(pos.getY() + director.getY());
+    }
 }
 
 class Quazi extends Quaz {
     public Quazi() {
         super(2, Color.GREEN, 2);
     }
+
+    @Override
+    public void update() {
+        double time = System.currentTimeMillis() / 200.0;
+        pos.setX(pos.getX() + director.getX() * Math.cos(time));
+        pos.setY(pos.getY() + director.getY() * Math.sin(time));
+    }
 }
 
 class Quaqua extends Quaz {
     public Quaqua() {
-        super(2.5, Color.ORANGE, 10);
+        super(0.5, Color.ORANGE, 10);
+    }
+
+    @Override
+    public void update() {
+        double time = System.currentTimeMillis() / 200.0;
+        pos.setX(pos.getX() + director.getX() + Math.sin(time * 0.5) * 15);
+        pos.setY(pos.getY() + director.getY() + Math.cos(time * 0.5) * 15);
     }
 }
