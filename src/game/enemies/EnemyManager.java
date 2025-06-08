@@ -27,7 +27,7 @@ public class EnemyManager {
         Game game = Game.getInstance();
 
         // Create a new wave
-        if (waitingEnemies.isEmpty() && activeEnemies.isEmpty() && !game.isPausedGame()) {
+        if (waitingEnemies.isEmpty() && activeEnemies.isEmpty()) {
             if (game.getWaveCount() > 0) {
                 initializeNewWave();
             }

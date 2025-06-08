@@ -1,6 +1,7 @@
 package window;
 
 import command.RestartGameCommand;
+import command.TogglePauseCommand;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class UpperMenu extends JMenuBar {
 
     private JMenu menuOption;
     private JMenu menuHelp;
+    private JMenuItem pauseItem;
     private JMenuItem resetItem;
     private JMenuItem quitItem;
     private JMenuItem aboutItem;
@@ -32,6 +34,10 @@ public class UpperMenu extends JMenuBar {
         menuOption = new JMenu("Option");
         menuHelp = new JMenu("Help");
 
+        pauseItem = new JMenuItem("Pause / Resume (p)");
+        pauseItem.addActionListener(e ->{
+            new TogglePauseCommand().execute();
+        });
         resetItem = new JMenuItem("Reset");
         resetItem.addActionListener(e ->{
             new RestartGameCommand().execute();
@@ -47,6 +53,7 @@ public class UpperMenu extends JMenuBar {
      * Ajoute les composants au menu.
      */
     private void addComponentsToMenu() {
+        menuOption.add(pauseItem);
         menuOption.add(resetItem);
         menuOption.add(quitItem);
 

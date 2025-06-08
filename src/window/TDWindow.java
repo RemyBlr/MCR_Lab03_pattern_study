@@ -69,6 +69,10 @@ public class TDWindow {
         game.addObserver(drawingCanvas);
         game.addObserver(shopPanel);
 
+        if (timer != null){
+            timer.stop();
+        }
+
         timer = new Timer(20, (e) -> {
 
             if (game.getState() != State.GAMEOVER) {
@@ -213,6 +217,16 @@ public class TDWindow {
                 drawingCanvas.updateWalls();
             }
         });
+
+        // P -> Toggle Pause/Resume
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "util.togglePause");
+        actionMap.put("util.togglePause", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commandManager.executeCommand(new TogglePauseCommand());
+            }
+        });
+
     }
 
     /**

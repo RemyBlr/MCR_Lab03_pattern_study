@@ -17,8 +17,10 @@ public class Game {
     private int gold;
     private List<Wall> walls = new ArrayList<>();
     private static EnemyManager enemyManager;
-    private static boolean isPausedGame = false;
     private long timeElapsed = 0;
+    private long pauseStartTime = 0;
+    private long totalPausedTime = 0;
+
     private long startTime = System.nanoTime();
     private int waveNumber;
     private Castle castle;
@@ -49,8 +51,14 @@ public class Game {
     }
 
 
+    /**
+     * Ticks the game
+     * Step
+     */
     public void tick(){
-        timeElapsed = System.nanoTime() - startTime;
+        if (state != State.RUNNING) return;
+
+        timeElapsed = System.nanoTime() - startTime - totalPausedTime;
         enemyManager.update();
 
         // check if castle dead
@@ -60,25 +68,55 @@ public class Game {
         notifyObservers();
     }
 
+    /**
+     * Pause the game if running
+     */
+    public void pause() {
+        if (state == State.RUNNING) {
+            state = State.PAUSED;
+            pauseStartTime = System.nanoTime();
+        }
+    }
+
+    /**
+     * Resume the game if paused
+     */
+    public void resume() {
+        if (state == State.PAUSED) {
+            state = State.RUNNING;
+            totalPausedTime += System.nanoTime() - pauseStartTime;
+        }
+    }
+
+    /**
+     * Game Over
+     */
     private void gameOver(){
         state = State.GAMEOVER;
 
         System.out.println("Game Over !!");
-        // other stuff ?
     }
 
+    /**
+     * Reset the game
+     * Creates a new instance to replace the current one
+     */
     public static void reset() {
         instance = new Game(500, 2, 0);
     }
 
-
+    /**
+     * Get the castle
+     * @return Castle - castle
+     */
     public Castle getCastle() {
         return castle;
     }
 
-    // TODO ajouter les futures classes
-
-
+    /**
+     * Return how much time the game was running for
+     * @return long
+     */
     public long getTimeElapsed() { return timeElapsed; }
 
     public EnemyManager getEnemyManager() {
@@ -183,7 +221,7 @@ public class Game {
      */
     public void addWall(Wall wall) {
         walls.add(wall);
-    }
+    } // TODO : Prevent drawing is game paused ?
 
     /**
      * Removes a wall from the list of walls.
@@ -197,12 +235,6 @@ public class Game {
      * @return A list of all the walls
      */
     public List<Wall> getWalls() { return walls; }
-    //endregion
-
-    //region Pause
-    public static boolean isPausedGame() { return isPausedGame; }
-
-    public static void setPausedGame(boolean pausedGame) { isPausedGame = pausedGame; }
     //endregion
 
     //region Observer Management
