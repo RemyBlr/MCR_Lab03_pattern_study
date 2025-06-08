@@ -68,13 +68,12 @@ public class TDWindow {
         game.addObserver(statusBar);
         game.addObserver(drawingCanvas);
         game.addObserver(shopPanel);
+        game.addObserver(toolBar);
 
         timer = new Timer(20, (e) -> {
 
             if (game.getState() != State.GAMEOVER) {
                 game.tick();
-                int currentWave = game.getWaveCount();
-                toolBar.unlockColor(currentWave);
             } else  {
                 showGameOverPanel();
                 timer.stop();
@@ -95,6 +94,7 @@ public class TDWindow {
         statusBar.update();          // Update wave, time, ink bar etc.
         drawingCanvas.updateWalls(); // Or any method that refreshes the canvas
         shopPanel.update();          // If ShopPanel implements update()
+        toolBar.reset();
 
         // Remove Game Over panel if it exists
         JLayeredPane layeredPane = frame.getLayeredPane();
