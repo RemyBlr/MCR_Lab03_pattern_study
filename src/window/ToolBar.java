@@ -2,6 +2,8 @@ package window;
 
 import command.CommandManager;
 import command.ToolSelectionCommand;
+import game.Game;
+import game.GameObserver;
 import tools.ToolChangeListener;
 import tools.ToolManager;
 import tools.ToolOption;
@@ -19,7 +21,7 @@ import java.util.Map;
  * Classe représentant la barre d'outils de l'application Paint Tower Defense.
  * Contient les boutons pour dessiner, sélectionner et changer de couleur.
  */
-public class ToolBar extends JToolBar implements ToolChangeListener {
+public class ToolBar extends JToolBar implements ToolChangeListener, GameObserver {
 
     private final Map<ToolOption, JButton> buttonMap = new EnumMap<>(ToolOption.class);
     private JButton currentSelected;
@@ -103,12 +105,20 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
                 commandManager.executeCommand(new ToolSelectionCommand(ToolOption.GOLD_PEN))
         );
 
+        resetButtonVisibility();
+    }
+
+    /**
+     * Resets color button visibility to initial state.
+     */
+    private void resetButtonVisibility() {
         blackButton.setVisible(true);
+        blueButton.setVisible(false);
         greenButton.setVisible(false);
         redButton.setVisible(false);
-        blueButton.setVisible(false);
         goldButton.setVisible(false);
     }
+
 
     /**
      * Ajoute les composants à la barre d'outils.
@@ -151,12 +161,22 @@ public class ToolBar extends JToolBar implements ToolChangeListener {
      * Unlocks the color buttons based on the current wave.
      * @param wave the current wave number
      */
-    public void unlockColor(int wave) {
+    private void unlockColor(int wave) {
         if (wave >= 3) blueButton.setVisible(true);
         if (wave >= 5) greenButton.setVisible(true);
         if (wave >= 10) redButton.setVisible(true);
         if (wave >= 999) goldButton.setVisible(true);
         revalidate();
         repaint();
+    }
+
+    public void update(){
+        unlockColor(Game.getInstance().getWaveCount());
+    }
+
+    public void reset(){
+        resetButtonVisibility();
+        ToolManager.getInstance().setCurrentTool(ToolOption.BLACK_PEN);
+        toolChanged(ToolOption.BLACK_PEN);
     }
 }
