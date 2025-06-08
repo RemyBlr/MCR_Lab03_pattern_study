@@ -160,8 +160,6 @@ public class TDWindow {
             }
         });
 
-        // ctrl + 5 -> mystery item
-
         // ctrl + z -> undo
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), "util.undo");
         actionMap.put("util.undo", new AbstractAction() {

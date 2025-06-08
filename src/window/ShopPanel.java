@@ -61,7 +61,7 @@ public class ShopPanel extends JPanel implements GameObserver {
         addInkButton = new ShopButton("Encre +50 (ctrl + 2)", ADD_INK_PRICE);
         addPvButton = new ShopButton("PV +100 (ctrl + 3)", ADD_PV_PRICE);
         addZoneButton = new ShopButton("Zone +20 (ctrl + 4)", ADD_ZONE_PRICE);
-        mysteryButton = new ShopButton("??? (ctrl + 5)", MYSTERY_PRICE);
+        mysteryButton = new ShopButton("???", MYSTERY_PRICE);
 
         // Add buttons to container with spacing
         buttonsContainer.add(refillInkButton);
