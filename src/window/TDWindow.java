@@ -295,10 +295,8 @@ public class TDWindow {
     }
 
     private void showGameOverPanel() {
-        if (gameOverPanel == null) {
-            gameOverPanel = new GameOverPanel();
-            gameOverPanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
-        }
+        gameOverPanel = new GameOverPanel();
+        gameOverPanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
         JLayeredPane layeredPane = frame.getLayeredPane();
         layeredPane.add(gameOverPanel, JLayeredPane.POPUP_LAYER);
         layeredPane.repaint();
