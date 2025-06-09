@@ -5,6 +5,7 @@ import game.GameObserver;
 import window.components.GoldCoinIcon;
 import window.components.ShopButton;
 import game.Game;
+import game.upgrades.*;
 
 
 import javax.swing.*;
@@ -27,11 +28,12 @@ public class ShopPanel extends JPanel implements GameObserver {
     private ShopButton mysteryButton;
 
     // Price constants
-    public static final int REFILL_INK_PRICE = 100;
-    public static final int ADD_INK_PRICE = 8;
-    public static final int ADD_PV_PRICE = 20;
-    public static final int ADD_ZONE_PRICE = 75;
     public static final int MYSTERY_PRICE = 999;
+
+    private final Upgrade refillInkUpgrade = new RefillInkUpgrade();
+    private final Upgrade addInkUpgrade = new AddInkUpgrade();
+    private final Upgrade addHpUpgrade = new AddHpUpgrade();
+    private final Upgrade extendZoneUpgrade = new ExtendZoneUpgrade();
 
     /**
      * Creates a new shop panel with all components
@@ -57,10 +59,10 @@ public class ShopPanel extends JPanel implements GameObserver {
         buttonsContainer.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 
         // Create shop buttons
-        refillInkButton = new ShopButton("Remplir encre (ctrl + 1)", REFILL_INK_PRICE);
-        addInkButton = new ShopButton("Encre +" + AddInkCapacityCommand.INK_AMOUNT + " (ctrl + 2)", ADD_INK_PRICE);
-        addPvButton = new ShopButton("PV +" + AddHpCommand.HP_AMOUNT + " (ctrl + 3)", ADD_PV_PRICE);
-        addZoneButton = new ShopButton("Zone +" + ExtendZoneCommand.RADIUS_AMOUNT + " (ctrl + 4)", ADD_ZONE_PRICE);
+        refillInkButton = new ShopButton(refillInkUpgrade.getLabel() + "(" + refillInkUpgrade.getShortcut() + ")", refillInkUpgrade.getPrice());
+        addInkButton = new ShopButton(addInkUpgrade.getLabel() + "(" + addInkUpgrade.getShortcut() + ")", addInkUpgrade.getPrice());
+        addPvButton = new ShopButton(addHpUpgrade.getLabel() + "(" + addHpUpgrade.getShortcut() + ")", addHpUpgrade.getPrice());
+        addZoneButton = new ShopButton(extendZoneUpgrade.getLabel() + "(" + extendZoneUpgrade.getShortcut() + ")", extendZoneUpgrade.getPrice());
         mysteryButton = new ShopButton("???", MYSTERY_PRICE);
 
         // Add buttons to container with spacing
@@ -78,19 +80,23 @@ public class ShopPanel extends JPanel implements GameObserver {
 
         // Listeners
         refillInkButton.addActionListener(e -> {
-            commandManager.executeCommand(new RefillInkCommand(Game.getInstance(), REFILL_INK_PRICE));
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), refillInkUpgrade));
+            refreshButtons();
         });
 
         addInkButton.addActionListener(e -> {
-            commandManager.executeCommand(new AddInkCapacityCommand(Game.getInstance(), ADD_INK_PRICE));
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), addInkUpgrade));
+            refreshButtons();
         });
 
         addPvButton.addActionListener(e -> {
-            commandManager.executeCommand(new AddHpCommand(Game.getInstance(), ADD_PV_PRICE));
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), addHpUpgrade));
+            refreshButtons();
         });
 
         addZoneButton.addActionListener(e -> {
-            commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), ADD_ZONE_PRICE));
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), extendZoneUpgrade));
+            refreshButtons();
         });
 
         mysteryButton.addActionListener(e -> {
@@ -101,5 +107,28 @@ public class ShopPanel extends JPanel implements GameObserver {
     // TODO trouver moyen refresh ui sur shortcut
     public void update() {
         playerGold.update();
+        refreshButtons();
     }
+
+    private void refreshButtons() {
+        refillInkButton.setText(refillInkUpgrade.getLabel() + " (" + refillInkUpgrade.getShortcut() + ")");
+        refillInkButton.setPrice(refillInkUpgrade.getPrice());
+
+        addInkButton.setText(addInkUpgrade.getLabel() + " (" + addInkUpgrade.getShortcut() + ")");
+        addInkButton.setPrice(addInkUpgrade.getPrice());
+
+        addPvButton.setText(addHpUpgrade.getLabel() + " (" + addHpUpgrade.getShortcut() + ")");
+        addPvButton.setPrice(addHpUpgrade.getPrice());
+
+        addZoneButton.setText(extendZoneUpgrade.getLabel() + " (" + extendZoneUpgrade.getShortcut() + ")");
+        addZoneButton.setPrice(extendZoneUpgrade.getPrice());
+    }
+
+    public Upgrade getRefillInkUpgrade() {return refillInkUpgrade;}
+
+    public Upgrade getAddInkUpgrade() {return addInkUpgrade;}
+
+    public Upgrade getAddHpUpgrade() {return addHpUpgrade;}
+
+    public Upgrade getExtendZoneUpgrade() {return extendZoneUpgrade;}
 }

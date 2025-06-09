@@ -2,13 +2,11 @@ package window;
 
 import command.*;
 import game.Game;
-import game.GameObserver;
 import game.State;
 import tools.ToolOption;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -185,7 +183,8 @@ public class TDWindow {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK), "shop.refillInk");
         actionMap.put("shop.refillInk", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new RefillInkCommand(Game.getInstance(), ShopPanel.REFILL_INK_PRICE));
+                commandManager.executeCommand(new UpgradeCommand(Game.getInstance(),shopPanel.getRefillInkUpgrade()));
+                shopPanel.update();
             }
         });
 
@@ -193,7 +192,8 @@ public class TDWindow {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, KeyEvent.CTRL_DOWN_MASK), "shop.addInk");
         actionMap.put("shop.addInk", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new AddInkCapacityCommand(Game.getInstance(), ShopPanel.ADD_INK_PRICE));
+                commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), shopPanel.getAddInkUpgrade()));
+                shopPanel.update();
             }
         });
 
@@ -201,7 +201,8 @@ public class TDWindow {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_DOWN_MASK), "shop.addHp");
         actionMap.put("shop.addHp", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new AddHpCommand(Game.getInstance(), ShopPanel.ADD_PV_PRICE));
+                commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), shopPanel.getAddHpUpgrade()));
+                shopPanel.update();
             }
         });
 
@@ -209,7 +210,7 @@ public class TDWindow {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_DOWN_MASK), "shop.addZone");
         actionMap.put("shop.addZone", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), ShopPanel.ADD_ZONE_PRICE));
+                commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), shopPanel.getExtendZoneUpgrade()));
             }
         });
 
