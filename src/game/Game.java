@@ -13,6 +13,10 @@ import java.util.List;
 public class Game {
     private static Game instance;
 
+    private static int defaultInk = 200;
+    private static int defaultBaseHp = 20;
+    private static int defaultGold = 0;
+
     private int ink;
     private int maxInk;
     private int gold;
@@ -102,7 +106,7 @@ public class Game {
      * Creates a new instance to replace the current one
      */
     public static void reset() {
-        instance = new Game(200, 20, 0);
+        instance = new Game(defaultInk, defaultBaseHp, defaultGold);
     }
 
     /**
@@ -285,9 +289,21 @@ public class Game {
      */
     public static Game getInstance() {
         if(instance == null)
-            instance = new Game(200, 20, 0);
+            instance = new Game(defaultInk, defaultBaseHp, defaultGold);
         return instance;
     }
-
     //endregion
+
+    /**
+     * Initialize the game with custom parameters.
+     * @param ink initial ink amount
+     * @param baseHp initial health of the base
+     * @param gold initial gold amount
+     */
+    public static void init(int ink, int baseHp, int gold) {
+        defaultInk = ink;
+        defaultBaseHp = baseHp;
+        defaultGold = gold;
+        instance = new Game(ink, baseHp, gold);
+    }
 }
