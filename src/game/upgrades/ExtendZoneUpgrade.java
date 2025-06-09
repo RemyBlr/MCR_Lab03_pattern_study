@@ -19,15 +19,14 @@ public class ExtendZoneUpgrade implements Upgrade {
     @Override
     public void apply(Game game) {
         int price = getPrice();
-        if(game.canUseGold(price)) {
-            game.setGold(-price);
-            game.getCastle().increaseDefenseRadius(RANGE_AMOUNT);
-            tier++;
-        }
+        game.setGold(-price);
+        game.getCastle().increaseDefenseRadius(RANGE_AMOUNT);
+        tier++;
     }
 
     @Override
-    public String getShortcut() {
-        return "ctrl + 4";
-    }
+    public String getShortcut() {return "ctrl + 4";}
+
+    @Override
+    public void reset() {tier = 0;}
 }

@@ -90,6 +90,9 @@ public class TDWindow {
 
         Game.reset();
 
+        // reset shop buttons
+        shopPanel.resetUpgrades();
+
         // Reset UI components that reflect game state
         statusBar.update();
         drawingCanvas.updateWalls();
@@ -211,6 +214,7 @@ public class TDWindow {
         actionMap.put("shop.addZone", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
                 commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), shopPanel.getExtendZoneUpgrade()));
+                shopPanel.update();
             }
         });
 
@@ -229,7 +233,7 @@ public class TDWindow {
         actionMap.put("util.suprem", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new SupremModeCommand(Game.getInstance()));
+                commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), shopPanel.getMysteryUpgrade(), true));
             }
         });
       

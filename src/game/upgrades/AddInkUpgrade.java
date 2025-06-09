@@ -19,15 +19,14 @@ public class AddInkUpgrade implements Upgrade {
     @Override
     public void apply(Game game) {
         int price = getPrice();
-        if(game.canUseGold(price)) {
-            game.setGold(-price);
-            game.increaseMaxInk(INK_AMOUNT);
-            tier++;
-        }
+        game.setGold(-price);
+        game.increaseMaxInk(INK_AMOUNT);
+        tier++;
     }
 
     @Override
-    public String getShortcut() {
-        return "ctrl + 2";
-    }
+    public String getShortcut() {return "ctrl + 2";}
+
+    @Override
+    public void reset() {tier = 0;}
 }

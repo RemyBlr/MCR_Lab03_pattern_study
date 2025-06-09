@@ -27,13 +27,12 @@ public class ShopPanel extends JPanel implements GameObserver {
     private ShopButton addZoneButton;
     private ShopButton mysteryButton;
 
-    // Price constants
-    public static final int MYSTERY_PRICE = 999;
-
+    // Upgrades
     private final Upgrade refillInkUpgrade = new RefillInkUpgrade();
     private final Upgrade addInkUpgrade = new AddInkUpgrade();
     private final Upgrade addHpUpgrade = new AddHpUpgrade();
     private final Upgrade extendZoneUpgrade = new ExtendZoneUpgrade();
+    private final Upgrade mysteryUpgrade = new MysteryUpgrade();
 
     /**
      * Creates a new shop panel with all components
@@ -59,11 +58,11 @@ public class ShopPanel extends JPanel implements GameObserver {
         buttonsContainer.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 
         // Create shop buttons
-        refillInkButton = new ShopButton(refillInkUpgrade.getLabel() + "(" + refillInkUpgrade.getShortcut() + ")", refillInkUpgrade.getPrice());
-        addInkButton = new ShopButton(addInkUpgrade.getLabel() + "(" + addInkUpgrade.getShortcut() + ")", addInkUpgrade.getPrice());
-        addPvButton = new ShopButton(addHpUpgrade.getLabel() + "(" + addHpUpgrade.getShortcut() + ")", addHpUpgrade.getPrice());
+        refillInkButton = new ShopButton(refillInkUpgrade.getLabel() + " (" + refillInkUpgrade.getShortcut() + ")", refillInkUpgrade.getPrice());
+        addInkButton = new ShopButton(addInkUpgrade.getLabel() + " (" + addInkUpgrade.getShortcut() + ")", addInkUpgrade.getPrice());
+        addPvButton = new ShopButton(addHpUpgrade.getLabel() + " (" + addHpUpgrade.getShortcut() + ")", addHpUpgrade.getPrice());
         addZoneButton = new ShopButton(extendZoneUpgrade.getLabel() + "(" + extendZoneUpgrade.getShortcut() + ")", extendZoneUpgrade.getPrice());
-        mysteryButton = new ShopButton("???", MYSTERY_PRICE);
+        mysteryButton = new ShopButton(mysteryUpgrade.getLabel() + " (" + mysteryUpgrade.getShortcut() + ")", mysteryUpgrade.getPrice());
 
         // Add buttons to container with spacing
         buttonsContainer.add(refillInkButton);
@@ -79,29 +78,25 @@ public class ShopPanel extends JPanel implements GameObserver {
         add(buttonsContainer);
 
         // Listeners
-        refillInkButton.addActionListener(e -> {
-            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), refillInkUpgrade));
-            refreshButtons();
-        });
+        refillInkButton.addActionListener(e ->
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), refillInkUpgrade))
+        );
 
-        addInkButton.addActionListener(e -> {
-            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), addInkUpgrade));
-            refreshButtons();
-        });
+        addInkButton.addActionListener(e ->
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), addInkUpgrade))
+        );
 
-        addPvButton.addActionListener(e -> {
-            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), addHpUpgrade));
-            refreshButtons();
-        });
+        addPvButton.addActionListener(e ->
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), addHpUpgrade))
+        );
 
-        addZoneButton.addActionListener(e -> {
-            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), extendZoneUpgrade));
-            refreshButtons();
-        });
+        addZoneButton.addActionListener(e ->
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), extendZoneUpgrade))
+        );
 
-        mysteryButton.addActionListener(e -> {
-            commandManager.executeCommand(new SupremModeCommand(Game.getInstance()));
-        });
+        mysteryButton.addActionListener(e ->
+            commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), mysteryUpgrade))
+        );
     }
 
     // TODO trouver moyen refresh ui sur shortcut
@@ -131,4 +126,14 @@ public class ShopPanel extends JPanel implements GameObserver {
     public Upgrade getAddHpUpgrade() {return addHpUpgrade;}
 
     public Upgrade getExtendZoneUpgrade() {return extendZoneUpgrade;}
+
+    public Upgrade getMysteryUpgrade() {return mysteryUpgrade;}
+
+    public void resetUpgrades() {
+        refillInkUpgrade.reset();
+        addInkUpgrade.reset();
+        addHpUpgrade.reset();
+        extendZoneUpgrade.reset();
+        mysteryUpgrade.reset();
+    }
 }

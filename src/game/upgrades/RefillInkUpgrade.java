@@ -15,14 +15,13 @@ public class RefillInkUpgrade implements Upgrade {
 
     @Override
     public void apply(Game game) {
-        if(game.canUseGold(PRICE)) {
-            game.setGold(-PRICE);
-            game.refillInk();
-        }
+        game.setGold(-PRICE);
+        game.refillInk();
     }
 
     @Override
-    public String getShortcut() {
-        return "ctrl + 1";
-    }
+    public String getShortcut() {return "ctrl + 1";}
+
+    @Override
+    public void reset() {}// No specific reset logic needed for this upgrade
 }

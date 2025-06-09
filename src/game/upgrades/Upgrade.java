@@ -7,4 +7,5 @@ public interface Upgrade {
     int getPrice();
     void apply(Game game);
     String getShortcut();
+    void reset();
 }

@@ -19,15 +19,15 @@ public class AddHpUpgrade implements Upgrade {
     @Override
     public void apply(Game game) {
         int price = getPrice();
-        if(game.canUseGold(price)) {
-            game.setGold(-price);
-            game.getCastle().addHp(HP_AMOUNT);
-            tier++;
-        }
+        game.setGold(-price);
+        game.getCastle().addHp(HP_AMOUNT);
+        tier++;
+
     }
 
     @Override
-    public String getShortcut() {
-        return "ctrl + 3";
-    }
+    public String getShortcut() {return "ctrl + 3";}
+
+    @Override
+    public void reset() {tier = 0;}
 }
