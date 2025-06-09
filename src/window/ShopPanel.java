@@ -5,10 +5,15 @@ import game.GameObserver;
 import window.components.GoldCoinIcon;
 import window.components.ShopButton;
 import game.Game;
+import game.upgrades.*;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Custom panel for the shop in Paint Tower Defense.
@@ -19,19 +24,14 @@ public class ShopPanel extends JPanel implements GameObserver {
     private final GoldCoinIcon playerGold;
     private final CommandManager commandManager;
 
+    private final Map<Upgrade, Action> upgradeActions = new LinkedHashMap<>();
+    private final Map<Upgrade, ShopButton> upgradeButtons = new LinkedHashMap<>();
 
-    private ShopButton refillInkButton;
-    private ShopButton addInkButton;
-    private ShopButton addPvButton;
-    private ShopButton addZoneButton;
-    private ShopButton mysteryButton;
-
-    // Price constants
-    public static final int REFILL_INK_PRICE = 100;
-    public static final int ADD_INK_PRICE = 8;
-    public static final int ADD_PV_PRICE = 20;
-    public static final int ADD_ZONE_PRICE = 75;
-    public static final int MYSTERY_PRICE = 999;
+    private final Upgrade refillInkUpgrade = new RefillInkUpgrade();
+    private final Upgrade addInkUpgrade = new AddInkUpgrade();
+    private final Upgrade addHpUpgrade = new AddHpUpgrade();
+    private final Upgrade extendZoneUpgrade = new ExtendZoneUpgrade();
+    private final Upgrade mysteryUpgrade = new MysteryUpgrade();
 
     /**
      * Creates a new shop panel with all components
@@ -43,7 +43,7 @@ public class ShopPanel extends JPanel implements GameObserver {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(230, 230, 250));
 
-        // Add player sold
+        // Add player gold
         playerGold = new GoldCoinIcon();
         playerGold.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerGold.setBorder(BorderFactory.createEmptyBorder(20, 50, 50, 50));
@@ -56,50 +56,85 @@ public class ShopPanel extends JPanel implements GameObserver {
         buttonsContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonsContainer.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 
-        // Create shop buttons
-        refillInkButton = new ShopButton("Remplir encre (ctrl + 1)", REFILL_INK_PRICE);
-        addInkButton = new ShopButton("Encre +50 (ctrl + 2)", ADD_INK_PRICE);
-        addPvButton = new ShopButton("PV +100 (ctrl + 3)", ADD_PV_PRICE);
-        addZoneButton = new ShopButton("Zone +20 (ctrl + 4)", ADD_ZONE_PRICE);
-        mysteryButton = new ShopButton("???", MYSTERY_PRICE);
+        Upgrade[] upgrades = {
+            refillInkUpgrade,
+            addInkUpgrade,
+            addHpUpgrade,
+            extendZoneUpgrade,
+            mysteryUpgrade
+        };
 
-        // Add buttons to container with spacing
-        buttonsContainer.add(refillInkButton);
-        buttonsContainer.add(Box.createVerticalStrut(20));
-        buttonsContainer.add(addInkButton);
-        buttonsContainer.add(Box.createVerticalStrut(20));
-        buttonsContainer.add(addPvButton);
-        buttonsContainer.add(Box.createVerticalStrut(20));
-        buttonsContainer.add(addZoneButton);
-        buttonsContainer.add(Box.createVerticalStrut(20));
-        buttonsContainer.add(mysteryButton);
+        for(Upgrade upgrade : upgrades) {
+            Action action = new AbstractAction(upgrade.getLabel() + " (" + upgrade.getShortcut() + ")") {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // execute the command with the game and upgrade
+                    commandManager.executeCommand(new UpgradeCommand(game, upgrade));
+                }
+            };
+            // add the action to the map
+            upgradeActions.put(upgrade, action);
+
+            // create buttons
+            ShopButton btn = new ShopButton(action.getValue(Action.NAME).toString(), upgrade.getPrice());
+            btn.addActionListener(action::actionPerformed);
+            upgradeButtons.put(upgrade, btn);
+
+            // listen for property changes
+            action.addPropertyChangeListener((PropertyChangeEvent evt) -> {
+                switch (evt.getPropertyName()) {
+                    // update label and price
+                    case Action.NAME -> {
+                            btn.setText(action.getValue(Action.NAME).toString());
+                            btn.setPrice(upgrade.getPrice());
+                    }
+                    // update enabled state
+                    case "enabled" ->
+                            btn.setEnabled(action.isEnabled());
+                }
+            });
+
+            buttonsContainer.add(btn);
+            buttonsContainer.add(Box.createVerticalStrut(10));
+        }
 
         add(buttonsContainer);
-
-        // Listeners
-        refillInkButton.addActionListener(e -> {
-            commandManager.executeCommand(new RefillInkCommand(Game.getInstance(), REFILL_INK_PRICE));
-        });
-
-        addInkButton.addActionListener(e -> {
-            commandManager.executeCommand(new AddInkCapacityCommand(Game.getInstance(), ADD_INK_PRICE));
-        });
-
-        addPvButton.addActionListener(e -> {
-            commandManager.executeCommand(new AddHpCommand(Game.getInstance(), ADD_PV_PRICE));
-        });
-
-        addZoneButton.addActionListener(e -> {
-            commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), ADD_ZONE_PRICE));
-        });
-
-        mysteryButton.addActionListener(e -> {
-            commandManager.executeCommand(new SupremModeCommand(Game.getInstance()));
-        });
     }
 
     // TODO trouver moyen refresh ui sur shortcut
     public void update() {
+        // update gold
         playerGold.update();
+
+        // update every action
+        for (Map.Entry<Upgrade,Action> entry : upgradeActions.entrySet()) {
+            Upgrade upgrade = entry.getKey();
+            Action action = entry.getValue();
+            // label + enabled
+            action.putValue(Action.NAME, upgrade.getLabel() + " (" + upgrade.getShortcut() + ")");
+            action.setEnabled(game.canUseGold(upgrade.getPrice()));
+        }
     }
+
+    public void resetUpgrades() {
+        refillInkUpgrade.reset();
+        addInkUpgrade.reset();
+        addHpUpgrade.reset();
+        extendZoneUpgrade.reset();
+        mysteryUpgrade.reset();
+    }
+
+    public Action getRefillInkAction() {return upgradeActions.get(refillInkUpgrade);}
+    public Action getAddInkAction() {return upgradeActions.get(addInkUpgrade);}
+    public Action getAddHpAction() {return upgradeActions.get(addHpUpgrade);}
+    public Action getExtendZoneAction() {return upgradeActions.get(extendZoneUpgrade);}
+
+    private final Action mysteryForceAction = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // bypass gold check
+            commandManager.executeCommand(new UpgradeCommand(game, mysteryUpgrade, true));
+        }
+    };
+    public Action getMysteryAction() {return mysteryForceAction;}
 }

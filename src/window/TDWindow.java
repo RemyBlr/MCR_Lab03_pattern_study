@@ -2,13 +2,11 @@ package window;
 
 import command.*;
 import game.Game;
-import game.GameObserver;
 import game.State;
 import tools.ToolOption;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -91,6 +89,9 @@ public class TDWindow {
         System.out.println("Restarting game...");
 
         Game.reset();
+
+        // reset shop buttons
+        shopPanel.resetUpgrades();
 
         // Reset UI components that reflect game state
         statusBar.update();
@@ -183,35 +184,20 @@ public class TDWindow {
 
         // ctrl + 1 -> refill ink
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK), "shop.refillInk");
-        actionMap.put("shop.refillInk", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new RefillInkCommand(Game.getInstance(), ShopPanel.REFILL_INK_PRICE));
-            }
-        });
+        actionMap.put("shop.refillInk", shopPanel.getRefillInkAction());
+
 
         // ctrl + 2 -> add ink
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, KeyEvent.CTRL_DOWN_MASK), "shop.addInk");
-        actionMap.put("shop.addInk", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new AddInkCapacityCommand(Game.getInstance(), ShopPanel.ADD_INK_PRICE));
-            }
-        });
+        actionMap.put("shop.addInk", shopPanel.getAddInkAction());
 
         // ctrl + 3 -> add hp
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_DOWN_MASK), "shop.addHp");
-        actionMap.put("shop.addHp", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new AddHpCommand(Game.getInstance(), ShopPanel.ADD_PV_PRICE));
-            }
-        });
+        actionMap.put("shop.addHp", shopPanel.getAddHpAction());
 
         // ctrl + 4 -> add zone
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_DOWN_MASK), "shop.addZone");
-        actionMap.put("shop.addZone", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new ExtendZoneCommand(Game.getInstance(), ShopPanel.ADD_ZONE_PRICE));
-            }
-        });
+        actionMap.put("shop.addZone", shopPanel.getExtendZoneAction());
 
         // ctrl + z -> undo
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), "util.undo");
@@ -225,13 +211,8 @@ public class TDWindow {
 
         // ctrl + h -> easter egg: goes into SupremMode
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK), "util.suprem");
-        actionMap.put("util.suprem", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                commandManager.executeCommand(new SupremModeCommand(Game.getInstance()));
-            }
-        });
-      
+        actionMap.put("util.suprem", shopPanel.getMysteryAction());
+
         // P -> Toggle Pause/Resume
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "util.togglePause");
         actionMap.put("util.togglePause", new AbstractAction() {

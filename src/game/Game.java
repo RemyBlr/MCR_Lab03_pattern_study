@@ -268,6 +268,14 @@ public class Game {
             observer.update(); // will pass a state later I think
         }
     }
+
+    /**
+     * Notify all observers immediately
+     * This is used when you want to force an update, e.g., after a command execution
+     */
+    public void notifyObserversNow() {
+        notifyObservers();
+    }
     //endregion
 
     //region Singleton

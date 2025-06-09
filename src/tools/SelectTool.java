@@ -5,6 +5,7 @@ import command.CompositeCommand;
 import command.MoveWallCommand;
 import game.Game;
 import game.GameObserver;
+import game.State;
 import game.Wall;
 import window.DrawingCanvas;
 
@@ -44,6 +45,8 @@ public class SelectTool implements Tool, GameObserver {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (Game.getInstance().getState() != State.RUNNING) return;
+
         start = e.getPoint();
         last = start;
 
@@ -74,6 +77,8 @@ public class SelectTool implements Tool, GameObserver {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (Game.getInstance().getState() != State.RUNNING) return;
+
         Point point = e.getPoint();
 
         if (isDragging) {
@@ -139,6 +144,8 @@ public class SelectTool implements Tool, GameObserver {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (Game.getInstance().getState() != State.RUNNING) return;
+
         Point releasePoint = e.getPoint();
 
         if (isDragging) {
