@@ -10,6 +10,8 @@ import game.upgrades.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Custom panel for the shop in Paint Tower Defense.
@@ -105,6 +107,7 @@ public class ShopPanel extends JPanel implements GameObserver {
         refreshButtons();
     }
 
+    // TODO i'm not really sure about this, but it works
     private void refreshButtons() {
         refillInkButton.setText(refillInkUpgrade.getLabel() + " (" + refillInkUpgrade.getShortcut() + ")");
         refillInkButton.setPrice(refillInkUpgrade.getPrice());

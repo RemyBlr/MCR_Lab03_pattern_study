@@ -2,6 +2,10 @@ package game.upgrades;
 
 import game.Game;
 
+/**
+ * Upgrade to extend the defense zone of the castle.
+ * This upgrade increases the radius of the defense zone by a fixed amount at each tier.
+ */
 public class ExtendZoneUpgrade implements Upgrade {
     private static final int[] PRICES = {75,100,125,150};
     private static final int RANGE_AMOUNT = 20;

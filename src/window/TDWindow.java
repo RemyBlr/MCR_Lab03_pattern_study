@@ -233,6 +233,7 @@ public class TDWindow {
         actionMap.put("util.suprem", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // true to force the SupremMode without gold check
                 commandManager.executeCommand(new UpgradeCommand(Game.getInstance(), shopPanel.getMysteryUpgrade(), true));
             }
         });

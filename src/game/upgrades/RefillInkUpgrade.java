@@ -2,6 +2,10 @@ package game.upgrades;
 
 import game.Game;
 
+/**
+ * Upgrade to refill the ink in the game.
+ * This upgrade allows players to refill their ink supply at a cost.
+ */
 public class RefillInkUpgrade implements Upgrade {
     private static final int PRICE = 100;
 

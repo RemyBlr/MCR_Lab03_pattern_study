@@ -2,6 +2,10 @@ package game.upgrades;
 
 import game.Game;
 
+/**
+ * Upgrade that increases the castle's health points (HP) in the game.
+ * Each tier of this upgrade increases the HP by a fixed amount and has a specific price.
+ */
 public class AddHpUpgrade implements Upgrade {
     private static final int[] PRICES = {50,75,100,150};
     private static final int HP_AMOUNT = 20;

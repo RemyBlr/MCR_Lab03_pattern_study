@@ -2,6 +2,10 @@ package game.upgrades;
 
 import game.Game;
 
+/**
+ * Upgrade to increase the maximum ink capacity in the game.
+ * This upgrade allows players to increase their ink supply by a fixed amount at each tier.
+ */
 public class AddInkUpgrade implements Upgrade {
     private static final int[] PRICES = {8,12,16,20};
     private static final int INK_AMOUNT = 50;

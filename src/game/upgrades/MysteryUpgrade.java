@@ -2,6 +2,11 @@ package game.upgrades;
 
 import game.enemies.SupremHardcoreModeFactory;
 
+/**
+ * Upgrade that applies a mystery effect in the game.
+ * This upgrade resets the enemy manager, sets the wave count to 999,
+ * and changes the game mode to Supreme Hardcore Mode.
+ */
 public class MysteryUpgrade implements Upgrade {
     private final static int PRICE = 999;
 
