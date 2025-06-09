@@ -3,6 +3,7 @@ package tools;
 import command.CommandManager;
 import command.CreateWallCommand;
 import game.Game;
+import game.State;
 import game.Wall;
 import window.DrawingCanvas;
 
@@ -31,7 +32,9 @@ public class PenTool implements Tool {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (Game.getInstance().getState() != State.RUNNING) return;
         if (!canvas.isInsideDrawingZone(e.getX(), e.getY())) return;
+
         currentPath = new Path2D.Double();
         currentPath.moveTo(e.getX(), e.getY());
         canvas.startPath(currentPath);
@@ -39,6 +42,7 @@ public class PenTool implements Tool {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (Game.getInstance().getState() != State.RUNNING) return;
         if (currentPath == null) return;
 
         int x = e.getX();
@@ -52,6 +56,7 @@ public class PenTool implements Tool {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (Game.getInstance().getState() != State.RUNNING) return;
         if (currentPath == null) return;
 
         int x = e.getX();
