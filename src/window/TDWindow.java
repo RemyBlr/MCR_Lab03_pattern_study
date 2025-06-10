@@ -205,7 +205,6 @@ public class TDWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 commandManager.undo();
-                drawingCanvas.updateWalls();
             }
         });
 
