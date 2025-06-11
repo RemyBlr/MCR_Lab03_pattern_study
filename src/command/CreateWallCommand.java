@@ -30,9 +30,9 @@ public class CreateWallCommand implements UndoableCommand {
                              int wallWidth,
                              int wallCost) {
         // Remove ink cost from the game
-        compositeCommand.addCommand(new ChangeInkCommand(game, -wallCost));
+        compositeCommand.addCommand(new ChangeInkCommand(-wallCost));
         // Draw the wall and add it to the game
-        compositeCommand.addCommand(new DrawWallCommand(game, canvas, path, color, wallWidth, wallCost));
+        compositeCommand.addCommand(new DrawWallCommand(canvas, path, color, wallWidth, wallCost));
     }
 
     /**

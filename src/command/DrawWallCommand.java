@@ -13,8 +13,7 @@ public class DrawWallCommand implements UndoableCommand {
     private final Path2D path;
     private Wall wall;
 
-    public DrawWallCommand(Game game,
-                           DrawingCanvas canvas,
+    public DrawWallCommand(DrawingCanvas canvas,
                            Path2D path,
                            Color color,
                            int wallWidth,

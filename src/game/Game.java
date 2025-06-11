@@ -35,9 +35,6 @@ public class Game {
 
     private List<GameObserver> observers = new ArrayList<>();
 
-    // TODO : use a state instead
-    private GameState gameState;
-
     /**
      * Constructor for the game.Game class.
      *
@@ -52,7 +49,6 @@ public class Game {
         enemyManager = new EnemyManager();
         this.waveNumber = 1;
         this.castle = new Castle(baseHp);
-        this.gameState = new GameState();
     }
 
 
