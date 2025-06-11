@@ -20,7 +20,6 @@ import java.util.Map;
  * Contains gold display, purchase buttons and item grid.
  */
 public class ShopPanel extends JPanel implements GameObserver {
-    private final Game game;
     private final GoldCoinIcon playerGold;
     private final CommandManager commandManager;
 
@@ -36,8 +35,7 @@ public class ShopPanel extends JPanel implements GameObserver {
     /**
      * Creates a new shop panel with all components
      */
-    public ShopPanel(Game game, CommandManager commandManager) {
-        this.game = game;
+    public ShopPanel(CommandManager commandManager) {
         this.commandManager = commandManager;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -112,7 +110,7 @@ public class ShopPanel extends JPanel implements GameObserver {
             Action action = entry.getValue();
             // label + enabled
             action.putValue(Action.NAME, upgrade.getLabel() + " (" + upgrade.getShortcut() + ")");
-            action.setEnabled(game.canUseGold(upgrade.getPrice()));
+            action.setEnabled(Game.getInstance().canUseGold(upgrade.getPrice()));
         }
     }
 

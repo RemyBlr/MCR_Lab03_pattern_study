@@ -49,6 +49,8 @@ public class EnemyManager {
                 // Check if the next position would hit a wall
                 Wall hitWall = hitWall(enemy);
                 if (hitWall != null) {
+                    // Refund wall cost
+                    Game.getInstance().setInk(hitWall.getCost());
                     // Remove both the wall and the enemy
                     Game.getInstance().removeWall(hitWall);
                     game.setGold(enemy.getReward());

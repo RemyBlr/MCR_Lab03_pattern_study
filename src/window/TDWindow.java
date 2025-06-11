@@ -280,7 +280,7 @@ public class TDWindow {
         JPanel drawingZone = createCanvas();
         JToolBar toolBar = createToolBar();
         JPanel statusBar = createStatusBar();
-        shopPanel = new ShopPanel(game.Game.getInstance(), commandManager);
+        shopPanel = new ShopPanel(commandManager);
 
         JPanel canvasPanel = new JPanel(new BorderLayout());
         canvasPanel.add(toolBar, BorderLayout.NORTH);

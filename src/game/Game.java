@@ -228,8 +228,7 @@ public class Game {
      */
     public void removeWall(Wall wall) {
         // Regains the ink of the wall
-        this.ink += wall.getCost();
-
+        //this.ink += wall.getCost();
         walls.remove(wall);
     }
 
