@@ -69,7 +69,7 @@ public class ShopPanel extends JPanel implements GameObserver {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // execute the command with the game and upgrade
-                    commandManager.executeCommand(new UpgradeCommand(game, upgrade));
+                    commandManager.executeCommand(new UpgradeCommand(upgrade));
                 }
             };
             // add the action to the map
@@ -133,7 +133,7 @@ public class ShopPanel extends JPanel implements GameObserver {
         @Override
         public void actionPerformed(ActionEvent e) {
             // bypass gold check
-            commandManager.executeCommand(new UpgradeCommand(game, mysteryUpgrade, true));
+            commandManager.executeCommand(new UpgradeCommand(mysteryUpgrade, true));
         }
     };
     public Action getMysteryAction() {return mysteryForceAction;}
