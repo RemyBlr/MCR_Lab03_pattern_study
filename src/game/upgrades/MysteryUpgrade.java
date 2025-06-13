@@ -1,6 +1,6 @@
 package game.upgrades;
 
-import game.enemies.SupremHardcoreModeFactory;
+import game.enemies.SupremeHardcoreModeFactory;
 
 /**
  * Upgrade that applies a mystery effect in the game.
@@ -25,7 +25,7 @@ public class MysteryUpgrade implements Upgrade {
         if(game.canUseGold(PRICE)) game.setGold(-PRICE);
         game.getEnemyManager().reset();
         game.setWaveCount(999);
-        game.setMode(new SupremHardcoreModeFactory());
+        game.setMode(new SupremeHardcoreModeFactory());
     }
 
     @Override
