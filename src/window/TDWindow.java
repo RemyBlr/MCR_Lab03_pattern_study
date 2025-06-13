@@ -55,12 +55,6 @@ public class TDWindow {
         startGame();
     }
 
-    public void dispose() {
-        if (frame != null) {
-            frame.dispose();
-        }
-    }
-
     private void startGame(){
         Game game = Game.getInstance();
         game.addObserver(statusBar);
