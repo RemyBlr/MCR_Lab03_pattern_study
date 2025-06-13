@@ -8,9 +8,6 @@ import java.awt.*;
  */
 public class ButtonIcon extends JButton {
     private static final int ICON_SIZE = 50;
-    private Icon toolIcon;
-    private String toolName;
-    private String shortcut;
 
     /**
      * Creates a new button with the specified icon and tool name.
@@ -19,8 +16,6 @@ public class ButtonIcon extends JButton {
      * @param toolName Name of the tool
      */
     public ButtonIcon(String iconPath, String toolName, String shortcut) {
-        this.toolName = toolName;
-        this.shortcut = shortcut;
 
         setLayout(new BorderLayout());
         setOpaque(false);

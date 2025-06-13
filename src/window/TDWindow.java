@@ -226,24 +226,13 @@ public class TDWindow {
     }
 
     /**
-     * Create the shop menu containing the gold coins and the different
-     * buying options. Now uses modular components.
-     *
-     * @return JPanel
-     */
-    /*private JPanel createShopMenu() {
-        shopPanel = new ShopPanel(game.Game.getInstance(), drawingCanvas, commandManager);
-        return shopPanel;
-    }*/
-
-    /**
      * Create the toolbar with different buttons.
      * For example: Pen, Select, Colors...
      * @return JToolBar
      */
     private JToolBar createToolBar() {
 
-        toolBar = new ToolBar(drawingCanvas, commandManager);
+        toolBar = new ToolBar(commandManager);
         return toolBar;
     }
 
