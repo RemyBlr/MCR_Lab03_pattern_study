@@ -6,8 +6,10 @@
 
 ## Contexte
 Ce projet est une application Java "Paint Tower Defense". Le joueur dessine des murs dans une zone délimitée
-pour défendre un chataeu contre des vagues d'ennemis. L'interface est réalisée avec Swing et l'application 
+pour défendre un château contre des vagues d'ennemis. L'interface est réalisée avec Swing et l'application 
 utilise le pattern Command pour gérer différentes actions.
+
+![Tower Defense](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\Tower Defense.gif)
 
 ## Mise en oeuvre du modèle
 Le projet est organisé en plusieurs packages :
