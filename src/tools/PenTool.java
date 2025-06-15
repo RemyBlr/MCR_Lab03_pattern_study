@@ -1,3 +1,10 @@
+/*
+ * File: PenTool.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: PenTool class represents a tool to handle mouse events for drawing walls.
+ * Version: 1.0
+ */
 package tools;
 
 import command.CommandManager;

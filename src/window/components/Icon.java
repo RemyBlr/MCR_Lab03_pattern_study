@@ -1,3 +1,10 @@
+/*
+ * File: Icon.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: Icon class represents an icon component.
+ * Version: 1.0
+ */
 package window.components;
 
 import javax.swing.*;

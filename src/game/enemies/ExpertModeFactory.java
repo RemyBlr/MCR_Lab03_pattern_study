@@ -1,3 +1,10 @@
+/*
+ * File: ExpertModeFactory.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: ExpertModeFactory is an implementation of the factory that add Seagull enemies.
+ * Version: 1.0
+ */
 package game.enemies;
 
 import java.util.LinkedList;

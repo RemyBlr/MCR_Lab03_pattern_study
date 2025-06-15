@@ -1,3 +1,10 @@
+/*
+ * File: CompositeCommand.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: CompositeCommand class represents a command that can contain multiple commands.
+ * Version: 1.0
+ */
 package command;
 
 import java.util.ArrayList;
@@ -5,8 +12,11 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * CompositeCommand is a command that can contain multiple commands.
- * It allows for executing and undoing all contained commands as a single unit.
+ * CompositeCommand is a concrete implementation of the UndoableCommand interface.
+ * It represents a composite command consisting of multiple UndoableCommand instances.
+ *
+ * This class allows multiple commands to be grouped together and executed as a single unit.
+ * It also supports undo functionality for all commands it contains, in reverse order.
  */
 public class CompositeCommand implements UndoableCommand {
     private final List<UndoableCommand> commands = new ArrayList<>();

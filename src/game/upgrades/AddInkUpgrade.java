@@ -1,3 +1,10 @@
+/*
+ * File: AddInkUpgrade.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: AddInkUpgrade class represents an upgrade that increases the maximum ink capacity in the game.
+ * Version: 1.0
+ */
 package game.upgrades;
 
 import game.Game;

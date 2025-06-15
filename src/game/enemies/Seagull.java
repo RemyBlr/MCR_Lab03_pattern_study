@@ -1,3 +1,10 @@
+/*
+ * File: Seagull.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: Seagull is a rapid enemy that goes straight to the castle.
+ * Version: 1.0
+ */
 package game.enemies;
 
 import java.awt.*;

@@ -1,3 +1,10 @@
+/*
+ * File: UpgradeCommand.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: UpgradeCommand class represents a command to apply an upgrade to the game.
+ * Version: 1.0
+ */
 package command;
 
 import game.Game;

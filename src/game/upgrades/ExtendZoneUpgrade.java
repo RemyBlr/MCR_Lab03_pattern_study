@@ -1,3 +1,10 @@
+/*
+ * File: ExtendZoneUpgrade.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: ExtendZoneUpgrade class represents an upgrade that increases the defense zone of the castle.
+ * Version: 1.0
+ */
 package game.upgrades;
 
 import game.Game;

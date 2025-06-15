@@ -1,3 +1,10 @@
+/*
+ * File: ShopButton.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: ShopButton class represents a custom button component for the shop panel in Paint Tower Defense.
+ * Version: 1.0
+ */
 package window.components;
 
 import javax.swing.*;

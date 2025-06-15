@@ -1,10 +1,17 @@
+/*
+ * File: ChangeInkCommand.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: ChangeInkCommand class represents a command to change the ink amount in the game.
+ * Version: 1.0
+ */
 package command;
 
 import game.Game;
 
 /**
- * Command to change the ink amount in the game.
- * This command is undoable, meaning it can be reversed.
+ * Represents a command to change the ink amount in the game.
+ * This command is part of the command pattern and is undoable.
  */
 public class ChangeInkCommand implements UndoableCommand{
     private final int amount;

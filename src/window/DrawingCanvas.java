@@ -1,3 +1,10 @@
+/*
+ * File: DrawingCanvas.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: DrawingCanvas class represents the drawing canvas for the game.
+ * Version: 1.0
+ */
 package window;
 
 import command.CommandManager;

@@ -1,3 +1,10 @@
+/*
+ * File: ShopPanel.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: ShopPanel class represents the panel for the shop in Paint Tower Defense.
+ * Version: 1.0
+ */
 package window;
 
 import command.*;

@@ -8,6 +8,14 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * The EnemyManager class is responsible for managing enemy behavior in the game.
+ * It handles the generation of new enemy waves, spawning enemies, tracking their
+ * positions, and managing collisions between enemies and other game objects such as walls
+ * or the castle. The class ensures a dynamic difficulty progression by adjusting the
+ * enemy spawning factory based on the wave count.
+ *
+ */
 public class EnemyManager {
     private EnemyFactory enemyFactory;
     private LinkedList<Enemy> waitingEnemies;       // File d'attente des ennemis de la vague généré par la factory
@@ -23,6 +31,16 @@ public class EnemyManager {
         this.lastSpawnTime = System.currentTimeMillis();
     }
 
+    /**
+     * Updates the state of the enemy manager and processes game logic related to enemy waves and interactions.
+     *
+     * This method manages the spawning of enemies, transitions between difficulty levels
+     * based on the current wave count, updates the movement of active enemies, checks for
+     * collisions with walls, and applies damage to the castle if an enemy reaches its destination.
+     *
+     * The method ensures proper management of enemies, wall collisions, and wave mechanics to
+     * maintain the game's progression and balance.
+     */
     public void update() {
         Game game = Game.getInstance();
 
@@ -37,7 +55,6 @@ public class EnemyManager {
              initializeNewWave();
         }
 
-        // Spawn enemies if any with a minimum delay between each spawn
         long currentTime = System.currentTimeMillis();
         if (!waitingEnemies.isEmpty() && currentTime - lastSpawnTime >= MIN_SPAWN_INTERVAL) {
             Enemy enemy = waitingEnemies.removeFirst();
@@ -74,6 +91,16 @@ public class EnemyManager {
         }
     }
 
+    /**
+     * Checks if the given enemy collides with any wall in the game and returns the collided wall.
+     *
+     * The method iterates through all walls in the game and calculates their actual
+     * shape and boundaries. It then checks if the enemy's hitbox intersects with a wall
+     * of the same color. If a collision is detected, the corresponding wall is returned.
+     *
+     * @param enemy the enemy being checked for collision with walls
+     * @return the wall that the enemy collides with, or null if no collision is detected
+     */
     private Wall hitWall(Enemy enemy) {
         for(Wall wall : Game.getInstance().getWalls()) {
 
@@ -102,6 +129,12 @@ public class EnemyManager {
         return null;
     }
 
+    /**
+     * Determines if the given position is within the castle's radius.
+     *
+     * @param pos the position to check
+     * @return true if the position is within the castle's radius, false otherwise
+     */
     private boolean isAtCastle(Position pos) {
         Position castlePosition = Game.getInstance().getCastle().getPosition();
         double castleX = castlePosition.getX() + Game.getInstance().getCastle().getWidth()/2;
@@ -115,6 +148,9 @@ public class EnemyManager {
         return distance < Game.getInstance().getCastle().getRadius();
     }
 
+    /**
+     * Initializes the settings for a new wave in the game. This method performs the following
+     */
     private void initializeNewWave() {
         Game.getInstance().nextWave();
 
@@ -125,14 +161,33 @@ public class EnemyManager {
         System.out.println("New wave initialized.");
     }
 
+    /**
+     * Retrieves a list of all currently active enemies in the game.
+     * The list contains enemies that are actively moving or engaging
+     * within the game environment.
+     *
+     * @return a List of Enemy objects representing the active enemies.
+     */
     public List<Enemy> getActiveEnemies() {
         return this.activeEnemies;
     }
 
+    /**
+     * Sets the enemy creation mode by assigning the specified EnemyFactory instance.
+     * This factory defines the logic for creating and managing enemy objects in the game.
+     *
+     * @param factory an instance of EnemyFactory that determines how enemies are created.
+     */
     public void setMode(EnemyFactory factory) {
         this.enemyFactory = factory;
     }
 
+    /**
+     * Resets the state of the enemy manager, preparing it for a new wave or a game restart.
+     *
+     * Clears the lists of active and waiting enemies, ensuring that no enemies remain in the game world.
+     * Updates the last spawn time to the current system time, resetting the spawn timer for new enemy generation.
+     */
     public void reset() {
         this.activeEnemies.clear();
         this.waitingEnemies.clear();

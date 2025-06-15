@@ -1,3 +1,10 @@
+/*
+ * File: Main.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: Main class of the Paint the Game application.
+ * Version: 1.0
+ */
 package app;
 
 import window.TDWindow;

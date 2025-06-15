@@ -1,3 +1,10 @@
+/*
+ * File: InkBar.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: InkBar class represents a bar that displays the current amount of ink in the game.
+ * Version: 1.0
+ */
 package window.components;
 
 import game.Game;

@@ -1,3 +1,10 @@
+/*
+ * File: CommandManager.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: CommandManager class represents a manager for executing commands.
+ * Version: 1.0
+ */
 package command;
 
 import java.util.Stack;

@@ -1,3 +1,10 @@
+/*
+ * File: GameOverPanel.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: GameOverPanel class represents the panel for displaying the game over screen.
+ * Version: 1.0
+ */
 package window;
 
 import command.RestartGameCommand;

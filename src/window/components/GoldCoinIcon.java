@@ -1,3 +1,10 @@
+/*
+ * File: GoldCoinIcon.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: GoldCoinIcon class represents a custom component for displaying gold amount with coin icon.
+ * Version: 1.0
+ */
 package window.components;
 
 import game.Game;

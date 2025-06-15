@@ -1,3 +1,10 @@
+/*
+ * File: Game.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: Game class represents the game logic.
+ * Version: 1.0
+ */
 package game;
 
 import game.enemies.EnemyFactory;

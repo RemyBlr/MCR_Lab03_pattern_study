@@ -1,3 +1,10 @@
+/*
+ * File: HardModeFactory.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: HardModeFactory is an implementation of the factory that add Quazi enemies.
+ * Version: 1.0
+ */
 package game.enemies;
 
 import java.util.LinkedList;

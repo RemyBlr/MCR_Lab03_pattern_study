@@ -1,3 +1,10 @@
+/*
+ * File: Quaz.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: Quazs are square enemies with specific attributes and behaviors.
+ * Version: 1.0
+ */
 package game.enemies;
 
 import java.awt.*;

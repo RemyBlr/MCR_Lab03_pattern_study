@@ -1,3 +1,10 @@
+/*
+ * File: MysteryUpgrade.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: MysteryUpgrade class represents an upgrade that applies a mystery effect in the game. (Suprem Mode .)
+ * Version: 1.0
+ */
 package game.upgrades;
 
 import game.enemies.SupremeHardcoreModeFactory;

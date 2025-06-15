@@ -1,3 +1,10 @@
+/*
+ * File: ToolManager.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: ToolManager class represents the manager for the current tool.
+ * Version: 1.0
+ */
 package tools;
 
 import java.util.ArrayList;

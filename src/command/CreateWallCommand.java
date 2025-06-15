@@ -1,3 +1,10 @@
+/*
+ * File: CreateWallCommand.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: CreateWallCommand class represents a command to create a wall in the game.
+ * Version: 1.0
+ */
 package command;
 
 import game.Game;

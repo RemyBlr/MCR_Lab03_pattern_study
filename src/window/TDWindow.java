@@ -1,3 +1,10 @@
+/*
+ * File: TDWindow.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: TDWindow class represents the main window of the Paint Tower Defense game.
+ * Version: 1.0
+ */
 package window;
 
 import command.*;

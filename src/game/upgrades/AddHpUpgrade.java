@@ -1,3 +1,10 @@
+/*
+ * File: AddHpUpgrade.java
+ * Author: Bleuer Rémy, Changanaqui Yoann & Richard Aurélien
+ * Date: 15.06.2025
+ * Description: AddHpUpgrade class represents an upgrade that increases the castle's health points (HP) in the game.
+ * Version: 1.0
+ */
 package game.upgrades;
 
 import game.Game;
