@@ -40,7 +40,7 @@ public class ToolBar extends JToolBar implements ToolChangeListener, GameObserve
     /**
      * Constructeur de la classe ToolBar.
      */
-    public ToolBar(DrawingCanvas canvas, CommandManager commandManager) {
+    public ToolBar(CommandManager commandManager) {
         this.commandManager = commandManager;
 
         setFloatable(false);

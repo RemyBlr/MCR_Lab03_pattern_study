@@ -3,9 +3,9 @@ package game.enemies;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class SupremHardcoreModeFactory extends EnemyFactory{
+public class SupremeHardcoreModeFactory extends EnemyFactory{
     
-    public SupremHardcoreModeFactory() { this.NB_ENEMIES = 999; }
+    public SupremeHardcoreModeFactory() { this.NB_ENEMIES = 999; }
 
     @Override
     public LinkedList<Enemy> createEnemies() {

@@ -23,10 +23,6 @@ public class Castle {
         return position;
     }
 
-    public void setPosition(double x, double y) {
-        this.position.setXY(x, y);
-    }
-
     public int getWidth() {
         return WIDTH;
     }
