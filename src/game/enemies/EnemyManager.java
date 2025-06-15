@@ -26,9 +26,15 @@ public class EnemyManager {
     public void update() {
         Game game = Game.getInstance();
 
-        // Create a new wave
-        if (waitingEnemies.isEmpty() && activeEnemies.isEmpty()) {
-            initializeNewWave();
+        if(waitingEnemies.isEmpty() && activeEnemies.isEmpty()){
+            if(game.getWaveCount() >= 10)
+                enemyFactory = new ExpertModeFactory();
+            else if(game.getWaveCount() >= 5)
+                enemyFactory = new HardModeFactory();
+            else if(game.getWaveCount() >= 2)
+                enemyFactory = new NormalModeFactory();
+
+             initializeNewWave();
         }
 
         // Spawn enemies if any with a minimum delay between each spawn
@@ -66,14 +72,6 @@ public class EnemyManager {
                 }
             }
         }
-
-        // Difficulty increasing by time/waves
-        if(game.getWaveCount() >= 10 && game.getWaveCount() < 999 && waitingEnemies.isEmpty())
-            enemyFactory = new ExpertModeFactory();
-        else if(game.getWaveCount() >= 5 && waitingEnemies.isEmpty())
-            enemyFactory = new HardModeFactory();
-        else if(game.getWaveCount() >= 2 && waitingEnemies.isEmpty())
-            enemyFactory = new NormalModeFactory();
     }
 
     private Wall hitWall(Enemy enemy) {
