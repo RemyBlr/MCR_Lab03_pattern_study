@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Seagull extends Enemy {
     public Seagull() {
-        super(3.0, Color.RED, 10, 8);
+        super(3.0, Color.RED, 20, 8);
     }
 
     @Override

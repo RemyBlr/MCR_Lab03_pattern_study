@@ -2,6 +2,7 @@ package game.enemies;
 
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class ExpertModeFactory extends EnemyFactory {
     public ExpertModeFactory() { this.NB_ENEMIES = 30; }
@@ -10,18 +11,19 @@ public class ExpertModeFactory extends EnemyFactory {
     public LinkedList<Enemy> createEnemies() {
         LinkedList<Enemy> enemies = new LinkedList<>();
 
-        java.util.stream.IntStream.range(0, NB_ENEMIES).forEach(i -> {
-            Random random = new Random();
+        Random random = new Random();
+        IntStream.range(0, NB_ENEMIES).forEach(i -> {
             int chance = random.nextInt(100);
-            if (chance < 25)
+            if (chance < 30)         // 30% Seagull
                 enemies.add(new Seagull());
-            else if (chance < 30)
+            else if (chance < 60)    // 30% Quazi
                 enemies.add(new Quazi());
-            else if (chance < 60)
+            else if (chance < 85)    // 25% Quaza
                 enemies.add(new Quaza());
-            else
+            else                     // 15% Quazo
                 enemies.add(new Quazo());
         });
+
 
         return enemies;
     }

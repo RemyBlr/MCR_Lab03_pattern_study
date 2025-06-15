@@ -47,7 +47,7 @@ public class Game {
         this.maxInk = ink;
         this.gold = gold;
         enemyManager = new EnemyManager();
-        this.waveNumber = 1;
+        this.waveNumber = 0;
         this.castle = new Castle(baseHp);
     }
 

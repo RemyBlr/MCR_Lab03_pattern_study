@@ -2,6 +2,7 @@ package game.enemies;
 
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class SupremeHardcoreModeFactory extends EnemyFactory{
     
@@ -11,19 +12,19 @@ public class SupremeHardcoreModeFactory extends EnemyFactory{
     public LinkedList<Enemy> createEnemies() {
         LinkedList<Enemy> enemies = new LinkedList<>();
 
-        java.util.stream.IntStream.range(0, 100).forEach(i -> {
-            Random random = new Random();
+        Random random = new Random();
+        IntStream.range(0, 100).forEach(i -> {
             int chance = random.nextInt(100);
             if (chance < 25)
-                enemies.add(new Quaqua());
-            else if (chance < 50)
-                enemies.add(new Seagull());
+                enemies.add(new Quaqua());      // 0–24
+            else if (chance < 45)
+                enemies.add(new Seagull());     // 25–44
             else if (chance < 70)
-                enemies.add(new Quazi());
+                enemies.add(new Quazi());       // 45–69
             else if (chance < 85)
-                enemies.add(new Quaza());
+                enemies.add(new Quaza());       // 70–84
             else
-                enemies.add(new Quazo());
+                enemies.add(new Quazo());       // 85–99
         });
 
         return enemies;
