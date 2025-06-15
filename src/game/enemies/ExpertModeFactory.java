@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class ExpertModeFactory extends EnemyFactory {
-    public ExpertModeFactory() { this.NB_ENEMIES = 30; }
+    public ExpertModeFactory() { this.NB_ENEMIES = 15; }
 
     @Override
     public LinkedList<Enemy> createEnemies() {

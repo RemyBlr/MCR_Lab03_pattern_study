@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public class NormalModeFactory extends EnemyFactory {
 
-    public NormalModeFactory() { this.NB_ENEMIES = 5; }
+    public NormalModeFactory() { this.NB_ENEMIES = 10; }
 
     @Override
     public LinkedList<Enemy> createEnemies() {
