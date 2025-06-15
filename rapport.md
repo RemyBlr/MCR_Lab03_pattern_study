@@ -10,7 +10,7 @@ Ce projet est une application Java "Paint Tower Defense". Le joueur doit protég
 
 L'interface est réalisée avec Swing et l'application utilise le pattern Command pour gérer les différentes actions de l'utilisateur.
 
-![Tower Defense](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\Tower Defense.gif)
+![Tower Defense](Tower Defense.gif)
 
 ## Déploiement et utilisation
 
@@ -203,7 +203,7 @@ A chaque fin d'itération du jeu (à la fin de `tick()`) les observateurs sont n
 
 Nous avons décidé "d'éclater" l'UML en plusieurs schémas afin de rendre le tout lisible et de ne pas avoir un monstre de diagramme impossible à déchiffrer. Nous affichons ici seulement l'UML pour Command, les autres se trouvent en fin de rapport.
 
-![command](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\command.png)
+![command](UML img\command.png)
 
 ## Conclusion
 
@@ -217,16 +217,16 @@ L’interface (Swing) est fonctionnelle, et la séparation entre la logique du j
 
 Voici les autres UMLs afin de ne pas polluer le rapport.
 
-![entry](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\entry.png)
+![entry](UML img\entry.png)
 
-![window](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\window.png)
+![window](UML img\window.png)
 
-![game](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\game.png)
+![game](UML img\game.png)
 
-![enemies](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\enemies.png)
+![enemies](UML img\enemies.png)
 
-![components](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\components.png)
+![components](UML img\components.png)
 
-![upgrades](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\upgrades.png)
+![upgrades](UML img\upgrades.png)
 
-![tools](C:\dev\HEIG\MCR\MCR_Lab03_pattern_study\tools.png)
+![tools](UML img\tools.png)
