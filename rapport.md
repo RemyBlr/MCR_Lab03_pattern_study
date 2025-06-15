@@ -6,17 +6,35 @@
 - Git Repository (code source) : https://github.com/RemyBlr/MCR_Lab03_pattern_study
 
 ## Contexte
-Ce projet est une application Java "Paint Tower Defense". Le joueur doit protéger un château en dessinant des murs dans une zone délimitée. Il affronte des vagues d’ennemis de plus en plus nombreux et puissants, et peut acheter des améliorations pour renforcer sa défense et survivre le plus longtemps possible.
+Ce projet est une application Java "Paint Tower Defense". Le joueur doit protéger un château en dessinant des murs 
+dans une zone délimitée.
 
-L'interface est réalisée avec Swing et l'application utilise le pattern Command pour gérer les différentes actions de l'utilisateur.
+Il affronte des vagues d’ennemis de plus en plus nombreuses et puissantes, et peut acheter des améliorations pour
+renforcer sa défense et survivre jusqu'à la vague 999 où les choses se complique .)
 
-![Tower Defense](<Tower Defense.gif>)
+L'interface est réalisée avec Swing et l'application utilise le pattern Command pour gérer les différentes actions
+de l'utilisateur.
+
+![Tower Defense](./Tower_Defense.gif)
 
 ## Déploiement et utilisation
 
-TODO : lancement de l'application via ligne de commande, se trouver dans le bon folder
+Cloner le projet,
+```shell
+git clone https://github.com/RemyBlr/MCR_Lab03_pattern_study
+```
 
-TODO : fonctionnement ?
+Lancer le programme depuis votre IDE préféré ou bien a la racine du projet avec les commandes suivantes,
+```shell
+# Compiler
+javac -d out -cp src src/app/*.java src/game/*.java src/game/enemies/*.java src/tools/*.java src/window/*.java src/command/*.java
+
+# Exécuter
+java -cp out app.Main
+```
+
+Et voilà, vous devriez vous retrouver avec le programme qui ouvre une fenêtre dont le jeu est exécuté. *(attendez 2-3 secondes pour voir apparaître les premiers ennemies)*
+
 ### Utilisation
 
 - Clic gauche : dessine un mur (si assez d'encre)
