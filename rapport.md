@@ -10,7 +10,7 @@ Ce projet est une application Java "Paint Tower Defense". Le joueur doit protég
 
 L'interface est réalisée avec Swing et l'application utilise le pattern Command pour gérer les différentes actions de l'utilisateur.
 
-![Tower Defense](Tower Defense.gif)
+![Tower Defense](<Tower Defense.gif>)
 
 ## Déploiement et utilisation
 
@@ -203,7 +203,7 @@ A chaque fin d'itération du jeu (à la fin de `tick()`) les observateurs sont n
 
 Nous avons décidé "d'éclater" l'UML en plusieurs schémas afin de rendre le tout lisible et de ne pas avoir un monstre de diagramme impossible à déchiffrer. Nous affichons ici seulement l'UML pour Command, les autres se trouvent en fin de rapport.
 
-![command](UML img\command.png)
+![command](<UML img\command.png>)
 
 ## Conclusion
 
@@ -217,16 +217,16 @@ L’interface (Swing) est fonctionnelle, et la séparation entre la logique du j
 
 Voici les autres UMLs afin de ne pas polluer le rapport.
 
-![entry](UML img\entry.png)
+![entry](<UML img\entry.png>)
 
-![window](UML img\window.png)
+![window](<UML img\window.png>)
 
-![game](UML img\game.png)
+![game](<UML img\game.png>)
 
-![enemies](UML img\enemies.png)
+![enemies](<UML img\enemies.png>)
 
-![components](UML img\components.png)
+![components](<UML img\components.png>)
 
-![upgrades](UML img\upgrades.png)
+![upgrades](<UML img\upgrades.png>)
 
-![tools](UML img\tools.png)
+![tools](<UML img\tools.png>)
