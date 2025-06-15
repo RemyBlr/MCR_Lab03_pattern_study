@@ -8,14 +8,14 @@ via la classe `app.Main`, qui initialise les valeurs par défauts et créer la f
 ## Compilation
 Afin de pouvoir compiler manuellement :
 ```
-TODO JSP QUELLE COMMANDE
+javac -d out -cp src src/app/*.java src/game/*.java src/game/enemies/*.java src/tools/*.java src/window/*.java src/command/*.java
 ```
 
 ## Exécution
 Lancer ensuite :
 ```
-TODO LA AUSSI
-java out app.Main [encre] [pv] [or]
+java -cp out app.Main [encre] [pv] [or]
+Ex: java -cp out app.Main 200 20 2500
 ```
 Les trois paramètres sont facultatifs. S'ils ne sont pas entrés, les valeurs par défaut (200,20,0) seront utilisés.
 

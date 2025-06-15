@@ -30,7 +30,7 @@ Lancer le programme depuis votre IDE préféré ou bien a la racine du projet av
 javac -d out -cp src src/app/*.java src/game/*.java src/game/enemies/*.java src/tools/*.java src/window/*.java src/command/*.java
 
 # Exécuter
-java -cp out app.Main
+java -cp out app.Main 200 20 2500
 ```
 
 Et voilà, vous devriez vous retrouver avec le programme qui ouvre une fenêtre dont le jeu est exécuté. *(attendez 2-3 secondes pour voir apparaître les premiers ennemies)*
