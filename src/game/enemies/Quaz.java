@@ -50,12 +50,13 @@ class Quazi extends Quaz {
         super(2, Color.GREEN, 10, 5);
     }
 
-//    @Override
-//    public void update() {
-//        double time = System.currentTimeMillis() / 200.0;
-//        pos.setX(pos.getX() + director.getX() * Math.cos(time));
-//        pos.setY(pos.getY() + director.getY() * Math.sin(time));
-//    }
+    @Override
+    public void update() {
+        double time = System.currentTimeMillis() / 200.0;
+        double radius = 10;
+        pos.setX(pos.getX() + director.getX() + Math.cos(time) * radius);
+        pos.setY(pos.getY() + director.getY() + Math.sin(time) * radius);
+    }
 }
 
 class Quaqua extends Quaz {
